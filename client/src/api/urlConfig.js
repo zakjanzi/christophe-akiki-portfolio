@@ -1,0 +1,11 @@
+export const NODE_ENV = process.env.REACT_APP_NODE_ENV;
+export const DEV_BASE_URL = process.env.REACT_APP_DEV_BASE_URL;
+export const PROD_BASE_URL = process.env.REACT_APP_PROD_BASE_URL;
+export const LOGIN_URL = process.env.REACT_APP_LOGIN_URL;
+export const REGISTER_URL = process.env.REACT_APP_REGISTER_URL;
+export const GET_REG_STATUS_URL = process.env.REACT_APP_GET_REG_STATUS_URL;
+export const CREATE_CATEGORY_URL = process.env.REACT_APP_CREATE_CATEGORY_URL;
+export const FETCH_ALBUMS_URL = process.env.REACT_APP_FETCH_ALBUMS_URL;
+export const FETCH_CATEGORIES_URL = process.env.REACT_APP_FETCH_CATEGORIES_URL;
+export const DELETE_CATEGORY_URL = process.env.REACT_APP_DELETE_CATEGORY_URL;
+export const UPDATE_CATEGORY_URL = process.env.REACT_APP_UPDATE_CATEGORY_URL;
