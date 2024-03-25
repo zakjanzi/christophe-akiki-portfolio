@@ -1,8 +1,43 @@
 import { Link } from "react-router-dom";
-import CustomScripts from "../CustomScripts/CustomScripts";
+// import CustomScripts from "../CustomScripts/CustomScripts";
 import "./styles/sidebar.css";
+import { useEffect } from "react";
 
 const Sidebar = () => {
+  useEffect(() => {
+    /* eslint-disable no-undef */
+    for (let x = 1; x < 4; x++) {
+      const mainMenuItem = document.querySelector(
+        `aside.sidebar > ul > li:nth-child(${x})`
+      );
+
+      mainMenuItem.addEventListener("mouseenter", function () {
+        // Loop through the contents and get the height;
+        var tH = 0;
+        var i = 0;
+
+        mainMenuItem
+          .querySelectorAll("ul.sb_dropdown > li")
+          .forEach(function (item) {
+            tH = tH + item.offsetHeight;
+          });
+
+        mainMenuItem.classList.add("opened");
+
+        mainMenuItem.querySelectorAll("ul.sb_dropdown").forEach((item) => {
+          item.style.height = tH + 20 + "px";
+          item.style.paddingTop = "10px";
+        });
+      });
+
+      mainMenuItem.addEventListener("mouseleave", function () {
+        mainMenuItem.classList.remove("opened");
+        mainMenuItem.querySelector("ul.sb_dropdown").style.height = "0px";
+        mainMenuItem.querySelector("ul.sb_dropdown").style.paddingTop = "0px";
+      });
+    }
+  }, []);
+
   return (
     <aside className="sidebar">
       <h4 className="d-flex justify-content-center">Main-Menu</h4>
@@ -30,10 +65,10 @@ const Sidebar = () => {
           <span>Images</span>
           <ul className="no-list sb_dropdown clearfix">
             <li>
-              <a className="center position-relative">
+              <Link to="upload-image" className="center position-relative">
                 <i className="fa fa-plus" />{" "}
                 <span className="position-absolute top-0 ms-5">Add New</span>
-              </a>
+              </Link>
             </li>
             <li>
               <a className="center position-relative">
@@ -67,14 +102,6 @@ const Sidebar = () => {
           <span>Logout</span>
         </li>
       </ul>
-
-      <CustomScripts>
-        <script
-          src="/assets/js/sidebar.js"
-          crossorigin="anonymous"
-          async
-        ></script>
-      </CustomScripts>
     </aside>
   );
 };

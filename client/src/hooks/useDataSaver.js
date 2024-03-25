@@ -5,6 +5,7 @@ import {
   FETCH_CATEGORIES_URL,
   DELETE_CATEGORY_URL,
   UPDATE_CATEGORY_URL,
+  UPLOAD_IMAGE_URL,
 } from "../api/urlConfig";
 
 export default function useDataSaver() {
@@ -32,11 +33,20 @@ export default function useDataSaver() {
     return axiosPrivate.patch(UPDATE_CATEGORY_URL, payload);
   };
 
+  const doUploadImage = (payload) => {
+    return axiosPrivate.post(UPLOAD_IMAGE_URL, payload, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  };
+
   return {
     doCreateCategory,
     doFetchAlbums,
     doFetchCategories,
     doDeleteCategory,
     doUpdateCategory,
+    doUploadImage,
   };
 }

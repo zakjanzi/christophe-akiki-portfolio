@@ -17,11 +17,11 @@ root.render(
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
           <UserProvider>
-            <ImagesProvider>
-              <CategoriesProvider>
-                <App />
-              </CategoriesProvider>
-            </ImagesProvider>
+            {/* <ImagesProvider> */}
+            {/* <CategoriesProvider> */}
+            <App />
+            {/* </CategoriesProvider> */}
+            {/* </ImagesProvider> */}
           </UserProvider>
         </BrowserRouter>
       </PersistGate>

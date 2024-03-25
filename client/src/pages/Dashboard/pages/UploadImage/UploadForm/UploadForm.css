@@ -1,4 +1,4 @@
-.form-b {
+.upload-form .form-b {
   position: relative;
   top: 2rem;
   width: 100%;
@@ -12,7 +12,7 @@
   cursor: pointer;
 }
 
-.up-form {
+.upload-form .up-form {
   background-color: var(--main-color-light);
   width: 100%;
   max-width: 500px;
@@ -23,13 +23,13 @@
   cursor: default;
   transition: 0.3s;
 }
-.up-form h1 {
+.upload-form .up-form h1 {
   margin: 0 0 5px;
   font-size: 27px;
   text-align: left;
   color: grey;
 }
-.up-form .subtitle {
+.upload-form .up-form .subtitle {
   font-size: 13px;
   text-align: left;
   color: grey;
@@ -37,7 +37,7 @@
   font-weight: 300;
 }
 
-.up-form form {
+.upload-form .up-form form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,7 +47,7 @@
   width: 100%;
 }
 
-.up-form form .wraber {
+.upload-form .up-form form .wraber {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -55,7 +55,7 @@
   position: relative;
 }
 
-.up-form form .wraber label {
+.upload-form .up-form form .wraber label {
   font-size: 13px;
   color: grey;
   position: absolute;
@@ -65,14 +65,14 @@
   padding: 0 5px;
 }
 
-.required::after {
+.upload-form .required::after {
   content: "*";
   color: red;
   font-size: 15px;
   margin-left: 3px;
 }
 
-.up-form form input {
+.upload-form .up-form form input {
   width: 100%;
   height: 50px;
   border-radius: 10px;
@@ -83,7 +83,7 @@
   color: grey;
 }
 
-.up-form form .select {
+.upload-form .up-form form .select {
   width: 100%;
   height: 50px;
   border-radius: 10px;
@@ -95,16 +95,16 @@
   outline: none;
 }
 
-.up-form form .select:active {
+.upload-form .up-form form .select:active {
   outline: none;
 }
 
-.up-form form input:focus,
+.upload-form .up-form form input:focus,
 textarea:focus {
   outline: none;
 }
 
-.up-form form textarea {
+.upload-form .up-form form textarea {
   height: 100px;
   width: 100%;
   resize: none;
@@ -121,11 +121,11 @@ textarea:focus {
   display: none;
 }
 
-.file-label {
+.upload-form .file-label {
   width: 100%;
   height: 70px;
   cursor: pointer;
-  border: 2px dashed var(--main-color-dark);
+  border: 2px dashed grey;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -135,7 +135,7 @@ textarea:focus {
   transition: 0.3s ease-in-out;
 }
 
-.file-label:hover .camera-icon {
+.upload-form .file-label:hover .camera-icon {
   animation: icon-animation 0.3s ease-in-out alternate infinite both running;
 }
 
@@ -148,19 +148,21 @@ textarea:focus {
   }
 }
 
-.file-label .camera-icon {
+.upload-form .file-label .camera-icon {
   font-size: 40px;
+  color: grey;
 }
 
-.file-label p {
+.upload-form .file-label p {
   font-size: 16px;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: center;
+  color: #9ea6e5;
 }
-.up-form form button {
+.upload-form .up-form form button {
   width: 100%;
   height: 45px;
   border-radius: 10px;
@@ -172,7 +174,7 @@ textarea:focus {
   text-transform: uppercase;
 }
 
-.cross-icon {
+.upload-form .cross-icon {
   position: absolute;
   top: 35px;
   right: 35px;
@@ -181,14 +183,14 @@ textarea:focus {
   color: var(--main-color-dark);
 }
 
-.load {
+.upload-form .load {
   display: flex;
   justify-content: center;
   align-items: flex-end;
   margin: 0 auto;
   height: 25px;
 }
-.load div {
+.upload-form .load div {
   width: 20px;
   height: 20px;
   background-color: #9ea6e5;
@@ -200,10 +202,10 @@ textarea:focus {
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
-.load .two {
+.upload-form .load .two {
   animation-delay: 0.3s;
 }
-.load .three {
+.upload-form .load .three {
   animation-delay: 0.6s;
 }
 
@@ -212,33 +214,4 @@ textarea:focus {
     opacity: 0.2;
     transform: translateY(-5px);
   }
-}
-
-.my-modal {
-  content: "";
-  position: fixed;
-  z-index: 99;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.4) !important;
-  width: 100%;
-  height: 100%;
-  top: 0rem;
-}
-
-.my-modal ~ .form-b {
-  background-color: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  position: fixed;
-}
-
-.my-modal ~ .form-b .up-form {
-  z-index: 100;
-  background-color: #fff;
-  position: fixed;
 }

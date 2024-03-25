@@ -68,7 +68,8 @@ export default function CreateCategoryForm(props) {
 
       if (res.data.success) {
         toastSuccess(res.data.message);
-        props.closeEditForm(false);
+
+        if (editMode) props.closeEditForm(false);
       } else {
         toastError(res.data.message);
       }
@@ -86,11 +87,13 @@ export default function CreateCategoryForm(props) {
 
       <div className={`form-b`}>
         <div className="up-form">
-          <div className="w-100 d-flex justify-content-end text-info fs-1">
-            <span onClick={props.closeEditForm} className="cursor-pointer">
-              x
-            </span>
-          </div>
+          {editMode && (
+            <div className="w-100 d-flex justify-content-end text-info fs-1">
+              <span onClick={props.closeEditForm} className="cursor-pointer">
+                x
+              </span>
+            </div>
+          )}
           <h1>{editMode ? "Edit" : "Add new"} category</h1>
           <p className="subtitle">Please fill in all required fields</p>
           <form onSubmit={handleSubmit}>
