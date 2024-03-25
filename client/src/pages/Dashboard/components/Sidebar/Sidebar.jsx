@@ -71,10 +71,10 @@ const Sidebar = () => {
               </Link>
             </li>
             <li>
-              <a className="center position-relative">
+              <Link to="view-images" className="center position-relative">
                 <i className="fa fa-eye" />{" "}
                 <span className="position-absolute top-0 ms-5">View All</span>
-              </a>
+              </Link>
             </li>
           </ul>
         </li>

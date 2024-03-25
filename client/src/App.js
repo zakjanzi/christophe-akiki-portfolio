@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import useAuth from "./hooks/useAuth";
 import ViewCategories from "./pages/Dashboard/pages/NewCategory/ViewCategories/ViewCategories";
 import UploadImage from "./pages/Dashboard/pages/UploadImage/UploadImage";
+import ViewImages from "./pages/Dashboard/pages/ViewImages/ViewImages";
 
 export default function App() {
   const [adminRegistered, setAdminRegistered] = useState(false);
@@ -49,6 +50,7 @@ export default function App() {
           <Route path="add-category" element={<NewCategory />} />
           <Route path="view-categories" element={<ViewCategories />} />
           <Route path="upload-image" element={<UploadImage />} />
+          <Route path="view-images" element={<ViewImages />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
         {/* <Route path="/saved" element={<SavedPosts />} /> */}

@@ -1,4 +1,4 @@
-.overly{
+.overly {
   position: absolute;
   top: 0;
   left: 0;
@@ -10,13 +10,13 @@
   justify-content: center;
   align-items: center;
   opacity: 0;
-  transition: .3s;
+  transition: 0.3s;
   color: white;
   cursor: pointer;
   padding: 10px;
   text-transform: uppercase;
 }
-.overly h3{
+.overly h3 {
   font-size: 20px;
   font-weight: 500;
   letter-spacing: 3px;
@@ -24,26 +24,36 @@
   margin: 0;
 }
 
-.image-holder:hover .overly{
+.image-holder:hover .overly {
   opacity: 1;
 }
 
-.images-container{
+.images-container {
   display: -webkit-box;
-  display: -ms-flexbox; 
+  display: -ms-flexbox;
   display: flex;
-  margin-left: -20px; /* gutter size offset */
+  /* margin-left: -20px; gutter size offset */
+  width: auto;
+  gap: 10px;
+  padding-top: 20px;
+}
+
+.images-container-column {
+  background-clip: padding-box;
+  gap: 10px;
+}
+
+/* .images-container-column:not(:first-child) {
+  padding-left: 20px; /* gutter size 
+} */
+
+.images-container .image-holder {
+  height: 300px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
   width: auto;
 }
-
-.images-container-column{
-  background-clip: padding-box;
-}
-
-.images-container-column:not(:first-child){
-  padding-left: 20px; /* gutter size */
-}
-
 
 .images-container .image-holder {
   margin-bottom: 20px;
@@ -51,30 +61,30 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  transition: .3s;
+  transition: 0.3s;
 }
 
-.images-container .image-holder img{
+.images-container .image-holder img {
   object-fit: cover;
-  width: 100%;  
+  width: 100%;
   margin: 0;
   padding: 0;
 }
 
-@media(max-width: 610px){
-  .images-container{
-    padding: 0!important ;
+@media (max-width: 610px) {
+  .images-container {
+    padding: 0 !important ;
     margin-left: -10px;
   }
-  .images-container-column:not(:first-child){
+  .images-container-column:not(:first-child) {
     padding-left: 10px;
   }
-  .images-container-column .image-holder{
+  .images-container-column .image-holder {
     margin-bottom: 10px;
   }
 }
 
-.images-wraper{
+.images-wraper {
   min-height: 200px;
 }
 
@@ -111,7 +121,7 @@
   }
 }
 
-.no-posts-wraper{
+.no-posts-wraper {
   margin-top: 70px;
   height: calc(100vh - 140px);
   display: flex;
@@ -119,10 +129,8 @@
   align-items: center;
 }
 
-.no-posts{  
+.no-posts {
   font-size: 40px;
   font-weight: 800;
   color: #bbb;
 }
-
-

@@ -7,10 +7,11 @@ const connectToDB = require("./config/config.js");
 const { registerAdmin } = require("./Controllers/userController.js");
 const port = 4000;
 
+app.use(express.static("public"));
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
-app.use(express.static("public"));
 
 // Routes
 app.use("/albums", require("./Routes/albumRoutes.js"));

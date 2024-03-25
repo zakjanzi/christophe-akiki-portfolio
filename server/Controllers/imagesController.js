@@ -1,5 +1,5 @@
 const Image = require("../Models/ImageModel.js");
-const { deleteImage } = require("../Middlewares/MulterMiddleware.js");
+const { deletePhysicalImage } = require("../Middlewares/MulterMiddleware.js");
 
 const uploadImage = async (req, res) => {
   try {
@@ -40,35 +40,31 @@ const uploadImage = async (req, res) => {
 const getImages = async (req, res) => {
   try {
     const images = await Image.find({}).sort({ createdAt: -1 });
-    const imagesObj = images.map((image) => ({
-      ...image._doc,
-      src: `data:${image.contentType};base64,${Buffer.from(
-        image.image
-      ).toString("base64")}`,
-      image: undefined,
-    }));
-    res.json(imagesObj);
+
+    res.json({ success: true, images });
   } catch (err) {
-    res.json({ message: err });
+    res.json({ success: false, message: err });
   }
 };
 
-const deleteImages = async (req, res) => {
+const deleteImage = async (req, res) => {
   try {
-    const image = await Image.findByIdAndDelete(req.params.id);
+    const image = await Image.findByIdAndDelete(req.body.id).exec();
+
     if (image) {
-      deleteImage(image.originalName);
+      deletePhysicalImage(image.originalName);
+
       res.json({ message: "Image deleted successfully", success: true });
     } else {
       res.json({ message: "Image not found", success: false });
     }
   } catch (err) {
-    res.json({ message: err });
+    res.json({ success: false, message: err });
   }
 };
 
 module.exports = {
   uploadImage,
   getImages,
-  deleteImages,
+  deleteImage,
 };

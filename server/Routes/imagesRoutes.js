@@ -6,14 +6,14 @@ const { uploadMiddleware } = require("../Middlewares/MulterMiddleware.js");
 const {
   uploadImage,
   getImages,
-  deleteImages,
+  deleteImage,
 } = require("../Controllers/imagesController");
 
 router.post("/upload", protected, uploadMiddleware, uploadImage);
 
 router.get("/all", getImages);
 
-router.delete("/delete/:id", protected, deleteImages);
+router.post("/delete", protected, deleteImage);
 
 // router.get("/categories", getCategories);
 

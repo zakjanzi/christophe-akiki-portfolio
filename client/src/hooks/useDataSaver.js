@@ -6,6 +6,8 @@ import {
   DELETE_CATEGORY_URL,
   UPDATE_CATEGORY_URL,
   UPLOAD_IMAGE_URL,
+  FETCH_ALL_IMAGES_URL,
+  DELETE_IMAGE_URL,
 } from "../api/urlConfig";
 
 export default function useDataSaver() {
@@ -41,6 +43,14 @@ export default function useDataSaver() {
     });
   };
 
+  const doFetchAllImages = () => {
+    return axiosPrivate.get(FETCH_ALL_IMAGES_URL);
+  };
+
+  const doDeleteImage = (photoId) => {
+    return axiosPrivate.post(DELETE_IMAGE_URL, { id: photoId });
+  };
+
   return {
     doCreateCategory,
     doFetchAlbums,
@@ -48,5 +58,7 @@ export default function useDataSaver() {
     doDeleteCategory,
     doUpdateCategory,
     doUploadImage,
+    doFetchAllImages,
+    doDeleteImage,
   };
 }

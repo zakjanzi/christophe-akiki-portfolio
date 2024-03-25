@@ -44,7 +44,7 @@ const uploadMiddleware = (request, response, next) => {
   }
 };
 
-const deleteImage = (fileName) => {
+const deletePhysicalImage = (fileName) => {
   fs.unlink(path.join(uploadedImagesDir, fileName), (err) => {
     if (err) {
       console.error(err);
@@ -53,4 +53,4 @@ const deleteImage = (fileName) => {
   });
 };
 
-module.exports = { uploadMiddleware, deleteImage };
+module.exports = { uploadMiddleware, deletePhysicalImage };
