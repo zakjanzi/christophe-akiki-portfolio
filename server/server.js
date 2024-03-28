@@ -8,7 +8,12 @@ const connectToDB = require("./config/config.js");
 const { registerAdmin } = require("./Controllers/userController.js");
 const port = 4000;
 
-app.use(cors({ origin: "http://localhost:4000", credentials: true }));
+app.use(
+  cors({
+    origin: "http://localhost:" + process.env.PORT || port,
+    credentials: true,
+  })
+);
 
 app.use(fileupload());
 
@@ -34,3 +39,5 @@ connectToDB();
 app.listen(process.env.PORT || port, () =>
   console.log(`App listening on port ${port}!`)
 );
+
+module.exports = app;
