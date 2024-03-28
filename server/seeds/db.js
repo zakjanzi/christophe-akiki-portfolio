@@ -6,6 +6,12 @@ connectToDB();
 
 const album = new Album();
 
+const albums = await album.collection.find({});
+
+if (albums.length > 0) {
+  return;
+}
+
 album.collection
   .insertMany([
     { name: "Automotive" },
@@ -16,5 +22,5 @@ album.collection
   ])
   .then((res) => {
     console.log(res);
-    process.exit(1);
+    return;
   });
