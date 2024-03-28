@@ -8,15 +8,7 @@ const connectToDB = require("./config/config.js");
 const { registerAdmin } = require("./Controllers/userController.js");
 const port = 3000;
 
-app.use(
-  cors({
-    origin: "*",
-    // process.env.NODE_ENV === "dev"
-    //   ? "http://localhost:" + process.env.PORT || port
-    //   : process.env.PROD_URL,
-    credentials: true,
-  })
-);
+app.use(cors());
 
 app.use(fileupload());
 
