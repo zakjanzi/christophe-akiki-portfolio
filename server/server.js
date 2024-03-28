@@ -6,9 +6,17 @@ const cors = require("cors");
 const fileupload = require("express-fileupload");
 const connectToDB = require("./config/config.js");
 const { registerAdmin } = require("./Controllers/userController.js");
-const port = 4000;
+const port = 3000;
 
-app.use(cors({ origin: "http://localhost:4000", credentials: true }));
+app.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === "dev"
+        ? "http://localhost:" + process.env.PORT || port
+        : process.env.PROD_URL,
+    credentials: true,
+  })
+);
 
 app.use(fileupload());
 
@@ -34,3 +42,5 @@ connectToDB();
 app.listen(process.env.PORT || port, () =>
   console.log(`App listening on port ${port}!`)
 );
+
+module.exports = app;
