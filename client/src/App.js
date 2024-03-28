@@ -11,6 +11,8 @@ import useAuth from "./hooks/useAuth";
 import ViewCategories from "./pages/Dashboard/pages/NewCategory/ViewCategories/ViewCategories";
 import UploadImage from "./pages/Dashboard/pages/UploadImage/UploadImage";
 import ViewImages from "./pages/Dashboard/pages/ViewImages/ViewImages";
+import UploadVideo from "./pages/Dashboard/pages/Videos/UploadVideo";
+import ViewVideos from "./pages/Dashboard/pages/Videos/ViewVideos/ViewVideos";
 
 export default function App() {
   const [adminRegistered, setAdminRegistered] = useState(false);
@@ -51,6 +53,8 @@ export default function App() {
           <Route path="view-categories" element={<ViewCategories />} />
           <Route path="upload-image" element={<UploadImage />} />
           <Route path="view-images" element={<ViewImages />} />
+          <Route path="upload-video" element={<UploadVideo />} />
+          <Route path="view-videos" element={<ViewVideos />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
         {/* <Route path="/saved" element={<SavedPosts />} /> */}

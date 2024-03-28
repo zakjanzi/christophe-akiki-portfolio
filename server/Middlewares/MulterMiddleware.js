@@ -1,56 +1,54 @@
-const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
-const uploadedImagesDir = "public/images/";
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadedImagesDir);
-  },
-  filename: function (req, file, cb) {
-    const filePath = `CaGallery-${Date.now()}${path.extname(
-      file.originalname
-    )}`;
-    cb(null, filePath);
-  },
-});
+const uploadedImagesDir = __dirname + "/../public/images/";
 
 const uploadMiddleware = (request, response, next) => {
-  try {
-    const upload = multer({
-      storage: storage,
-      fileFilter: function (req, file, cb) {
-        const filetypes = /jpeg|jpg|png|gif/;
-        const mimetype = filetypes.test(file.mimetype);
-        const extname = filetypes.test(
-          path.extname(file.originalname).toLowerCase()
-        );
-        if (mimetype && extname) {
-          return cb(null, true);
-        }
-        cb(new Error("Only image or GIF are allowed"), false);
-      },
-    }).single("image");
+  if (!request.files?.image) {
+    next();
+    return;
+  }
 
-    upload(request, response, (err) => {
-      if (err) {
-        return response.json({ success: false, message: err.message });
-      }
+  const imageFile = request.files.image;
+
+  const filetypes = /jpeg|jpg|png|gif/;
+  const mimetype = filetypes.test(imageFile.mimetype);
+  const extname = filetypes.test(path.extname(imageFile.name).toLowerCase());
+  if (mimetype && extname) {
+    const fileName = `CaGallery-${Date.now()}${path.extname(imageFile.name)}`;
+
+    request.files.filename = fileName;
+
+    uploadPath = __dirname + "/../public/images/" + fileName;
+
+    // Use the mv() method to place the file somewhere on your server
+    imageFile.mv(uploadPath, function (err) {
+      console.log("express file upload error: ", err);
+      if (err)
+        return response.json({
+          success: false,
+          message: "Error uploading image.",
+        });
+
       next();
     });
-  } catch (err) {
-    console.log("multer uploading error: ", err);
   }
 };
 
 const deletePhysicalImage = (fileName) => {
-  fs.unlink(path.join(uploadedImagesDir, fileName), (err) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-  });
+  if (typeof fileName === "undefined") return;
+
+  try {
+    fs.unlink(path.join(uploadedImagesDir, fileName), (err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+    });
+  } catch (err) {
+    console.error("Error deleting file", err.message);
+    return;
+  }
 };
 
 module.exports = { uploadMiddleware, deletePhysicalImage };

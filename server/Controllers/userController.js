@@ -92,11 +92,9 @@ const registerAdmin = async () => {
 };
 
 const createToken = (user) => {
-  return jwt.sign(
-    { id: user._id, isAdmin: user.isAdmin, username: user.username },
-    "secret",
-    { expiresIn: "24h" }
-  );
+  return jwt.sign({ id: user._id, username: user.username }, "secret", {
+    expiresIn: "24h",
+  });
 };
 
 const getUser = async (req, res) => {

@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
-// import CustomScripts from "../CustomScripts/CustomScripts";
 import "./styles/sidebar.css";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { doLogout } from "../../../../redux/features/authSlice";
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     /* eslint-disable no-undef */
     for (let x = 1; x < 4; x++) {
@@ -37,6 +40,11 @@ const Sidebar = () => {
       });
     }
   }, []);
+
+  const logout = () => {
+    localStorage.clear();
+    dispatch(doLogout());
+  };
 
   return (
     <aside className="sidebar">
@@ -83,21 +91,21 @@ const Sidebar = () => {
           <span>Videos</span>
           <ul className="no-list sb_dropdown clearfix">
             <li>
-              <a className="center position-relative">
+              <Link to="upload-video" className="center position-relative">
                 <i className="fa fa-plus" />{" "}
                 <span className="position-absolute top-0 ms-5">Add New</span>
-              </a>
+              </Link>
             </li>
             <li>
-              <a className="center position-relative">
+              <Link to="view-videos" className="center position-relative">
                 <i className="fa fa-eye" />{" "}
                 <span className="position-absolute top-0 ms-5">View All</span>
-              </a>
+              </Link>
             </li>
           </ul>
         </li>
 
-        <li>
+        <li onClick={logout}>
           <i className="fa fa-tasks" />
           <span>Logout</span>
         </li>

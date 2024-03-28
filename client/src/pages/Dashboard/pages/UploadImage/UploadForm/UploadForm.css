@@ -9,7 +9,7 @@
   justify-content: center;
   align-items: center;
   padding: 0 20px;
-  cursor: pointer;
+  cursor: default;
 }
 
 .upload-form .up-form {

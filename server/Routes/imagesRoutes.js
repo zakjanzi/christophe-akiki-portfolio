@@ -15,10 +15,4 @@ router.get("/all", getImages);
 
 router.post("/delete", protected, deleteImage);
 
-// router.get("/categories", getCategories);
-
-// router.put("/like/:id", protected, likePost);
-
-// router.put("/save/:id", protected, savePost);
-
 module.exports = router;

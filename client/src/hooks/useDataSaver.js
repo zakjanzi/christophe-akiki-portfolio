@@ -8,6 +8,10 @@ import {
   UPLOAD_IMAGE_URL,
   FETCH_ALL_IMAGES_URL,
   DELETE_IMAGE_URL,
+  UPLOAD_VIDEO_URL,
+  DELETE_VIDEO_URL,
+  FETCH_ALL_VIDEOS_URL,
+  UPDATE_VIDEO_URL,
 } from "../api/urlConfig";
 
 export default function useDataSaver() {
@@ -51,6 +55,32 @@ export default function useDataSaver() {
     return axiosPrivate.post(DELETE_IMAGE_URL, { id: photoId });
   };
 
+  const doUploadVideo = (payload) => {
+    return axiosPrivate.post(UPLOAD_VIDEO_URL, payload, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  };
+
+  const doDeleteVideo = (videoId) => {
+    return axiosPrivate.post(DELETE_VIDEO_URL, { id: videoId });
+  };
+
+  const doFetchAllVideos = () => {
+    return axiosPrivate.get(FETCH_ALL_VIDEOS_URL);
+  };
+
+  const doUpdateVideo = (videoPayload) => {
+    console.log("video payload: ", videoPayload);
+    return axiosPrivate.post(UPDATE_VIDEO_URL, videoPayload, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      data: videoPayload,
+    });
+  };
+
   return {
     doCreateCategory,
     doFetchAlbums,
@@ -60,5 +90,9 @@ export default function useDataSaver() {
     doUploadImage,
     doFetchAllImages,
     doDeleteImage,
+    doUploadVideo,
+    doDeleteVideo,
+    doFetchAllVideos,
+    doUpdateVideo,
   };
 }

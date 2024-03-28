@@ -56,7 +56,9 @@ const ViewCategories = () => {
 
   return (
     <>
-      <h4 className="ms-5 mt-3 text-dark">View Categories</h4>
+      {!editCategoryMode && (
+        <h4 className="ms-5 mt-3 text-dark">View Categories</h4>
+      )}
 
       {/* This form is being used in edit mode here */}
       {editCategoryMode && (
@@ -67,7 +69,7 @@ const ViewCategories = () => {
         />
       )}
 
-      {categories.length > 0 && (
+      {!editCategoryMode && categories.length > 0 && (
         <table className="table table-striped mx-5 mt-3">
           <thead>
             <tr>

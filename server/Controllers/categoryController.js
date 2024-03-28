@@ -1,4 +1,6 @@
 const CategoryModel = require("../Models/CategoryModel.js");
+const ImageModel = require("../Models/ImageModel.js");
+const mongoose = require("mongoose");
 
 const create = async (req, res) => {
   try {
@@ -71,14 +73,32 @@ const updateCategory = async (req, res) => {
   const { id, name, album } = req.body;
 
   try {
-    const result = await CategoryModel.findByIdAndUpdate(id, {
-      name,
-      album,
-    }).exec();
+    const session = await mongoose.startSession();
+
+    const oldCategoryRecord = await CategoryModel.findById(id).exec();
+
+    const catUpdateResult = await CategoryModel.findByIdAndUpdate(
+      id,
+      {
+        name,
+        album,
+      },
+      { session }
+    ).exec();
+
+    // Update all images associated with that category
+    const imageUpdateResult = await ImageModel.updateMany(
+      { category: oldCategoryRecord.name },
+      { $set: { category: name, album } },
+      { session }
+    ).exec();
 
     return res.json({
       success: true,
-      message: result ? "Category updated successfully" : "Operation failed",
+      message:
+        catUpdateResult && imageUpdateResult
+          ? "Category updated successfully"
+          : "Operation failed",
     });
   } catch (err) {
     console.log(err.message);

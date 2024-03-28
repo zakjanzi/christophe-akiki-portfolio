@@ -56,7 +56,6 @@ export default function Login() {
       });
 
       if (data.success) {
-        console.log("User data from server: ", data.user);
         dispatch(signIn(data));
         navigate("/dashboard");
       } else {

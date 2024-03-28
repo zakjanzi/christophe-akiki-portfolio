@@ -83,8 +83,6 @@ export default function CreateCategoryForm(props) {
 
   return (
     <>
-      {editMode && <div className="my-modal"></div>}
-
       <div className={`form-b`}>
         <div className="up-form">
           {editMode && (

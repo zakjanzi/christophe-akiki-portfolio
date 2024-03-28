@@ -3,19 +3,10 @@ const { deletePhysicalImage } = require("../Middlewares/MulterMiddleware.js");
 
 const uploadImage = async (req, res) => {
   try {
-    if (req.fileValidationError) {
-      return res.json({
-        message: req.fileValidationError.message,
-        success: false,
-      });
-    }
-
-    const imageOriginalName = req.file.filename;
-
-    console.log("Original name: ", imageOriginalName);
+    const imageOriginalName = req.files.filename;
 
     const image = new Image({
-      contentType: req.file.mimetype,
+      contentType: req.files.image.mimetype,
       album: req.body.album,
       category: req.body.category,
       originalName: imageOriginalName,

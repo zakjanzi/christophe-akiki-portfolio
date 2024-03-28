@@ -65,7 +65,7 @@ export default function UploadForm(props) {
       if (res.data.success) {
         toastSuccess(res.data.message);
         // setImages((prev) => [res.data.imageToSend, ...prev]);
-        const category = res.data.imageToSend.category;
+        const category = res.data.imageToSend?.category;
         setCategories((prev) =>
           prev.includes(category.toLowerCase())
             ? [...prev]
@@ -86,8 +86,6 @@ export default function UploadForm(props) {
 
   const handleAlbumChange = (albumName) => {
     setAlbum(albumName);
-
-    console.log(albumName, categories);
 
     const albumCategories = categories.filter(
       (singleCategory) => singleCategory.album === albumName
