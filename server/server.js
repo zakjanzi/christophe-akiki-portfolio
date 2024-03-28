@@ -4,7 +4,6 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const fileupload = require("express-fileupload");
-const serverless = require("serverless-http");
 const connectToDB = require("./config/config.js");
 const { registerAdmin } = require("./Controllers/userController.js");
 const port = 4000;
@@ -35,7 +34,3 @@ connectToDB();
 app.listen(process.env.PORT || port, () =>
   console.log(`App listening on port ${port}!`)
 );
-
-module.exports = {
-  handler: serverless(app),
-};
