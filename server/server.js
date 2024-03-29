@@ -30,7 +30,7 @@ app.use("/images", require("./Routes/imagesRoutes.js"));
 app.use("/videos", require("./Routes/videoRoutes.js"));
 
 app.use("/", express.static("build"), (req, res) => {
-  res.type("html").sendFile(__dirname + "/build/index.html");
+  res.sendFile(__dirname + "/build/index.html");
 });
 
 connectToDB();
@@ -40,7 +40,7 @@ const server = app.listen(process.env.PORT || port, () =>
   console.log(`App listening on port ${port}!`)
 );
 
-server.keepAliveTimeout = 120 * 1000;
-server.headersTimeout = 120 * 1000;
+// server.keepAliveTimeout = 120 * 1000;
+// server.headersTimeout = 120 * 1000;
 
-module.exports = app;
+module.exports = server;
