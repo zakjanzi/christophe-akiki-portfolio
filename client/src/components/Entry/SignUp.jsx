@@ -11,12 +11,14 @@ import { toastError, toastSuccess } from "../../utils/toast";
 import { isDevEnvironment } from "../../utils/functions";
 import { DEV_BASE_URL, REGISTER_URL, PROD_BASE_URL } from "../../api/urlConfig";
 import { useSelector } from "react-redux";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 export default function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { isLoggedIn } = useSelector((state) => state.auth);
+  const axiosPrivate = useAxiosPrivate();
 
   const validateSignupForm = () => {
     const errors = [];
@@ -47,7 +49,7 @@ export default function SignUp() {
         ? DEV_BASE_URL + REGISTER_URL
         : PROD_BASE_URL + REGISTER_URL;
 
-      const { data } = await axios.post(registerUrl, {
+      const { data } = await axiosPrivate.post(REGISTER_URL, {
         username,
         password,
         isAdmin: false,

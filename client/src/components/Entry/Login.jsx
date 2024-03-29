@@ -50,7 +50,7 @@ export default function Login() {
         ? DEV_BASE_URL + LOGIN_URL
         : PROD_BASE_URL + LOGIN_URL;
 
-      const { data } = await axiosPrivate.post(loginUrl, {
+      const { data } = await axiosPrivate.post(LOGIN_URL, {
         username,
         password,
       });
