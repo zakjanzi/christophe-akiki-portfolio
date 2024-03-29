@@ -28,15 +28,19 @@ app.use("/users", require("./Routes/userRoutes.js"));
 app.use("/images", require("./Routes/imagesRoutes.js"));
 app.use("/videos", require("./Routes/videoRoutes.js"));
 
-app.use("/", express.static("build"), (req, res) => {
+app.use("/", express.static("build"));
+app.get("/", (req, res) => {
   res.sendFile(__dirname + "/build/index.html");
 });
 
 connectToDB();
 // registerAdmin();
 
-app.listen(process.env.PORT || port, () =>
+const server = app.listen(process.env.PORT || port, () =>
   console.log(`App listening on port ${port}!`)
 );
+
+server.keepAliveTimeout = 120 * 1000;
+server.headersTimeout = 120 * 1000;
 
 module.exports = app;
