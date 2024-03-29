@@ -10,7 +10,8 @@ const port = 3000;
 
 app.use(
   cors({
-    origin: "https://christophe-akiki-portfolio-u9hl.onrender.com/",
+    origin: "https://christophe-akiki-portfolio-u9hl.onrender.com",
+    credentials: true,
   })
 );
 
