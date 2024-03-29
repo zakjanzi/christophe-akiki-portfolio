@@ -28,9 +28,8 @@ app.use("/users", require("./Routes/userRoutes.js"));
 app.use("/images", require("./Routes/imagesRoutes.js"));
 app.use("/videos", require("./Routes/videoRoutes.js"));
 
-app.use("/", express.static("build"));
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/build/index.html");
+app.use("/", express.static("build"), (req, res) => {
+  res.type("html").sendFile(__dirname + "/build/index.html");
 });
 
 connectToDB();
