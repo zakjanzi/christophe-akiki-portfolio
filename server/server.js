@@ -8,7 +8,11 @@ const connectToDB = require("./config/config.js");
 const { registerAdmin } = require("./Controllers/userController.js");
 const port = 3000;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://christophe-akiki-portfolio.onrender.com",
+  })
+);
 
 app.use(fileupload());
 
