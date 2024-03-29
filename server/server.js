@@ -17,8 +17,8 @@ app.use(
 
 app.use(fileupload());
 
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 app.use(express.static("public"));
 
@@ -33,6 +33,14 @@ app.use("/", express.static("build"), (req, res) => {
   res.sendFile(__dirname + "/build/index.html");
 });
 
+app.use((err, req, res, next) => {
+  if (err instanceof ValidationError) {
+    res.status(err.status).json(err);
+  } else {
+    res.send(err);
+  }
+});
+
 connectToDB();
 // registerAdmin();
 
@@ -40,7 +48,7 @@ const server = app.listen(process.env.PORT || port, () =>
   console.log(`App listening on port ${port}!`)
 );
 
-// server.keepAliveTimeout = 120 * 1000;
-// server.headersTimeout = 120 * 1000;
+server.keepAliveTimeout = 120 * 1000;
+server.headersTimeout = 120 * 1000;
 
-module.exports = server;
+module.exports = app;
