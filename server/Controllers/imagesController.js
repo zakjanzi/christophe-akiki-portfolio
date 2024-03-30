@@ -8,7 +8,7 @@ const uploadImage = async (req, res) => {
     const image = new Image({
       contentType: req.files.image.mimetype,
       album: req.body.album,
-      category: req.body.category,
+      // category: req.body.category,
       originalName: imageOriginalName,
     });
 

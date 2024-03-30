@@ -9,7 +9,7 @@ const VideoCard = (props) => {
     >
       <img src={url} className="card-img-top" alt={title} />
       <div className="card-body px-3">
-        <h5 className="card-title text-white fs-3 text-center my-4">{title}</h5>
+        <h5 className="card-title text-white text-center my-4">{title}</h5>
         <p className="card-text">{description}</p>
         <a
           href={link}

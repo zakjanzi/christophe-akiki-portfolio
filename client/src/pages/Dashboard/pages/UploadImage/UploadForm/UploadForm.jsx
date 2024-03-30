@@ -1,48 +1,56 @@
-import React, { useLayoutEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import "./UploadForm.css";
 import { BsFillCameraFill } from "react-icons/bs";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import { useImages } from "../../../../../contextProviders/ImagesProvider";
 import { toastError, toastSuccess } from "../../../../../utils/toast";
 import useDataSaver from "../../../../../hooks/useDataSaver";
 
 export default function UploadForm(props) {
   const [image, setImage] = useState(null);
-  const [category, setCategory] = useState("");
-  const [categories, setCategories] = useState([]);
+  // const [category, setCategory] = useState("");
+  // const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [album, setAlbum] = useState("");
   const [albums, setAlbums] = useState([]);
-  const [categoriesForAlbum, setCategoriesForAlbum] = useState([]);
+  // const [categoriesForAlbum, setCategoriesForAlbum] = useState([]);
   const { doFetchAlbums, doFetchCategories, doUploadImage } = useDataSaver();
 
   // Fetch albums and categories from DB
-  useLayoutEffect(() => {
+  useEffect(() => {
     (async () => {
       try {
-        const res = await Promise.all([doFetchAlbums(), doFetchCategories()]);
+        // const res = await Promise.all([doFetchAlbums(), doFetchCategories()]);
 
-        if (res[0].data.success) {
-          setAlbums(res[0].data.albums);
+        // if (res[0].data.success) {
+        //   setAlbums(res[0].data.albums);
 
-          setCategories(res[1].data.categories);
+        //   setCategories(res[1].data.categories);
+        // } else {
+        //   toastError(res[0].data.message);
+        // }
+
+        const res = await doFetchAlbums();
+
+        if (res.data.success) {
+          setAlbums(res.data.albums);
         } else {
-          toastError(res[0].data.message);
+          toastError(res.data.message);
         }
       } catch (error) {
         console.log(error);
         toastError(error.response?.data?.message);
       }
     })();
-  }, [doFetchAlbums, doFetchCategories]);
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const formData = new FormData();
     formData.append("album", album);
-    formData.append("category", category);
+    // formData.append("category", category);
     formData.append("image", image);
     if (!image) {
       toastError("Please select an image");
@@ -52,10 +60,10 @@ export default function UploadForm(props) {
       toastError("Please select an album");
       return;
     }
-    if (!category) {
-      toastError("Please select a category");
-      return;
-    }
+    // if (!category) {
+    //   toastError("Please select a category");
+    //   return;
+    // }
 
     setLoading(true);
 
@@ -65,14 +73,14 @@ export default function UploadForm(props) {
       if (res.data.success) {
         toastSuccess(res.data.message);
         // setImages((prev) => [res.data.imageToSend, ...prev]);
-        const category = res.data.imageToSend?.category;
-        setCategories((prev) =>
-          prev.includes(category.toLowerCase())
-            ? [...prev]
-            : [...prev, category.toLowerCase()]
-        );
+        // const category = res.data.imageToSend?.category;
+        // setCategories((prev) =>
+        //   prev.includes(category.toLowerCase())
+        //     ? [...prev]
+        //     : [...prev, category.toLowerCase()]
+        // );
         setImage(null);
-        setCategory("");
+        // setCategory("");
       } else {
         toastError(res.data.message);
       }
@@ -87,11 +95,11 @@ export default function UploadForm(props) {
   const handleAlbumChange = (albumName) => {
     setAlbum(albumName);
 
-    const albumCategories = categories.filter(
-      (singleCategory) => singleCategory.album === albumName
-    );
+    // const albumCategories = categories.filter(
+    //   (singleCategory) => singleCategory.album === albumName
+    // );
 
-    setCategoriesForAlbum((prev) => albumCategories);
+    // setCategoriesForAlbum((prev) => albumCategories);
   };
 
   return (
@@ -130,7 +138,7 @@ export default function UploadForm(props) {
               </select>
             </div>
 
-            <div className="wraber">
+            {/* <div className="wraber">
               <label className="required">Category</label>
               <select
                 value={category}
@@ -145,7 +153,7 @@ export default function UploadForm(props) {
                     <option value={category.name}>{category.name}</option>
                   ))}
               </select>
-            </div>
+            </div> */}
 
             {loading && (
               <div className="load">

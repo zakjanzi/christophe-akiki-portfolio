@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useCallback, useEffect, useRef, useState } from "react";
 import useDataSaver from "../../hooks/useDataSaver";
 import CategoryFolderIcon from "./images/category-folder.svg";
 import ImageGallery from "react-image-gallery";
@@ -28,10 +29,12 @@ const videoButtonColors = [
 const Home = () => {
   const preloaderRef = useRef();
   const { doFetchAllImages } = useDataSaver();
-  const [albumsAndCategories, setAlbumsAndCategories] = useState();
-  const [viewCategories, setViewCategories] = useState([]);
+  // const [albumsAndCategories, setAlbumsAndCategories] = useState();
+  // const [viewCategories, setViewCategories] = useState([]);
   const [galleryPhotos, setGalleryPhotos] = useState([]);
   const [currentAlbum, setCurrentAlbum] = useState("");
+  const [albumImages, setAlbumImages] = useState([]);
+  const [allAlbumImages, setAllAlbumImages] = useState();
   const [videos, setVideos] = useState([]);
   const { doFetchCategories, doFetchAllVideos } = useDataSaver();
   const { pathname } = useLocation();
@@ -49,27 +52,53 @@ const Home = () => {
   // This hook fetches all the images for various albums
   // and all videos with their complete details from the backend
   useEffect(() => {
-    doFetchAllImages().then((res) => {
-      if (res.data.success) {
-        groupImagesIntoAlbumsAndCategories(res.data.images);
-      }
-    });
+    doFetchAllImages()
+      .then((res) => {
+        if (res.data.success) {
+          // groupImagesIntoAlbumsAndCategories(res.data.images);
+          groupImagesIntoAlbums(res.data.images);
+        }
+      })
+      .catch((err) => {
+        console.log("Images fetch error: ", err);
+      });
 
-    doFetchAllVideos().then((res) => {
-      if (res.data.success) {
-        const { videos } = res.data;
+    doFetchAllVideos()
+      .then((res) => {
+        if (res.data.success) {
+          const { videos } = res.data;
 
-        const videosWithUrl = videos.map((video) => {
-          return {
-            ...video,
-            url: `${getDomainUrl()}/images/${video.image}`,
-          };
-        });
+          const videosWithUrl = videos.map((video) => {
+            return {
+              ...video,
+              url: `${getDomainUrl()}/images/${video.image}`,
+            };
+          });
 
-        setVideos(videosWithUrl);
-      }
-    });
+          setVideos(videosWithUrl);
+        }
+      })
+      .catch((err) => {
+        console.log("Videos fetch error: ", err);
+      });
   }, []);
+
+  const groupImagesIntoAlbums = (images) => {
+    const albums = {
+      Automotive: [],
+      "Extreme Sports": [],
+      "Concerts & Events": [],
+      "Portraits & Modeling": [],
+      "Structures & Interiors": [],
+    };
+
+    images.reduce((acc, image) => {
+      acc[image.album].push(image);
+      return acc;
+    }, albums);
+
+    setAllAlbumImages(albums);
+  };
 
   const groupImagesIntoAlbumsAndCategories = (images) => {
     const albums = {
@@ -94,7 +123,7 @@ const Home = () => {
 
     console.log("cat and albums: ", categoriesAndAlbums);
 
-    setAlbumsAndCategories(categoriesAndAlbums);
+    // setAlbumsAndCategories(categoriesAndAlbums);
   };
 
   const getCategoriesForAlbum = (categories, albumName) => {
@@ -108,34 +137,43 @@ const Home = () => {
   const showCategories = async (albumName) => {
     setCurrentAlbum(albumName);
 
-    const res = await doFetchCategories();
+    // const res = await doFetchCategories();
 
-    if (!res.data.success) return;
+    // if (!res.data.success) return;
 
-    const categories = getCategoriesForAlbum(res.data.categories, albumName);
+    // const categories = getCategoriesForAlbum(res.data.categories, albumName);
 
-    setViewCategories(categories);
+    // setViewCategories(categories);
   };
 
   const getDomainUrl = () => {
     return NODE_ENV === "dev" ? "http://localhost:4000" : PROD_BASE_URL;
   };
 
-  const showGallery = (category) => {
-    const images = albumsAndCategories[currentAlbum][category].map(
-      (category) => {
-        return {
-          original: `${getDomainUrl()}/images/${category.originalName}`,
-          thumbnail: `${getDomainUrl()}/images/${category.originalName}`,
-        };
-      }
-    );
-
-    setGalleryPhotos(images);
-  };
-
   const hideGallery = () => {
     setGalleryPhotos([]);
+  };
+
+  const showGallery = () => {
+    // const images = albumsAndCategories[currentAlbum][category]?.map(
+    //   (category) => {
+    //     return {
+    //       original: `${getDomainUrl()}/images/${category.originalName}`,
+    //       thumbnail: `${getDomainUrl()}/images/${category.originalName}`,
+    //     };
+    //   }
+    // );
+  };
+
+  const buildAndShowImageGallery = (imagesArr) => {
+    const images = imagesArr?.map((image) => {
+      return {
+        original: `${getDomainUrl()}/images/${image.originalName}`,
+        thumbnail: `${getDomainUrl()}/images/${image.originalName}`,
+      };
+    });
+
+    setGalleryPhotos(images);
   };
 
   return (
@@ -161,7 +199,7 @@ const Home = () => {
       {/* /PRELOADER */}
 
       {/* ALBUM CATEGORIES VIEWER */}
-      {viewCategories.length > 0 && (
+      {/* {viewCategories.length > 0 && (
         <div className="categories-modal" onClick={() => setViewCategories([])}>
           <div className="categories-container">
             {viewCategories.map((category) => {
@@ -182,7 +220,7 @@ const Home = () => {
             })}
           </div>
         </div>
-      )}
+      )} */}
       {/* ALBUM CATEGORIES VIEWER */}
 
       {/* IMAGE CONTAINER */}
@@ -379,7 +417,9 @@ const Home = () => {
               {/* ITEM */}
               <div
                 className="item scroll-animated"
-                onClick={() => showCategories(ALBUMS.AUTOMOTIVE)}
+                onClick={() => {
+                  buildAndShowImageGallery(allAlbumImages[ALBUMS.AUTOMOTIVE]);
+                }}
               >
                 {/* LIGHTBOX LINK */}
                 <a href="#" data-featherlight="#item-1-lightbox">
@@ -435,7 +475,11 @@ const Home = () => {
               {/* ITEM */}
               <div
                 className="item scroll-animated"
-                onClick={() => showCategories(ALBUMS.STRUCTURES_INTERIORS)}
+                onClick={() =>
+                  buildAndShowImageGallery(
+                    allAlbumImages[ALBUMS.STRUCTURES_INTERIORS]
+                  )
+                }
               >
                 {/* LIGHTBOX LINK */}
                 <a href="#" data-featherlight="#item-1-lightbox">
@@ -491,7 +535,11 @@ const Home = () => {
               {/* ITEM */}
               <div
                 className="item scroll-animated"
-                onClick={() => showCategories(ALBUMS.EXTREME_SPORTS)}
+                onClick={() =>
+                  buildAndShowImageGallery(
+                    allAlbumImages[ALBUMS.EXTREME_SPORTS]
+                  )
+                }
               >
                 {/* LIGHTBOX LINK */}
                 <a href="#" data-featherlight="#item-2-lightbox">
@@ -547,7 +595,11 @@ const Home = () => {
               {/* ITEM */}
               <div
                 className="item scroll-animated"
-                onClick={() => showCategories(ALBUMS.PORTRAITS_MODELING)}
+                onClick={() =>
+                  buildAndShowImageGallery(
+                    allAlbumImages[ALBUMS.PORTRAITS_MODELING]
+                  )
+                }
               >
                 {/* LIGHTBOX LINK */}
                 <a href="#" data-featherlight="#item-3-lightbox">
@@ -603,7 +655,11 @@ const Home = () => {
               {/* ITEM */}
               <div
                 className="item scroll-animated"
-                onClick={() => showCategories(ALBUMS.CONCERTS_EVENTS)}
+                onClick={() =>
+                  buildAndShowImageGallery(
+                    allAlbumImages[ALBUMS.CONCERTS_EVENTS]
+                  )
+                }
               >
                 {/* LIGHTBOX LINK */}
                 <a href="#" data-featherlight="#item-4-lightbox">
@@ -668,10 +724,7 @@ const Home = () => {
               {videos.length > 0 &&
                 videos.map((video, index) => (
                   <div className="video-item rounded px-0 mb-5">
-                    <VideoCard
-                      video={video}
-                      buttonColor={videoButtonColors[index]}
-                    />
+                    <VideoCard video={video} buttonColor={"#9ea6e5"} />
                   </div>
                 ))}
             </div>

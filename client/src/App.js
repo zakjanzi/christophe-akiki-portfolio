@@ -49,8 +49,8 @@ export default function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="add-category" element={<NewCategory />} />
-          <Route path="view-categories" element={<ViewCategories />} />
+          {/* <Route path="add-category" element={<NewCategory />} /> */}
+          {/* <Route path="view-categories" element={<ViewCategories />} /> */}
           <Route path="upload-image" element={<UploadImage />} />
           <Route path="view-images" element={<ViewImages />} />
           <Route path="upload-video" element={<UploadVideo />} />

@@ -50,7 +50,7 @@ const Sidebar = () => {
     <aside className="sidebar">
       <h4 className="d-flex justify-content-center">Main-Menu</h4>
       <ul className="no-list sb_top_lv">
-        <li>
+        {/* <li>
           <i className="fa fa-users" />
           <span>Categories</span>
           <ul className="no-list sb_dropdown clearfix">
@@ -67,7 +67,7 @@ const Sidebar = () => {
               </Link>
             </li>
           </ul>
-        </li>
+        </li> */}
         <li>
           <i className="fa fa-dashboard" />
           <span>Images</span>

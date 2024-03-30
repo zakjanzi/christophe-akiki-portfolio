@@ -26,9 +26,7 @@ export default function ImagesContainer(props) {
         key={img._id}
       >
         <div className="overly" onClick={openImage} id={img._id}>
-          <h3>
-            {img.album} - {img.category}
-          </h3>
+          <h3>{img.album}</h3>
         </div>
       </div>
     );

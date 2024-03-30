@@ -7,10 +7,10 @@ const imageSchema = new mongoose.Schema(
       required: true,
     },
 
-    category: {
-      type: String,
-      required: true,
-    },
+    // category: {
+    //   type: String,
+    //   required: true,
+    // },
 
     originalName: {
       type: String,
