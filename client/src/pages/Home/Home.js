@@ -185,7 +185,7 @@ const Home = () => {
             className="d-flex justify-content-end cursor-pointer z-2 mt-4 w-100 position-absolute"
             onClick={() => hideGallery()}
           >
-            <i className="fa fa-close text-white fs-1 me-4 position-relative cursor-pointer"></i>
+            <i className="fa fa-close text-white fs-1 me-4 position-relative cursor-pointer gallery-close-btn"></i>
           </div>
           <ImageGallery items={galleryPhotos} />
         </div>
