@@ -1,0 +1,10 @@
+.page-content {
+  width: calc(100vw - 200px);
+  position: absolute;
+  right: 0px;
+  min-height: 100vh;
+}
+
+.body-white {
+  background: #fff !important;
+}

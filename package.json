@@ -1,0 +1,11 @@
+{
+  "name": "christophe-akiki-portfolio",
+  "version": "1.0.0",
+  "description": "A MERN stack photo gallery web app that allows the admin to post/delete photos and users to view and interact with these photos.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd client && npm install && npm run build && rm -rf ../server/build && mv build ../server && cd ../server && npm install && node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
