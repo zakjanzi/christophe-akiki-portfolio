@@ -3,28 +3,48 @@ const { deletePhysicalImage } = require("../Middlewares/MulterMiddleware.js");
 
 const uploadImage = async (req, res) => {
   try {
-    const imageOriginalName = req.files.filename;
+    const imagesOriginalName = req.filenames;
 
-    const image = new Image({
-      contentType: req.files.image.mimetype,
-      album: req.body.album,
-      // category: req.body.category,
-      originalName: imageOriginalName,
-    });
+    const imagesArray = [];
 
-    await image.save();
+    for (let y = 0; y < imagesOriginalName.length; y++) {
+      imagesArray.push({
+        contentType: req.files.images[y].mimetype,
+        album: req.body.album,
+        originalName: imagesOriginalName[y],
+      });
+    }
 
-    const savedImage = await Image.findOne({
-      originalName: imageOriginalName,
-    });
+    // const image = new Image({
+    //   contentType: req.files.image.mimetype,
+    //   album: req.body.album,
+    //   // category: req.body.category,
+    //   originalName: imageOriginalName,
+    // });
+
+    // await image.save();
+
+    const saved = await Image.insertMany(imagesArray);
+
+    if (!saved) {
+      // Delete previously stored files
+      req.filenames.forEach((filename) => {
+        deletePhysicalImage(filename);
+      });
+
+      return res.json({
+        message: "Image(s) upload failed",
+        success: false,
+      });
+    }
 
     res.json({
-      message: "Image uploaded successfully",
+      message: "Image(s) uploaded successfully",
       success: true,
     });
   } catch (err) {
     console.error(err);
-    res.json({ message: "Error uploading the image", success: false });
+    res.json({ message: "Error uploading the image(s)", success: false });
   }
 };
 

@@ -8,7 +8,7 @@
   object-fit: cover;
   width: 100%;
   /* max-height: 130px; */
-  height: 18rem;
+  max-height: 18rem;
   object-position: top;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
@@ -24,7 +24,7 @@
   font-size: 1.25rem;
   height: 6.5rem;
   overflow: hidden;
-  margin-bottom: 0px !important;
+  margin-bottom: 0.5rem !important;
 }
 
 .watch-button {

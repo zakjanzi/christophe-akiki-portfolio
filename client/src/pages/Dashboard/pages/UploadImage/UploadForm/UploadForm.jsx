@@ -8,7 +8,7 @@ import { toastError, toastSuccess } from "../../../../../utils/toast";
 import useDataSaver from "../../../../../hooks/useDataSaver";
 
 export default function UploadForm(props) {
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState([]);
   // const [category, setCategory] = useState("");
   // const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -49,11 +49,16 @@ export default function UploadForm(props) {
     event.preventDefault();
 
     const formData = new FormData();
+
     formData.append("album", album);
     // formData.append("category", category);
-    formData.append("image", image);
-    if (!image) {
-      toastError("Please select an image");
+
+    Array.from(images).forEach((file, i) => {
+      formData.append("images", file);
+    });
+
+    if (!images.length) {
+      toastError("Please select an image(s)");
       return;
     }
     if (!album) {
@@ -66,6 +71,7 @@ export default function UploadForm(props) {
     // }
 
     setLoading(true);
+    console.log(formData);
 
     try {
       const res = await doUploadImage(formData);
@@ -79,7 +85,7 @@ export default function UploadForm(props) {
         //     ? [...prev]
         //     : [...prev, category.toLowerCase()]
         // );
-        setImage(null);
+        setImages([]);
         // setCategory("");
       } else {
         toastError(res.data.message);
@@ -110,12 +116,22 @@ export default function UploadForm(props) {
           <p className="subtitle">Please fill in all required fields</p>
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             <label htmlFor="file-input" className="file-label">
-              {!image && <BsFillCameraFill className="camera-icon " />}
-              {image && <p>{image.name}</p>}
+              {!images && <BsFillCameraFill className="camera-icon " />}
+              {images.length > 0 &&
+                Array.from(images).map((singleImage, index) => {
+                  return (
+                    <>
+                      <p key={index}>{singleImage.name}</p>{" "}
+                      {index < Array.from(images).length && "|"}
+                      <br />
+                    </>
+                  );
+                })}
               <input
                 type="file"
-                onChange={(event) => setImage(event.target.files[0])}
-                name="image"
+                multiple="multiple"
+                onChange={(event) => setImages(event.target.files)}
+                name="images"
                 accept="image/png, image/jpg, image/gif, image/jpeg"
                 id="file-input"
               />

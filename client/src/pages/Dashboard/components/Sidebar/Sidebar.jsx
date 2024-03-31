@@ -3,6 +3,7 @@ import "./styles/sidebar.css";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { doLogout } from "../../../../redux/features/authSlice";
+import { PROD_BASE_URL } from "../../../../api/urlConfig";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -46,6 +47,11 @@ const Sidebar = () => {
     dispatch(doLogout());
   };
 
+  const logoutAndReloadHomepage = () => {
+    logout();
+    window.location = PROD_BASE_URL;
+  };
+
   return (
     <aside className="sidebar">
       <h4 className="d-flex justify-content-center">Main-Menu</h4>
@@ -68,6 +74,11 @@ const Sidebar = () => {
             </li>
           </ul>
         </li> */}
+        <li onClick={logoutAndReloadHomepage}>
+          <i className="fa fa-home" />
+          <span>Home</span>
+        </li>
+
         <li>
           <i className="fa fa-dashboard" />
           <span>Images</span>
