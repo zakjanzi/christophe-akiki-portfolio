@@ -10,8 +10,8 @@ const port = 4000;
 
 app.use(
   cors({
-    origin: "https://christophe-akiki-portfolio-u9hl.onrender.com",
-    // origin: "http://localhost:3000",
+    // origin: "https://christophe-akiki-portfolio-u9hl.onrender.com",
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
@@ -35,8 +35,8 @@ app.use("/", express.static("build"), (req, res) => {
 });
 
 app.use((err, req, res, next) => {
-  if (err instanceof ValidationError) {
-    res.status(err.status).json(err);
+  if (err) {
+    res.json({ message: err?.message });
   } else {
     res.send(err);
   }

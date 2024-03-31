@@ -224,9 +224,9 @@ const Home = () => {
       {/* ALBUM CATEGORIES VIEWER */}
 
       {/* IMAGE CONTAINER */}
-      <div className="image-container">
+      {/* <div className="image-container">
         <div className="background-img" />
-      </div>
+      </div> */}
       {/* /IMAGE CONTAINER */}
       {/* CONTENT AREA */}
       <div
@@ -408,9 +408,16 @@ const Home = () => {
             {/* /SERVICE LIST */}
           </section>
           {/* /SERVICE */}
+        </div>
+        <div className="w-100 d-flex flex-column align-items-center">
           {/* WORK */}
           <section id="work">
-            <h3 className="headline scroll-animated">Latest Work</h3>
+            <h3
+              className="headline scroll-animated"
+              style={{ marginBottom: "1.4em" }}
+            >
+              Latest Work
+            </h3>
             <section id="content" />
             {/* SHOWCASE */}
             <div className="showcase">
@@ -719,8 +726,11 @@ const Home = () => {
           {/* /WORK */}
 
           {/* VIDEOS */}
-          <section id="videos" className="d-block mt-5">
-            <div className="d-grid" style={{ gap: "1rem" }}>
+          <section id="videos" className="d-flex justify-content-center">
+            <div
+              className="d-grid"
+              style={{ gap: "1rem", marginTop: "3.4em !important" }}
+            >
               {videos.length > 0 &&
                 videos.map((video, index) => (
                   <div className="video-item rounded px-0 mb-5">
@@ -730,7 +740,8 @@ const Home = () => {
             </div>
           </section>
           {/* VIDEOS */}
-
+        </div>
+        <div className="content-area-inner">
           {/* CONTACT */}
           <section id="contact">
             <h3 className="headline scroll-animated">Contact Me</h3>

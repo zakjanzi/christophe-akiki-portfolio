@@ -4,3 +4,7 @@
   right: 0px;
   min-height: 100vh;
 }
+
+.body-white {
+  background: #fff !important;
+}

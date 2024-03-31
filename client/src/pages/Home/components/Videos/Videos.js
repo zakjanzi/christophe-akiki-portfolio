@@ -7,13 +7,8 @@ const VideoCard = (props) => {
       className="card video-card-bg position-relative"
       style={{ width: "100%" }}
     >
-      <div className="video-wrapper">
-        <img
-          src={url}
-          className="card-img-top video-wrapper__img"
-          alt={title}
-        />
-      </div>
+      <img src={url} className="card-img-top video-wrapper__img" alt={title} />
+
       <div className="card-body px-3">
         <h5 className="card-title text-white text-center">{title}</h5>
         <p className="card-text">{description}</p>

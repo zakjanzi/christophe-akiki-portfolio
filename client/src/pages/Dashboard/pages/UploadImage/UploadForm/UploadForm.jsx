@@ -116,7 +116,9 @@ export default function UploadForm(props) {
           <p className="subtitle">Please fill in all required fields</p>
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             <label htmlFor="file-input" className="file-label">
-              {!images && <BsFillCameraFill className="camera-icon " />}
+              {images.length === 0 && (
+                <BsFillCameraFill className="camera-icon " />
+              )}
               {images.length > 0 &&
                 Array.from(images).map((singleImage, index) => {
                   return (

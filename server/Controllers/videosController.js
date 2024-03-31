@@ -10,7 +10,7 @@ const uploadVideo = async (req, res) => {
       });
     }
 
-    const imageOriginalName = req.files.filename;
+    const imageOriginalName = req.filenames[0];
 
     const video = new VideoModel({
       title: req.body.title,

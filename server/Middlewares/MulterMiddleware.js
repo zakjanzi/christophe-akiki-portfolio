@@ -9,20 +9,26 @@ const uploadMiddleware = (request, response, next) => {
     return;
   }
 
-  const imageFiles = request.files.images;
+  const imageFiles = request.files.images
+    ? request.files.images
+    : [request.files.image];
 
   request.filenames = [];
 
   let errors = false;
 
-  for (let x = 0; x < imageFiles.length; x++) {
-    let imageFile = imageFiles[x];
+  let imageSavedCount = 0;
 
+  function saveToDisk(singleImageFile) {
     const filetypes = /jpeg|jpg|png|gif/;
-    const mimetype = filetypes.test(imageFile.mimetype);
-    const extname = filetypes.test(path.extname(imageFile.name).toLowerCase());
+    const mimetype = filetypes.test(singleImageFile.mimetype);
+    const extname = filetypes.test(
+      path.extname(singleImageFile.name).toLowerCase()
+    );
     if (mimetype && extname) {
-      const fileName = `CaGallery-${Date.now()}${path.extname(imageFile.name)}`;
+      const fileName = `CaGallery-${Date.now()}${path.extname(
+        singleImageFile.name
+      )}`;
 
       request.filenames.push(fileName);
 
@@ -30,16 +36,35 @@ const uploadMiddleware = (request, response, next) => {
 
       try {
         // Use the mv() method to place the file somewhere on your server
-        imageFile.mv(uploadPath, function (err) {
+        singleImageFile.mv(uploadPath, function (err) {
           console.log("express file upload error: ", err);
           if (err)
             return response.json({
               success: false,
               message: "Error uploading image.",
             });
+
+          if (imageSavedCount + 1 === imageFiles.length) {
+            next();
+            return;
+          }
+
+          imageSavedCount += 1;
+
+          saveToDisk(imageFiles[imageSavedCount]);
         });
       } catch (err) {
         console.log(err);
+
+        // Delete previously stored files
+        request.filenames.forEach((filename) => {
+          deletePhysicalImage(filename);
+        });
+
+        return response.json({
+          success: false,
+          message: "Error uploading image(s).",
+        });
       }
     } else {
       // Delete previously stored files
@@ -48,18 +73,19 @@ const uploadMiddleware = (request, response, next) => {
       });
 
       errors = true;
-      break;
+
+      if (!errors) {
+        next();
+      } else {
+        return response.json({
+          success: false,
+          message: "Error uploading image(s).",
+        });
+      }
     }
   }
 
-  if (!errors) {
-    next();
-  } else {
-    return response.json({
-      success: false,
-      message: "Error uploading image(s).",
-    });
-  }
+  saveToDisk(imageFiles[imageSavedCount]);
 };
 
 const deletePhysicalImage = (fileName) => {
