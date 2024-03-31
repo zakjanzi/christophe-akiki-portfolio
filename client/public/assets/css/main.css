@@ -1096,6 +1096,19 @@ section#videos {
     background-position: 22%;
   }
 
+  .overlay {
+    position: fixed;
+    overflow-y: scroll;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .overlay .content-area-inner {
+    min-height: 3000vh;
+  }
+
   .content-area .content-area-inner section {
     max-width: 700px;
   }

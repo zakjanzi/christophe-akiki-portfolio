@@ -230,7 +230,7 @@ const Home = () => {
       {/* /IMAGE CONTAINER */}
       {/* CONTENT AREA */}
       <div
-        className="content-area"
+        className="content-area overlay"
         // style={{ zIndex: galleryPhotos.length > 0 ? 1 : 1000 }}
       >
         {/* CONTENT AREA INNER */}
