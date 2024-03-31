@@ -537,7 +537,8 @@ button {
 /** 8. Content Area --> Work
 *******************************************************************/
 #work,
-#videos {
+#videos,
+.videos-headline {
   width: 55%;
 }
 
