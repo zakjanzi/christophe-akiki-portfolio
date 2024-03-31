@@ -58,3 +58,11 @@ html.with-featherlight {
 .video-card-bg {
   background-color: #2c2c32 !important;
 }
+
+@media screen and (max-width: 480px) {
+  .image-gallery {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+}
