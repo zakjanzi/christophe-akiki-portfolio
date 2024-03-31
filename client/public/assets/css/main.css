@@ -1123,4 +1123,8 @@ section#videos {
   #videos > div {
     grid-template-columns: 1fr 1fr;
   }
+
+  .videos-headline {
+    width: calc(100% - 40px);
+  }
 }
