@@ -214,6 +214,7 @@ button {
 }
 
 .background-img {
+  position: fixed;
   z-index: 1;
   top: 0;
   left: 0;
@@ -227,10 +228,16 @@ button {
 
   background: url(../img/background.jpg);
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
   background-attachment: fixed;
   overflow-y: scroll;
   overscroll-behavior: contain;
+}
+
+#root {
+  position: absolute;
+  overflow-y: scroll;
+  height: 100%;
 }
 
 /** 4. Content Area
@@ -540,6 +547,10 @@ button {
 #videos,
 .videos-headline {
   width: 55%;
+}
+
+.videos-headline {
+  margin-top: 3.4em;
 }
 
 #work .showcase {
