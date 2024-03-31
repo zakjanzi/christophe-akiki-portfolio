@@ -1096,6 +1096,10 @@ section#videos {
     background-position: 22%;
   }
 
+  body {
+    overflow: hidden;
+  }
+
   .overlay {
     position: fixed;
     overflow-y: scroll;
@@ -1105,7 +1109,7 @@ section#videos {
     left: 0;
   }
 
-  .overlay > .content-area-inner {
+  .overlay .content-area-inner {
     min-height: 3000vh;
   }
 

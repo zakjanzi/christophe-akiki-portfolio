@@ -1096,6 +1096,10 @@ section#videos {
     background-position: 22%;
   }
 
+  body {
+    overflow: hidden;
+  }
+
   .overlay {
     position: fixed;
     overflow-y: scroll;
