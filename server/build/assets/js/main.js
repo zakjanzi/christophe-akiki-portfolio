@@ -20,12 +20,10 @@ jQuery(document).ready(function ($) {
   "use strict";
 
   // SMOOTH SCROLL FOR SAME PAGE LINKS
-  $("#root").on("click", "a.smooth-scroll", function (event) {
+  $(document).on("click", "a.smooth-scroll", function (event) {
     event.preventDefault();
 
-    console.log("called", event, $($.attr(this, "href")).offset().top - 80);
-
-    $("#root").animate(
+    $("html, body").animate(
       {
         scrollTop: $($.attr(this, "href")).offset().top - 80,
       },
