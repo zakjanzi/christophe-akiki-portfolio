@@ -731,6 +731,13 @@ const Home = () => {
               className="d-grid"
               style={{ gap: "1rem", marginTop: "3.4em !important" }}
             >
+              <h3
+                className="headline scroll-animated"
+                style={{ marginBottom: "3.4em" }}
+              >
+                Videos
+              </h3>
+
               {videos.length > 0 &&
                 videos.map((video, index) => (
                   <div className="video-item rounded px-0 mb-5">
