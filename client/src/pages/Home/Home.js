@@ -177,7 +177,7 @@ const Home = () => {
   };
 
   return (
-    <>
+    <div className="position-relative w-100 h-100">
       {/* PHOTO GALLERY */}
       {galleryPhotos.length > 0 && (
         <div className="modal show bg-dark">
@@ -224,15 +224,18 @@ const Home = () => {
       {/* ALBUM CATEGORIES VIEWER */}
 
       {/* IMAGE CONTAINER */}
-      {/* <div className="image-container">
-        <div className="background-img" />
-      </div> */}
+      <div className="image-container">
+        {/* <div className="background-img" /> */}
+        <img
+          src="/assets/img/background.jpg"
+          alt="background"
+          className="site-bg background-img"
+        />
+      </div>
       {/* /IMAGE CONTAINER */}
+
       {/* CONTENT AREA */}
-      <div
-        className="content-area overlay"
-        // style={{ zIndex: galleryPhotos.length > 0 ? 1 : 1000 }}
-      >
+      <div className="content-area">
         {/* CONTENT AREA INNER */}
         <div className="content-area-inner">
           {/* INTRO */}
@@ -843,7 +846,7 @@ const Home = () => {
         {/* /CONTENT AREA INNER */}
       </div>
       {/* /CONTENT AREA */}
-    </>
+    </div>
   );
 };
 
