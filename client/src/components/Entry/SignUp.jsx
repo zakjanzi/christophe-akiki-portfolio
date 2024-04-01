@@ -49,7 +49,7 @@ export default function SignUp() {
         ? DEV_BASE_URL + REGISTER_URL
         : window.location.origin + REGISTER_URL;
 
-      const { data } = await axiosPrivate.post(REGISTER_URL, {
+      const { data } = await axiosPrivate.post(registerUrl, {
         username,
         password,
         isAdmin: false,

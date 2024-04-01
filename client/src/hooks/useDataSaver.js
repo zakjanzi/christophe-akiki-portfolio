@@ -72,7 +72,6 @@ export default function useDataSaver() {
   };
 
   const doUpdateVideo = (videoPayload) => {
-    console.log("video payload: ", videoPayload);
     return axiosPrivate.post(UPDATE_VIDEO_URL, videoPayload, {
       headers: {
         "Content-Type": "multipart/form-data",
