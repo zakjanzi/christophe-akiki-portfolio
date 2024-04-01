@@ -10,7 +10,8 @@ import { toastError } from "../../../utils/toast";
 export default function ImageWindow(props) {
   const [openConfirmDeleting, setOpenConfirmDeleting] = useState(false);
   const [currentImage, setCurrentImage] = useState(null);
-  const SERVER_URL = NODE_ENV === "prod" ? PROD_BASE_URL : DEV_BASE_URL;
+  const SERVER_URL =
+    NODE_ENV === "production" ? window.location.origin : DEV_BASE_URL;
   const { isNew, setIsNew, image, resetImages } = props;
   const { doDeleteImage } = useDataSaver();
 
