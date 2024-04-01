@@ -145,6 +145,7 @@ button {
   -webkit-transition: 0.7s ease 0.3s;
   -o-transition: 0.7s ease 0.3s;
   transition: 0.7s ease 0.3s;
+  display: none;
 }
 
 .preloader .spinner {
@@ -248,6 +249,10 @@ button {
   flex-direction: column;
   align-items: center;
   z-index: 2;
+
+  background-attachment: fixed;
+  background-image: url("/assets/img/background.jpg");
+  background-size: cover;
 }
 
 .content-area .content-area-inner {
@@ -279,8 +284,9 @@ button {
 #intro {
   position: relative;
 
-  height: 100vh;
-  margin-bottom: 0;
+  /* height: 100vh; */
+  height: 100%;
+  /* margin-bottom: 0; */
 
   text-align: center;
   display: flex;
@@ -289,17 +295,19 @@ button {
 }
 
 #intro .container-mid {
-  /* position: absolute;
-  top: 50%;
+  /* position: absolute; */
+  position: relative;
+  margin-top: 50%;
 
   width: 100%;
 
-  -webkit-transform: translateY(-50%);
+  /* -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%); */
-  display: flex;
+
+  /* display: flex;
   flex-direction: column;
-  margin-top: 20%;
+  margin-top: 20%; */
 }
 
 #intro .container-mid h1 {
@@ -1099,7 +1107,7 @@ section#videos {
     /* background-image: url("../img/background-mobile.webp"); */
     background-image: url("../img/background.jpg");
     background-size: cover;
-    background-position: center center;
+    background-position: 22% bottom;
   }
 
   .content-area .content-area-inner section {

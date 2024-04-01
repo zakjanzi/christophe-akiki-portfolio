@@ -14,6 +14,16 @@ jQuery(window).on("load", function () {
       }, e.data("animation-delay"));
     });
   }, 700);
+
+  // DISABLE TOUCH START EVENT ON THE BODY
+  document.querySelector("html").addEventListener("touchstart", (ev) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+  });
+  document.querySelector("body").addEventListener("touchstart", (ev) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+  });
 });
 
 jQuery(document).ready(function ($) {
