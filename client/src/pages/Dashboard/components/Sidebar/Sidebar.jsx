@@ -49,7 +49,7 @@ const Sidebar = () => {
 
   const logoutAndReloadHomepage = () => {
     logout();
-    window.location = PROD_BASE_URL;
+    window.location = window.location.origin;
   };
 
   return (

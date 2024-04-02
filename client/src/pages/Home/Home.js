@@ -147,7 +147,9 @@ const Home = () => {
   };
 
   const getDomainUrl = () => {
-    return NODE_ENV === "dev" ? "http://localhost:4000" : PROD_BASE_URL;
+    return NODE_ENV === "dev"
+      ? "http://localhost:4000"
+      : window.location.origin;
   };
 
   const hideGallery = () => {

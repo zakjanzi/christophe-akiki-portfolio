@@ -8,10 +8,15 @@ const connectToDB = require("./config/config.js");
 const { registerAdmin } = require("./Controllers/userController.js");
 const port = 4000;
 
+const whitelist = [
+  "https://christophe-akiki-portfolio-u9hl.onrender.com",
+  "https://christopheakiki.me",
+  "http://localhost:4000",
+];
+
 app.use(
   cors({
-    origin: "https://christophe-akiki-portfolio-u9hl.onrender.com",
-    // origin: "http://localhost:3000",
+    origin: whitelist,
     credentials: true,
   })
 );

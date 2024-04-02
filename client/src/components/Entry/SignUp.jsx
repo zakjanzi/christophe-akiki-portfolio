@@ -47,9 +47,9 @@ export default function SignUp() {
     try {
       const registerUrl = isDevEnvironment()
         ? DEV_BASE_URL + REGISTER_URL
-        : PROD_BASE_URL + REGISTER_URL;
+        : window.location.origin + REGISTER_URL;
 
-      const { data } = await axiosPrivate.post(REGISTER_URL, {
+      const { data } = await axiosPrivate.post(registerUrl, {
         username,
         password,
         isAdmin: false,
