@@ -38,6 +38,7 @@ const Home = () => {
   const [videos, setVideos] = useState([]);
   const { doFetchCategories, doFetchAllVideos } = useDataSaver();
   const { pathname } = useLocation();
+  const bodyContainerRef = useRef();
 
   useEffect(() => {
     preloaderRef.current.classList.add("hide-preloader");
@@ -121,7 +122,7 @@ const Home = () => {
       return acc;
     }, albums);
 
-    console.log("cat and albums: ", categoriesAndAlbums);
+    // console.log("cat and albums: ", categoriesAndAlbums);
 
     // setAlbumsAndCategories(categoriesAndAlbums);
   };
@@ -178,8 +179,14 @@ const Home = () => {
     setGalleryPhotos(images);
   };
 
+  const getBgSource = () => {
+    return window.innerWidth < 641
+      ? "/assets/img/background-mobile.png"
+      : "/assets/img/background-desktop.png";
+  };
+
   return (
-    <div className="position-relative w-100 h-100">
+    <div ref={bodyContainerRef} className="body-container w-100 h-100">
       {/* PHOTO GALLERY */}
       {galleryPhotos.length > 0 && (
         <div className="modal show bg-dark">
@@ -227,12 +234,12 @@ const Home = () => {
 
       {/* IMAGE CONTAINER */}
       <div className="image-container">
-        {/* <div className="background-img" /> */}
-        <img
-          src="/assets/img/background.jpg"
+        <div className="background-img" />
+        {/* <img
+          src={getBgSource()}
           alt="background"
           className="site-bg background-img"
-        />
+        /> */}
       </div>
       {/* /IMAGE CONTAINER */}
 
