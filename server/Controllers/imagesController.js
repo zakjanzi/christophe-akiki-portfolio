@@ -9,8 +9,10 @@ const uploadImage = async (req, res) => {
 
     for (let y = 0; y < imagesOriginalName.length; y++) {
       imagesArray.push({
-        contentType: req.files.images[y].mimetype,
-        album: req.body.album,
+        contentType: Array.isArray(req.files.images)
+          ? req.files.images[y].mimetype
+          : req.files.images.mimetype,
+        albumId: req.body.albumId,
         originalName: imagesOriginalName[y],
       });
     }
@@ -38,7 +40,7 @@ const uploadImage = async (req, res) => {
       });
     }
 
-    res.json({
+    return res.json({
       message: "Image(s) uploaded successfully",
       success: true,
     });

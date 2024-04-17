@@ -12,7 +12,7 @@ export default function UploadForm(props) {
   // const [category, setCategory] = useState("");
   // const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [album, setAlbum] = useState("");
+  const [albumId, setAlbumId] = useState("");
   const [albums, setAlbums] = useState([]);
   // const [categoriesForAlbum, setCategoriesForAlbum] = useState([]);
   const { doFetchAlbums, doFetchCategories, doUploadImage } = useDataSaver();
@@ -50,7 +50,7 @@ export default function UploadForm(props) {
 
     const formData = new FormData();
 
-    formData.append("album", album);
+    formData.append("albumId", albumId);
     // formData.append("category", category);
 
     Array.from(images).forEach((file, i) => {
@@ -61,7 +61,8 @@ export default function UploadForm(props) {
       toastError("Please select an image(s)");
       return;
     }
-    if (!album) {
+
+    if (!albumId) {
       toastError("Please select an album");
       return;
     }
@@ -71,7 +72,6 @@ export default function UploadForm(props) {
     // }
 
     setLoading(true);
-    console.log(formData);
 
     try {
       const res = await doUploadImage(formData);
@@ -98,8 +98,8 @@ export default function UploadForm(props) {
     }
   };
 
-  const handleAlbumChange = (albumName) => {
-    setAlbum(albumName);
+  const handleAlbumChange = (albumId) => {
+    setAlbumId(albumId);
 
     // const albumCategories = categories.filter(
     //   (singleCategory) => singleCategory.album === albumName
@@ -122,11 +122,11 @@ export default function UploadForm(props) {
               {images.length > 0 &&
                 Array.from(images).map((singleImage, index) => {
                   return (
-                    <>
-                      <p key={index}>{singleImage.name}</p>{" "}
+                    <section key={index}>
+                      <p>{singleImage.name}</p>{" "}
                       {index < Array.from(images).length && "|"}
                       <br />
-                    </>
+                    </section>
                   );
                 })}
               <input
@@ -142,15 +142,14 @@ export default function UploadForm(props) {
             <div className="wraber">
               <label className="required">Album</label>
               <select
-                value={album}
                 onChange={(event) => handleAlbumChange(event.target.value)}
                 className="select"
               >
                 <option value="">Select an Album</option>
                 {albums.length > 0 &&
                   albums.map((singleAlbum) => (
-                    <option key={singleAlbum.name} value={singleAlbum.name}>
-                      {singleAlbum.name}
+                    <option key={singleAlbum.title} value={singleAlbum._id}>
+                      {singleAlbum.title}
                     </option>
                   ))}
               </select>

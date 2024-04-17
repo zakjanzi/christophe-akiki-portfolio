@@ -16,3 +16,8 @@ export const UPLOAD_VIDEO_URL = process.env.REACT_APP_UPLOAD_VIDEO_URL;
 export const FETCH_ALL_VIDEOS_URL = process.env.REACT_APP_FETCH_ALL_VIDEOS_URL;
 export const DELETE_VIDEO_URL = process.env.REACT_APP_DELETE_VIDEO_URL;
 export const UPDATE_VIDEO_URL = process.env.REACT_APP_UPDATE_VIDEO_URL;
+export const CREATE_ALBUM_URL = process.env.REACT_APP_CREATE_ALBUM_URL;
+export const DELETE_ALBUM_URL = process.env.REACT_APP_DELETE_ALBUM_URL;
+export const UPDATE_ALBUM_URL = process.env.REACT_APP_UPDATE_ALBUM_URL;
+export const FETCH_IMAGES_FOR_ALBUM_URL =
+  process.env.REACT_APP_FETCH_IMAGES_FOR_ALBUM_URL;
