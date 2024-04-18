@@ -16,8 +16,8 @@ const imageSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    album: {
-      type: String,
+    albumId: {
+      type: mongoose.Types.ObjectId,
       required: true,
     },
   },

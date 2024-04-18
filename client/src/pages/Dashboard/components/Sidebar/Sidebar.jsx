@@ -1,16 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./styles/sidebar.css";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { doLogout } from "../../../../redux/features/authSlice";
 import { PROD_BASE_URL } from "../../../../api/urlConfig";
+import { nanoid } from "nanoid";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     /* eslint-disable no-undef */
-    for (let x = 1; x < 4; x++) {
+    for (let x = 1; x < 5; x++) {
       const mainMenuItem = document.querySelector(
         `aside.sidebar > ul > li:nth-child(${x})`
       );
@@ -42,14 +45,19 @@ const Sidebar = () => {
     }
   }, []);
 
+  const loadHomePage = () => {
+    window.location = window.location.origin + "?ref=main-page";
+  };
+
   const logout = () => {
     localStorage.clear();
     dispatch(doLogout());
+    loadHomePage();
   };
 
   const logoutAndReloadHomepage = () => {
     logout();
-    window.location = window.location.origin;
+    loadHomePage();
   };
 
   return (
@@ -79,6 +87,37 @@ const Sidebar = () => {
           <span>Home</span>
         </li>
 
+        {/* Albums start */}
+        <li>
+          <i className="fa fa-book" />
+          <span>Albums</span>
+          <ul className="no-list sb_dropdown clearfix">
+            <li>
+              <Link to="create-album" className="center position-relative">
+                <i className="fa fa-plus" />{" "}
+                <span className="position-absolute top-0 ms-5">Add New</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="view-albums"
+                className="center position-relative"
+                onClick={(e) => {
+                  // e.preventDefault();
+                  if (location.pathname === "/dashboard/view-albums") {
+                    window.location.reload();
+                  }
+                }}
+              >
+                <i className="fa fa-eye" />{" "}
+                <span className="position-absolute top-0 ms-5">View All</span>
+              </Link>
+            </li>
+          </ul>
+        </li>
+        {/* Albums End */}
+
+        {/* Images start */}
         <li>
           <i className="fa fa-dashboard" />
           <span>Images</span>
@@ -97,6 +136,8 @@ const Sidebar = () => {
             </li>
           </ul>
         </li>
+        {/* Images End */}
+
         <li>
           <i className="fa fa-cubes" />
           <span>Videos</span>
@@ -108,7 +149,16 @@ const Sidebar = () => {
               </Link>
             </li>
             <li>
-              <Link to="view-videos" className="center position-relative">
+              <Link
+                to="view-videos"
+                className="center position-relative"
+                onClick={(e) => {
+                  // e.preventDefault();
+                  if (location.pathname === "/dashboard/view-videos") {
+                    window.location.reload();
+                  }
+                }}
+              >
                 <i className="fa fa-eye" />{" "}
                 <span className="position-absolute top-0 ms-5">View All</span>
               </Link>

@@ -20,7 +20,7 @@ const ViewImages = () => {
         }
       })
       .catch((err) => {
-        console.log("Load images error: ", err);
+        // console.log("Load images error: ", err);
         setLoadingImages(false);
       });
   }, []);

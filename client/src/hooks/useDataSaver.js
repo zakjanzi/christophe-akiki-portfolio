@@ -1,7 +1,6 @@
 import useAxiosPrivate from "./useAxiosPrivate";
 import {
   CREATE_CATEGORY_URL,
-  FETCH_ALBUMS_URL,
   FETCH_CATEGORIES_URL,
   DELETE_CATEGORY_URL,
   UPDATE_CATEGORY_URL,
@@ -12,6 +11,11 @@ import {
   DELETE_VIDEO_URL,
   FETCH_ALL_VIDEOS_URL,
   UPDATE_VIDEO_URL,
+  CREATE_ALBUM_URL,
+  FETCH_ALBUMS_URL,
+  DELETE_ALBUM_URL,
+  UPDATE_ALBUM_URL,
+  FETCH_IMAGES_FOR_ALBUM_URL,
 } from "../api/urlConfig";
 
 export default function useDataSaver() {
@@ -80,6 +84,34 @@ export default function useDataSaver() {
     });
   };
 
+  const doCreateAlbum = (payload) => {
+    return axiosPrivate.post(CREATE_ALBUM_URL, payload, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  };
+
+  const doUpdateAlbum = (payload) => {
+    return axiosPrivate.post(UPDATE_ALBUM_URL, payload, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  };
+
+  const doDeleteAlbum = (albumId) => {
+    return axiosPrivate.delete(DELETE_ALBUM_URL, {
+      data: { albumId },
+    });
+  };
+
+  const doFetchImagesForAlbum = (albumId) => {
+    return axiosPrivate.post(FETCH_IMAGES_FOR_ALBUM_URL, {
+      albumId,
+    });
+  };
+
   return {
     doCreateCategory,
     doFetchAlbums,
@@ -93,5 +125,9 @@ export default function useDataSaver() {
     doDeleteVideo,
     doFetchAllVideos,
     doUpdateVideo,
+    doCreateAlbum,
+    doDeleteAlbum,
+    doUpdateAlbum,
+    doFetchImagesForAlbum,
   };
 }

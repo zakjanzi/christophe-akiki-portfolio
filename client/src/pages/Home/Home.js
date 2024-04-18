@@ -1,5 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useLayoutEffect,
+} from "react";
 import useDataSaver from "../../hooks/useDataSaver";
 import CategoryFolderIcon from "./images/category-folder.svg";
 import ImageGallery from "react-image-gallery";
@@ -7,7 +13,7 @@ import "./styles/home.css";
 import "../../../node_modules/react-image-gallery/styles/css/image-gallery.css";
 import { NODE_ENV, PROD_BASE_URL } from "../../api/urlConfig";
 import VideoCard from "./components/Videos/Videos";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 const ALBUMS = {
   AUTOMOTIVE: "Automotive",
@@ -28,42 +34,70 @@ const videoButtonColors = [
 
 const Home = () => {
   const preloaderRef = useRef();
-  const { doFetchAllImages } = useDataSaver();
+  // const { doFetchAllImages } = useDataSaver();
   // const [albumsAndCategories, setAlbumsAndCategories] = useState();
   // const [viewCategories, setViewCategories] = useState([]);
   const [galleryPhotos, setGalleryPhotos] = useState([]);
   const [currentAlbum, setCurrentAlbum] = useState("");
-  const [albumImages, setAlbumImages] = useState([]);
+  const [albums, setAlbums] = useState([]);
   const [allAlbumImages, setAllAlbumImages] = useState();
   const [videos, setVideos] = useState([]);
-  const { doFetchCategories, doFetchAllVideos } = useDataSaver();
+  const { doFetchAlbums, doFetchAllVideos, doFetchImagesForAlbum } =
+    useDataSaver();
   const { pathname } = useLocation();
   const bodyContainerRef = useRef();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
-    preloaderRef.current.classList.add("hide-preloader");
+  // Reload page when coming from dashboard
+  useLayoutEffect(() => {
+    if (searchParams.ref !== "main-page") return;
+
+    window.location = window.location.origin;
+
+    window.reload();
+
+    return;
+
+    // preloaderRef.current.classList.add("hide-preloader");
 
     // document
-    //   .querySelectorAll("#intro .animation-fade-right")
+    //   .querySelectorAll("#intro > .container-mid > div")
     //   .forEach((item) => {
-    //     item.classList.remove("animation-fade-right");
+    //     item.classList.add("run-animation");
     //   });
-  }, [pathname]);
+  }, [searchParams]);
+
+  // Remove preloader if a random route was visited and then redirected to homepage
+  useEffect(() => {
+    // HIDE PRELOADER
+    document.querySelector(".preloader").classList.add("hide-preloader");
+
+    // SHOW/ANIMATE ANIMATION CONTAINER
+    setTimeout(function () {
+      document
+        .querySelectorAll("#intro .animation-container")
+        .forEach((animContainer) => {
+          setTimeout(function () {
+            animContainer.classList.add("run-animation");
+          }, animContainer.dataset.animationDelay);
+        });
+    }, 700);
+  }, []);
+
+  // This hook fetches all albums
+  useEffect(() => {
+    doFetchAlbums()
+      .then((res) => {
+        if (res.data.success) {
+          setAlbums(res.data.albums);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   // This hook fetches all the images for various albums
   // and all videos with their complete details from the backend
   useEffect(() => {
-    doFetchAllImages()
-      .then((res) => {
-        if (res.data.success) {
-          // groupImagesIntoAlbumsAndCategories(res.data.images);
-          groupImagesIntoAlbums(res.data.images);
-        }
-      })
-      .catch((err) => {
-        console.log("Images fetch error: ", err);
-      });
-
     doFetchAllVideos()
       .then((res) => {
         if (res.data.success) {
@@ -168,15 +202,27 @@ const Home = () => {
     // );
   };
 
-  const buildAndShowImageGallery = (imagesArr) => {
-    const images = imagesArr?.map((image) => {
-      return {
-        original: `${getDomainUrl()}/images/${image.originalName}`,
-        thumbnail: `${getDomainUrl()}/images/${image.originalName}`,
-      };
-    });
+  const buildAndShowImageGallery = (albumId) => {
+    // Fetch all images in selected album
+    doFetchImagesForAlbum(albumId)
+      .then((res) => {
+        if (res.data.success) {
+          // groupImagesIntoAlbumsAndCategories(res.data.images);
+          const imagesArr = res.data.images;
 
-    setGalleryPhotos(images);
+          const images = imagesArr?.map((image) => {
+            return {
+              original: `${getDomainUrl()}/images/${image.originalName}`,
+              thumbnail: `${getDomainUrl()}/images/${image.originalName}`,
+            };
+          });
+
+          setGalleryPhotos(images);
+        }
+      })
+      .catch((err) => {
+        console.log("Images fetch error: ", err);
+      });
   };
 
   const getBgSource = () => {
@@ -434,302 +480,43 @@ const Home = () => {
             {/* SHOWCASE */}
             <div className="showcase">
               {/* ITEM */}
-              <div
-                className="item scroll-animated"
-                onClick={() => {
-                  buildAndShowImageGallery(allAlbumImages[ALBUMS.AUTOMOTIVE]);
-                }}
-              >
-                {/* LIGHTBOX LINK */}
-                <a href="#" data-featherlight="#item-1-lightbox">
-                  {/* INFO */}
-                  <div className="info">
-                    {/* CONTAINER MID */}
-                    <div className="container-mid">
-                      {/* <h5>Petron</h5> */}
-                      <p>Automotive</p>
+              {/* Album tiles are placed here */}
+              {albums.length > 0 &&
+                albums.map((album) => {
+                  return (
+                    <div
+                      className="item scroll-animated"
+                      key={album._id}
+                      onClick={() => {
+                        buildAndShowImageGallery(album._id);
+                      }}
+                    >
+                      {/* LIGHTBOX LINK */}
+                      <div>
+                        {/* INFO */}
+                        <div className="info">
+                          {/* CONTAINER MID */}
+                          <div className="container-mid">
+                            {/* <h5>Petron</h5> */}
+                            <p>{album.title}</p>
+                          </div>
+                          {/* /CONTAINER MID */}
+                        </div>
+                        {/* /INFO */}
+                        <div
+                          className="background-image"
+                          style={{
+                            backgroundImage: `url('${getDomainUrl()}/images/${
+                              album.image
+                            }')`,
+                          }}
+                        />
+                      </div>
+                      {/* /LIGHTBOX LINK */}
                     </div>
-                    {/* /CONTAINER MID */}
-                  </div>
-                  {/* /INFO */}
-                  <div
-                    className="background-image"
-                    style={{
-                      backgroundImage: "url(assets/img/work/item-1.jpg)",
-                    }}
-                  />
-                </a>
-                {/* /LIGHTBOX LINK */}
-                {/* LIGHTBOX */}
-                <div id="item-1-lightbox" className="work-lightbox d-none">
-                  <img
-                    className="img-responsive"
-                    src="assets/img/work/item-1.jpg"
-                    alt="image"
-                  />
-                  <h3>Some Title</h3>
-                  <p className="subline">Automotive</p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Etiam semper faucibus eros, quis imperdiet sapien. Nam
-                    sodales nec risus nec interdum. Proin lobortis, ex
-                    condimentum ultricies eleifend, nisl nunc sollicitudin odio,
-                    eget egestas est turpis et metus. In non ligula quis mauris
-                    rutrum porta.
-                  </p>
-                  <p>
-                    Integer scelerisque et orci in maximus. Nullam ac finibus
-                    nisi. Sed libero tellus, fringilla in posuere vitae,
-                    sollicitudin consectetur odio. Morbi pharetra tortor quis
-                    risus hendrerit, ut tincidunt arcu vehicula. Integer
-                    consequat lorem nisl, sit amet euismod libero fringilla
-                    placerat. Proin semper consequat ultricies. Vivamus
-                    condimentum tortor ac quam tristique, eget rhoncus arcu
-                    suscipit.
-                  </p>
-                </div>
-                {/* /LIGHTBOX */}
-              </div>
-              {/* /ITEM */}
-              {/* ITEM */}
-              <div
-                className="item scroll-animated"
-                onClick={() =>
-                  buildAndShowImageGallery(
-                    allAlbumImages[ALBUMS.STRUCTURES_INTERIORS]
-                  )
-                }
-              >
-                {/* LIGHTBOX LINK */}
-                <a href="#" data-featherlight="#item-1-lightbox">
-                  {/* INFO */}
-                  <div className="info">
-                    {/* CONTAINER MID */}
-                    <div className="container-mid">
-                      {/* <h5>Petron</h5> */}
-                      <p>Structures &amp; Interiors</p>
-                    </div>
-                    {/* /CONTAINER MID */}
-                  </div>
-                  {/* /INFO */}
-                  <div
-                    className="background-image"
-                    style={{
-                      backgroundImage: "url(assets/img/work/item-1.jpg)",
-                    }}
-                  />
-                </a>
-                {/* /LIGHTBOX LINK */}
-                {/* LIGHTBOX */}
-                <div id="item-1-lightbox" className="work-lightbox d-none">
-                  <img
-                    className="img-responsive"
-                    src="assets/img/work/item-1.jpg"
-                    alt="image"
-                  />
-                  <h3>Some Title</h3>
-                  <p className="subline">Structures &amp; Interiors</p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Etiam semper faucibus eros, quis imperdiet sapien. Nam
-                    sodales nec risus nec interdum. Proin lobortis, ex
-                    condimentum ultricies eleifend, nisl nunc sollicitudin odio,
-                    eget egestas est turpis et metus. In non ligula quis mauris
-                    rutrum porta.
-                  </p>
-                  <p>
-                    Integer scelerisque et orci in maximus. Nullam ac finibus
-                    nisi. Sed libero tellus, fringilla in posuere vitae,
-                    sollicitudin consectetur odio. Morbi pharetra tortor quis
-                    risus hendrerit, ut tincidunt arcu vehicula. Integer
-                    consequat lorem nisl, sit amet euismod libero fringilla
-                    placerat. Proin semper consequat ultricies. Vivamus
-                    condimentum tortor ac quam tristique, eget rhoncus arcu
-                    suscipit.
-                  </p>
-                </div>
-                {/* /LIGHTBOX */}
-              </div>
-              {/* /ITEM */}
-              {/* ITEM */}
-              <div
-                className="item scroll-animated"
-                onClick={() =>
-                  buildAndShowImageGallery(
-                    allAlbumImages[ALBUMS.EXTREME_SPORTS]
-                  )
-                }
-              >
-                {/* LIGHTBOX LINK */}
-                <a href="#" data-featherlight="#item-2-lightbox">
-                  {/* INFO */}
-                  <div className="info">
-                    {/* CONTAINER MID */}
-                    <div className="container-mid">
-                      {/* <h5>Surf 71</h5> */}
-                      <p>Extreme Sports</p>
-                    </div>
-                    {/* /CONTAINER MID */}
-                  </div>
-                  {/* /INFO */}
-                  <div
-                    className="background-image"
-                    style={{
-                      backgroundImage: "url(assets/img/work/item-2.jpg)",
-                    }}
-                  />
-                </a>
-                {/* /LIGHTBOX LINK */}
-                {/* LIGHTBOX */}
-                <div id="item-2-lightbox" className="work-lightbox d-none">
-                  <img
-                    className="img-responsive"
-                    src="assets/img/work/item-2.jpg"
-                    alt="image"
-                  />
-                  <h3>Surf 71</h3>
-                  <p className="subline">Sports</p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Etiam semper faucibus eros, quis imperdiet sapien. Nam
-                    sodales nec risus nec interdum. Proin lobortis, ex
-                    condimentum ultricies eleifend, nisl nunc sollicitudin odio,
-                    eget egestas est turpis et metus. In non ligula quis mauris
-                    rutrum porta.
-                  </p>
-                  <p>
-                    Integer scelerisque et orci in maximus. Nullam ac finibus
-                    nisi. Sed libero tellus, fringilla in posuere vitae,
-                    sollicitudin consectetur odio. Morbi pharetra tortor quis
-                    risus hendrerit, ut tincidunt arcu vehicula. Integer
-                    consequat lorem nisl, sit amet euismod libero fringilla
-                    placerat. Proin semper consequat ultricies. Vivamus
-                    condimentum tortor ac quam tristique, eget rhoncus arcu
-                    suscipit.
-                  </p>
-                </div>
-                {/* /LIGHTBOX */}
-              </div>
-              {/* /ITEM */}
-              {/* ITEM */}
-              <div
-                className="item scroll-animated"
-                onClick={() =>
-                  buildAndShowImageGallery(
-                    allAlbumImages[ALBUMS.PORTRAITS_MODELING]
-                  )
-                }
-              >
-                {/* LIGHTBOX LINK */}
-                <a href="#" data-featherlight="#item-3-lightbox">
-                  {/* INFO */}
-                  <div className="info">
-                    {/* CONTAINER MID */}
-                    <div className="container-mid">
-                      {/* <h5>Game Nation</h5> */}
-                      <p>Portraits &amp; Modeling</p>
-                    </div>
-                    {/* /CONTAINER MID */}
-                  </div>
-                  {/* /INFO */}
-                  <div
-                    className="background-image"
-                    style={{
-                      backgroundImage: "url(assets/img/work/item-3.jpg)",
-                    }}
-                  />
-                </a>
-                {/* /LIGHTBOX LINK */}
-                {/* LIGHTBOX */}
-                <div id="item-3-lightbox" className="work-lightbox d-none">
-                  <img
-                    className="img-responsive"
-                    src="assets/img/work/item-3.jpg"
-                    alt="image"
-                  />
-                  <h3>Game Nation</h3>
-                  <p className="subline">Marketing</p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Etiam semper faucibus eros, quis imperdiet sapien. Nam
-                    sodales nec risus nec interdum. Proin lobortis, ex
-                    condimentum ultricies eleifend, nisl nunc sollicitudin odio,
-                    eget egestas est turpis et metus. In non ligula quis mauris
-                    rutrum porta.
-                  </p>
-                  <p>
-                    Integer scelerisque et orci in maximus. Nullam ac finibus
-                    nisi. Sed libero tellus, fringilla in posuere vitae,
-                    sollicitudin consectetur odio. Morbi pharetra tortor quis
-                    risus hendrerit, ut tincidunt arcu vehicula. Integer
-                    consequat lorem nisl, sit amet euismod libero fringilla
-                    placerat. Proin semper consequat ultricies. Vivamus
-                    condimentum tortor ac quam tristique, eget rhoncus arcu
-                    suscipit.
-                  </p>
-                </div>
-                {/* /LIGHTBOX */}
-              </div>
-              {/* /ITEM */}
-              {/* ITEM */}
-              <div
-                className="item scroll-animated"
-                onClick={() =>
-                  buildAndShowImageGallery(
-                    allAlbumImages[ALBUMS.CONCERTS_EVENTS]
-                  )
-                }
-              >
-                {/* LIGHTBOX LINK */}
-                <a href="#" data-featherlight="#item-4-lightbox">
-                  {/* INFO */}
-                  <div className="info">
-                    {/* CONTAINER MID */}
-                    <div className="container-mid">
-                      {/* <h5>Cronomax</h5> */}
-                      <p>Concerts &amp; Events</p>
-                    </div>
-                    {/* /CONTAINER MID */}
-                  </div>
-                  {/* /INFO */}
-                  <div
-                    className="background-image"
-                    style={{
-                      backgroundImage: "url(assets/img/work/item-4.jpg)",
-                    }}
-                  />
-                </a>
-                {/* /LIGHTBOX LINK */}
-                {/* LIGHTBOX */}
-                <div id="item-4-lightbox" className="work-lightbox d-none">
-                  <img
-                    className="img-responsive"
-                    src="assets/img/work/item-4.jpg"
-                    alt="image"
-                  />
-                  <h3>Cronomax</h3>
-                  <p className="subline">Concerts &amp; Events</p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Etiam semper faucibus eros, quis imperdiet sapien. Nam
-                    sodales nec risus nec interdum. Proin lobortis, ex
-                    condimentum ultricies eleifend, nisl nunc sollicitudin odio,
-                    eget egestas est turpis et metus. In non ligula quis mauris
-                    rutrum porta.
-                  </p>
-                  <p>
-                    Integer scelerisque et orci in maximus. Nullam ac finibus
-                    nisi. Sed libero tellus, fringilla in posuere vitae,
-                    sollicitudin consectetur odio. Morbi pharetra tortor quis
-                    risus hendrerit, ut tincidunt arcu vehicula. Integer
-                    consequat lorem nisl, sit amet euismod libero fringilla
-                    placerat. Proin semper consequat ultricies. Vivamus
-                    condimentum tortor ac quam tristique, eget rhoncus arcu
-                    suscipit.
-                  </p>
-                </div>
-                {/* /LIGHTBOX */}
-              </div>
+                  );
+                })}
+
               {/* /ITEM */}
             </div>
 
