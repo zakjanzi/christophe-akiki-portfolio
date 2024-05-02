@@ -1,4 +1,4 @@
-.upload-form .form-b {
+.image-upload-form .form-b {
   position: relative;
   top: 2rem;
   width: 100%;
@@ -12,7 +12,7 @@
   cursor: default;
 }
 
-.upload-form .up-form {
+.image-upload-form .up-form {
   background-color: var(--main-color-light);
   width: 100%;
   max-width: 500px;
@@ -23,13 +23,13 @@
   cursor: default;
   transition: 0.3s;
 }
-.upload-form .up-form h1 {
+.image-upload-form .up-form h1 {
   margin: 0 0 5px;
   font-size: 27px;
   text-align: left;
   color: grey;
 }
-.upload-form .up-form .subtitle {
+.image-upload-form .up-form .subtitle {
   font-size: 13px;
   text-align: left;
   color: grey;
@@ -37,25 +37,26 @@
   font-weight: 300;
 }
 
-.upload-form .up-form form {
+.image-upload-form .up-form form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100%;
+  justify-content: flex-start;
+  min-height: 70vh;
   gap: 20px;
   width: 100%;
 }
 
-.upload-form .up-form form .wraber {
+.image-upload-form .up-form form .wrapper {
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
+  justify-content: space-between;
   position: relative;
 }
 
-.upload-form .up-form form .wraber label {
+.image-upload-form .up-form form .wrapper label {
   font-size: 13px;
   color: grey;
   position: absolute;
@@ -65,25 +66,27 @@
   padding: 0 5px;
 }
 
-.upload-form .required::after {
+.image-upload-form .required::after {
   content: "*";
   color: red;
   font-size: 15px;
   margin-left: 3px;
 }
 
-.upload-form .up-form form input {
+.image-upload-form .up-form form input {
   width: 100%;
   height: 50px;
   border-radius: 10px;
-  border: 2px solid #777;
+  border: 1px solid #777;
   padding: 12px;
   font-size: 16px;
   background-color: transparent;
   color: grey;
+  position: absolute;
+  z-index: 1;
 }
 
-.upload-form .up-form form .select {
+.image-upload-form .up-form form .select {
   width: 100%;
   height: 50px;
   border-radius: 10px;
@@ -95,16 +98,16 @@
   outline: none;
 }
 
-.upload-form .up-form form .select:active {
+.image-upload-form .up-form form .select:active {
   outline: none;
 }
 
-.upload-form .up-form form input:focus,
+.image-upload-form .up-form form input:focus,
 textarea:focus {
   outline: none;
 }
 
-.upload-form .up-form form textarea {
+.image-upload-form .up-form form textarea {
   height: 100px;
   width: 100%;
   resize: none;
@@ -117,25 +120,34 @@ textarea:focus {
   font-family: "open sans", sans-serif;
 }
 
-#file-input {
+.image-upload-form .file-input {
   display: none;
+  color: transparent;
+  background-color: transparent;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  z-index: 3;
 }
 
-.upload-form .file-label {
+.image-upload-form .file-label {
   width: 100%;
-  height: 70px;
+  min-height: 100px;
+  max-height: 200px;
+  text-align: start;
+  overflow: scroll !important;
   cursor: pointer;
   border: 2px dashed grey;
   border-radius: 10px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  align-items: start;
   padding: 10px;
-  color: var(--main-color-dark);
+  color: grey !important;
   transition: 0.3s ease-in-out;
 }
 
-.upload-form .file-label:hover .camera-icon {
+.image-upload-form .file-label:hover .camera-icon {
   animation: icon-animation 0.3s ease-in-out alternate infinite both running;
 }
 
@@ -148,21 +160,27 @@ textarea:focus {
   }
 }
 
-.upload-form .file-label .camera-icon {
+.image-upload-form .file-label .camera-icon {
   font-size: 40px;
   color: grey;
+  position: relative;
+  z-index: 1;
 }
 
-.upload-form .file-label p {
+.image-upload-form .file-label span {
   font-size: 16px;
   max-width: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: center;
   color: #9ea6e5;
+  height: 3rem;
+  line-height: 1;
+  margin-bottom: 0.8rem;
+  margin-top: 10px;
 }
-.upload-form .up-form form button {
+.image-upload-form .up-form form button {
   width: 100%;
   height: 45px;
   border-radius: 10px;
@@ -174,7 +192,7 @@ textarea:focus {
   text-transform: uppercase;
 }
 
-.upload-form .cross-icon {
+.image-upload-form .cross-icon {
   position: absolute;
   top: 35px;
   right: 35px;
@@ -183,14 +201,14 @@ textarea:focus {
   color: var(--main-color-dark);
 }
 
-.upload-form .load {
+.image-upload-form .load {
   display: flex;
   justify-content: center;
   align-items: flex-end;
   margin: 0 auto;
   height: 25px;
 }
-.upload-form .load div {
+.image-upload-form .load div {
   width: 20px;
   height: 20px;
   background-color: #9ea6e5;
@@ -202,10 +220,10 @@ textarea:focus {
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
-.upload-form .load .two {
+.image-upload-form .load .two {
   animation-delay: 0.3s;
 }
-.upload-form .load .three {
+.image-upload-form .load .three {
   animation-delay: 0.6s;
 }
 
@@ -214,4 +232,66 @@ textarea:focus {
     opacity: 0.2;
     transform: translateY(-5px);
   }
+}
+
+.x-close-button-container {
+  width: 100%;
+  height: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  position: sticky;
+  top: 0px;
+}
+
+.x-close-button {
+  font-size: 1.2rem;
+  color: white;
+  background: black;
+  border-radius: 50%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  z-index: 3;
+}
+
+.highlight {
+  color: #fff;
+  background-color: #9ea6e5;
+}
+
+.unhighlight {
+  color: grey !important;
+  border: 1px solid lightgray;
+  font-weight: normal;
+}
+
+.highlight,
+.unhighlight {
+  border-radius: 5px;
+  padding: 0.5rem 2rem;
+}
+
+.highlight > p,
+.unhighlight > p {
+  margin-bottom: 0px;
+}
+
+.album-section-wrapper,
+.category-section-wrapper {
+  box-shadow: 0.5px 0.5px 2px 0.5px gray;
+  padding: 1rem;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.album-section-wrapper > .wrapper,
+.category-section-wrapper > .wrapper {
+  margin-bottom: 1rem;
+}
+
+.image-upload-form .select {
+  border-width: 1px !important;
 }

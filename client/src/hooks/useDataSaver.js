@@ -15,7 +15,7 @@ import {
   FETCH_ALBUMS_URL,
   DELETE_ALBUM_URL,
   UPDATE_ALBUM_URL,
-  FETCH_IMAGES_FOR_ALBUM_URL,
+  FETCH_IMAGES_FOR_ALBUM_CATEGORY_URL,
 } from "../api/urlConfig";
 
 export default function useDataSaver() {
@@ -29,8 +29,8 @@ export default function useDataSaver() {
     return axiosPrivate.get(FETCH_ALBUMS_URL);
   };
 
-  const doFetchCategories = () => {
-    return axiosPrivate.get(FETCH_CATEGORIES_URL);
+  const doFetchCategoriesForAlbum = async (albumId) => {
+    return axiosPrivate.post(FETCH_CATEGORIES_URL, { albumId });
   };
 
   const doDeleteCategory = (categoryId) => {
@@ -106,16 +106,17 @@ export default function useDataSaver() {
     });
   };
 
-  const doFetchImagesForAlbum = (albumId) => {
-    return axiosPrivate.post(FETCH_IMAGES_FOR_ALBUM_URL, {
+  const doFetchAlbumCategoryImages = (albumId, categoryId) => {
+    return axiosPrivate.post(FETCH_IMAGES_FOR_ALBUM_CATEGORY_URL, {
       albumId,
+      categoryId,
     });
   };
 
   return {
     doCreateCategory,
     doFetchAlbums,
-    doFetchCategories,
+    doFetchCategoriesForAlbum,
     doDeleteCategory,
     doUpdateCategory,
     doUploadImage,
@@ -128,6 +129,6 @@ export default function useDataSaver() {
     doCreateAlbum,
     doDeleteAlbum,
     doUpdateAlbum,
-    doFetchImagesForAlbum,
+    doFetchAlbumCategoryImages,
   };
 }

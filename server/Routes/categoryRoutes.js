@@ -5,11 +5,14 @@ const {
   all,
   updateCategory,
   deleteCategory,
+  getForAlbum,
 } = require("../Controllers/categoryController.js");
 
 const protected = require("../Middlewares/Auth.js");
 
 router.post("/create", protected, create);
+
+router.post("/forAlbum", protected, getForAlbum);
 
 router.get("/all", all);
 

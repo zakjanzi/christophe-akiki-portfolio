@@ -23,27 +23,22 @@ const ALBUMS = {
   STRUCTURES_INTERIORS: "Structures & Interiors",
 };
 
-const videoButtonColors = [
-  "violet",
-  "green",
-  "purple",
-  "brown",
-  "red",
-  "orange",
-];
-
 const Home = () => {
   const preloaderRef = useRef();
-  // const { doFetchAllImages } = useDataSaver();
-  // const [albumsAndCategories, setAlbumsAndCategories] = useState();
+  const [categoriesForAlbum, setCategoriesForAlbum] = useState([]);
   // const [viewCategories, setViewCategories] = useState([]);
   const [galleryPhotos, setGalleryPhotos] = useState([]);
   const [currentAlbum, setCurrentAlbum] = useState("");
   const [albums, setAlbums] = useState([]);
   const [allAlbumImages, setAllAlbumImages] = useState();
   const [videos, setVideos] = useState([]);
-  const { doFetchAlbums, doFetchAllVideos, doFetchImagesForAlbum } =
-    useDataSaver();
+  const {
+    doFetchAlbums,
+    doFetchAllVideos,
+    doFetchImagesForAlbum,
+    doFetchCategoriesForAlbum,
+    doFetchAlbumCategoryImages,
+  } = useDataSaver();
   const { pathname } = useLocation();
   const bodyContainerRef = useRef();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -55,16 +50,6 @@ const Home = () => {
     window.location = window.location.origin;
 
     window.reload();
-
-    return;
-
-    // preloaderRef.current.classList.add("hide-preloader");
-
-    // document
-    //   .querySelectorAll("#intro > .container-mid > div")
-    //   .forEach((item) => {
-    //     item.classList.add("run-animation");
-    //   });
   }, [searchParams]);
 
   // Remove preloader if a random route was visited and then redirected to homepage
@@ -95,8 +80,7 @@ const Home = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  // This hook fetches all the images for various albums
-  // and all videos with their complete details from the backend
+  // This hook fetches all videos with their complete details from the backend
   useEffect(() => {
     doFetchAllVideos()
       .then((res) => {
@@ -118,69 +102,6 @@ const Home = () => {
       });
   }, []);
 
-  const groupImagesIntoAlbums = (images) => {
-    const albums = {
-      Automotive: [],
-      "Extreme Sports": [],
-      "Concerts & Events": [],
-      "Portraits & Modeling": [],
-      "Structures & Interiors": [],
-    };
-
-    images.reduce((acc, image) => {
-      acc[image.album].push(image);
-      return acc;
-    }, albums);
-
-    setAllAlbumImages(albums);
-  };
-
-  const groupImagesIntoAlbumsAndCategories = (images) => {
-    const albums = {
-      Automotive: {},
-      "Extreme Sports": {},
-      "Concerts & Events": {},
-      "Portraits & Modeling": {},
-      "Structures & Interiors": {},
-    };
-
-    const categoriesAndAlbums = images.reduce((acc, image) => {
-      const category = acc[image.album][image.category];
-
-      if (!category) {
-        acc[image.album] = { [image.category]: [] };
-      }
-
-      acc[image.album][image.category].push(image);
-
-      return acc;
-    }, albums);
-
-    // console.log("cat and albums: ", categoriesAndAlbums);
-
-    // setAlbumsAndCategories(categoriesAndAlbums);
-  };
-
-  const getCategoriesForAlbum = (categories, albumName) => {
-    return categories
-      .filter((category) => {
-        return category.album === albumName;
-      })
-      .map((category) => category.name);
-  };
-
-  const showCategories = async (albumName) => {
-    setCurrentAlbum(albumName);
-
-    // const res = await doFetchCategories();
-
-    // if (!res.data.success) return;
-
-    // const categories = getCategoriesForAlbum(res.data.categories, albumName);
-
-    // setViewCategories(categories);
-  };
-
   const getDomainUrl = () => {
     return NODE_ENV === "dev"
       ? "http://localhost:4000"
@@ -191,7 +112,7 @@ const Home = () => {
     setGalleryPhotos([]);
   };
 
-  const showGallery = () => {
+  const showGallery = async (albumId, categoryId) => {
     // const images = albumsAndCategories[currentAlbum][category]?.map(
     //   (category) => {
     //     return {
@@ -200,6 +121,21 @@ const Home = () => {
     //     };
     //   }
     // );
+    try {
+      const res = await doFetchAlbumCategoryImages(albumId, categoryId);
+
+      if (res.data.success) {
+        const images = res.data.images.map((image) => {
+          return {
+            original: `${getDomainUrl()}/images/${image.originalName}`,
+            thumbnail: `${getDomainUrl()}/images/${image.originalName}`,
+          };
+        });
+        setGalleryPhotos(images);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const buildAndShowImageGallery = (albumId) => {
@@ -231,6 +167,18 @@ const Home = () => {
       : "/assets/img/background-desktop.png";
   };
 
+  const fetchAndDisplayAlbumCategories = async (albumId) => {
+    try {
+      const res = await doFetchCategoriesForAlbum(albumId);
+
+      if (res.data.success) {
+        setCategoriesForAlbum(res.data.categories);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div ref={bodyContainerRef} className="body-container w-100 h-100">
       {/* PHOTO GALLERY */}
@@ -254,28 +202,31 @@ const Home = () => {
       {/* /PRELOADER */}
 
       {/* ALBUM CATEGORIES VIEWER */}
-      {/* {viewCategories.length > 0 && (
-        <div className="categories-modal" onClick={() => setViewCategories([])}>
+      {categoriesForAlbum.length > 0 && (
+        <div
+          className="categories-modal"
+          onClick={() => setCategoriesForAlbum([])}
+        >
           <div className="categories-container">
-            {viewCategories.map((category) => {
+            {categoriesForAlbum.map((category) => {
               return (
                 <div
                   key={category}
                   className="single-category"
-                  onClick={() => showGallery(category)}
+                  onClick={() => showGallery(category.albumId, category._id)}
                 >
                   <img
-                    src={CategoryFolderIcon}
+                    src={`${getDomainUrl()}/images/${category.thumbnail}`}
                     className="w-100 h-100"
-                    alt={category}
+                    alt={category.name}
                   />
-                  <span>{category}</span>
+                  <span>{category.name}</span>
                 </div>
               );
             })}
           </div>
         </div>
-      )} */}
+      )}
       {/* ALBUM CATEGORIES VIEWER */}
 
       {/* IMAGE CONTAINER */}
@@ -488,7 +439,7 @@ const Home = () => {
                       className="item scroll-animated"
                       key={album._id}
                       onClick={() => {
-                        buildAndShowImageGallery(album._id);
+                        fetchAndDisplayAlbumCategories(album._id);
                       }}
                     >
                       {/* LIGHTBOX LINK */}
@@ -507,7 +458,7 @@ const Home = () => {
                           className="background-image"
                           style={{
                             backgroundImage: `url('${getDomainUrl()}/images/${
-                              album.image
+                              album.thumbnail
                             }')`,
                           }}
                         />
