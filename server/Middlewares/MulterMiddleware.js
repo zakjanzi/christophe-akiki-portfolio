@@ -1,5 +1,6 @@
 const path = require("path");
 const fs = require("fs");
+var randomstring = require("randomstring");
 
 const uploadedImagesDir = __dirname + "/../public/images/";
 
@@ -28,7 +29,7 @@ const uploadMiddleware = (request, response, next) => {
       path.extname(singleImageFile.name).toLowerCase()
     );
     if (mimetype && extname) {
-      const fileName = `CaGallery-${Date.now()}${path.extname(
+      const fileName = `CaGallery-${randomstring.generate()}${path.extname(
         singleImageFile.name
       )}`;
 

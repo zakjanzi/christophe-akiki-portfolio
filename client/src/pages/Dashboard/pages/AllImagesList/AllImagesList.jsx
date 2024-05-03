@@ -60,7 +60,7 @@ const AllImagesList = () => {
   };
 
   return (
-    <section className="w-100 px-4 py-3 d-flex gap-5 all-images-container">
+    <section className="w-100 h-100 px-4 py-3 d-flex flex-row flex-wrap gap-5 all-images-container">
       {allImages.length > 0 &&
         allImages.map((image) => {
           return (

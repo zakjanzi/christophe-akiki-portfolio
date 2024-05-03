@@ -3,6 +3,7 @@ const { deletePhysicalImage } = require("../Middlewares/MulterMiddleware.js");
 const path = require("node:path");
 const Album = require("../Models/AlbumModel.js");
 const Category = require("../Models/CategoryModel.js");
+const randomString = require("randomstring");
 
 const imageSaver = (imageFile) => {
   let newFileName = "";
@@ -11,7 +12,9 @@ const imageSaver = (imageFile) => {
   const mimetype = filetypes.test(imageFile.mimetype);
   const extname = filetypes.test(path.extname(imageFile.name).toLowerCase());
   if (mimetype && extname) {
-    newFileName = `CaGallery-${Date.now()}${path.extname(imageFile.name)}`;
+    newFileName = `CaGallery-${randomString.generate()}${path.extname(
+      imageFile.name
+    )}`;
 
     uploadPath = __dirname + "/../public/images/" + newFileName;
 

@@ -35,7 +35,7 @@ const ViewImages = () => {
   };
 
   return (
-    <section className="w-100 px-4 py-3 d-flex gap-5">
+    <section className="w-100 px-4 py-3 d-flex flex-row flex-wrap gap-5">
       {categories.length > 0 &&
         categories.map((category) => {
           return (
