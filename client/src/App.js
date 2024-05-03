@@ -13,6 +13,7 @@ import UploadImage from "./pages/Dashboard/pages/UploadImage/UploadImage";
 import ViewImages from "./pages/Dashboard/pages/ViewImages/ViewImages";
 import UploadVideo from "./pages/Dashboard/pages/Videos/UploadVideo";
 import ViewVideos from "./pages/Dashboard/pages/Videos/ViewVideos/ViewVideos";
+import AllImagesList from "./pages/Dashboard/pages/AllImagesList/AllImagesList";
 // import Album from "./pages/Dashboard/pages/Albums/Albums";
 // import ViewAlbums from "./pages/Dashboard/pages/Albums/ViewAlbums/ViewAlbums";
 
@@ -55,6 +56,10 @@ export default function App() {
           {/* <Route path="view-categories" element={<ViewCategories />} /> */}
           <Route path="upload-image" element={<UploadImage />} />
           <Route path="view-images" element={<ViewImages />} />
+          <Route
+            path="view-images/:albumId/:categoryId"
+            element={<AllImagesList />}
+          />
           <Route path="upload-video" element={<UploadVideo />} />
           <Route path="view-videos" element={<ViewVideos />} />
           {/* <Route path="create-album" element={<Album />} /> */}

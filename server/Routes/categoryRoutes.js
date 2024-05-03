@@ -12,7 +12,7 @@ const protected = require("../Middlewares/Auth.js");
 
 router.post("/create", protected, create);
 
-router.post("/forAlbum", protected, getForAlbum);
+router.post("/forAlbum", getForAlbum);
 
 router.get("/all", all);
 

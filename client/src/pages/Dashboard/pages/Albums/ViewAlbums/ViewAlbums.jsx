@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { toastError } from "../../../../../utils/toast";
-import useDataSaver from "../../../../../hooks/useDataSaver";
+import useDataHandler from "../../../../../hooks/useDataHandler";
 import EditAlbumForm from "../AlbumForm/AlbumForm";
 
 const ViewAlbums = () => {
@@ -8,7 +8,7 @@ const ViewAlbums = () => {
   const [AlbumToEdit, setAlbumToEdit] = useState({});
   const [albums, setAlbums] = useState([]);
 
-  const { doFetchAlbums, doDeleteAlbum } = useDataSaver();
+  const { doFetchAlbums, doDeleteAlbum } = useDataHandler();
 
   useEffect(() => {
     fetchAlbums();

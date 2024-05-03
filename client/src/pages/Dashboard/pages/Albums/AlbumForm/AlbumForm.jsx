@@ -4,7 +4,7 @@ import { BsFillCameraFill } from "react-icons/bs";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toastError, toastSuccess } from "../../../../../utils/toast";
-import useDataSaver from "../../../../../hooks/useDataSaver";
+import useDataHandler from "../../../../../hooks/useDataHandler";
 
 export default function AlbumForm(props) {
   const [formValues, setFormValues] = useState({
@@ -12,7 +12,7 @@ export default function AlbumForm(props) {
   });
   const [image, setImage] = useState();
   const [loading, setLoading] = useState(false);
-  const { doCreateAlbum, doUpdateAlbum } = useDataSaver();
+  const { doCreateAlbum, doUpdateAlbum } = useDataHandler();
   const { editMode, album } = props;
 
   useLayoutEffect(() => {

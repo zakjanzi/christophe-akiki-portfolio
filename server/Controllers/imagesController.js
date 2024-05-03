@@ -39,7 +39,6 @@ const imageSaver = (imageFile) => {
 const createNewAlbum = async (albumName, albumThumbnail) => {
   // Save the albumThumbnail
   const { newFileName, success } = imageSaver(albumThumbnail);
-  console.log("newAlbumFilename: ", newFileName, success);
 
   if (!newFileName) return false;
 
@@ -94,7 +93,6 @@ const uploadImage = async (req, res) => {
     let newAlbum;
     if (albumName && albumThumbnail) {
       newAlbum = await createNewAlbum(albumName, albumThumbnail);
-      console.log("New Album: ", newAlbum);
 
       if (!newAlbum) {
         return res.json({
@@ -225,9 +223,38 @@ const selectImagesForAlbumCategory = async (req, res) => {
   }
 };
 
+const deleteForAlbumCategory = async (req, res) => {
+  const { imageId } = req.body;
+
+  try {
+    const deleted = await Image.findByIdAndDelete(imageId).exec();
+
+    if (!deleted) {
+      return res.json({
+        success: false,
+        message: "Operation Failed",
+      });
+    }
+
+    deletePhysicalImage(deleted.originalName); // Deletes image on disk
+
+    return res.json({
+      success: true,
+      message: "Operation Successful",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      success: false,
+      message: "Errors encountered",
+    });
+  }
+};
+
 module.exports = {
   uploadImage,
   getImages,
   deleteImage,
   selectImagesForAlbumCategory,
+  deleteForAlbumCategory,
 };

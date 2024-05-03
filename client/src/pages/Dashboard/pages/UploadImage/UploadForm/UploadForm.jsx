@@ -5,7 +5,7 @@ import { BsFillCameraFill } from "react-icons/bs";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toastError, toastSuccess } from "../../../../../utils/toast";
-import useDataSaver from "../../../../../hooks/useDataSaver";
+import useDataHandler from "../../../../../hooks/useDataHandler";
 
 const ALBUM_SELECT_OPTIONS = {
   SELECT_ALBUM: "Select Album",
@@ -29,7 +29,7 @@ export default function UploadForm(props) {
   const [categoriesSectionEnabled, setCategoriesSectionEnabled] =
     useState(false);
   const { doFetchAlbums, doFetchCategoriesForAlbum, doUploadImage } =
-    useDataSaver();
+    useDataHandler();
   const [formValues, setFormValues] = useState({
     images: [],
     albumId: "",
@@ -716,7 +716,9 @@ export default function UploadForm(props) {
                 <div className="three"></div>
               </div>
             )}
-            <button type="submit">Upload</button>
+            <button type="submit" disabled={loading}>
+              Upload
+            </button>
           </form>
         </div>
         <ToastContainer />

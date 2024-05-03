@@ -1,17 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  useLayoutEffect,
-} from "react";
-import useDataSaver from "../../hooks/useDataSaver";
-import CategoryFolderIcon from "./images/category-folder.svg";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
+import useDataHandler from "../../hooks/useDataHandler";
 import ImageGallery from "react-image-gallery";
 import "./styles/home.css";
 import "../../../node_modules/react-image-gallery/styles/css/image-gallery.css";
-import { NODE_ENV, PROD_BASE_URL } from "../../api/urlConfig";
+import { NODE_ENV } from "../../api/urlConfig";
 import VideoCard from "./components/Videos/Videos";
 import { useLocation, useSearchParams } from "react-router-dom";
 
@@ -26,11 +19,8 @@ const ALBUMS = {
 const Home = () => {
   const preloaderRef = useRef();
   const [categoriesForAlbum, setCategoriesForAlbum] = useState([]);
-  // const [viewCategories, setViewCategories] = useState([]);
   const [galleryPhotos, setGalleryPhotos] = useState([]);
-  const [currentAlbum, setCurrentAlbum] = useState("");
   const [albums, setAlbums] = useState([]);
-  const [allAlbumImages, setAllAlbumImages] = useState();
   const [videos, setVideos] = useState([]);
   const {
     doFetchAlbums,
@@ -38,7 +28,7 @@ const Home = () => {
     doFetchImagesForAlbum,
     doFetchCategoriesForAlbum,
     doFetchAlbumCategoryImages,
-  } = useDataSaver();
+  } = useDataHandler();
   const { pathname } = useLocation();
   const bodyContainerRef = useRef();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -212,7 +202,7 @@ const Home = () => {
               return (
                 <div
                   key={category}
-                  className="single-category"
+                  className="single-category d-flex flex-column"
                   onClick={() => showGallery(category.albumId, category._id)}
                 >
                   <img

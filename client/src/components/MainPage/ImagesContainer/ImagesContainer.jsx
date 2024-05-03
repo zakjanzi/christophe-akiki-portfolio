@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./ImagesContainer.css";
 import Masonry from "react-masonry-css";
-import { NODE_ENV, DEV_BASE_URL, PROD_BASE_URL } from "../../../api/urlConfig";
+import { NODE_ENV, DEV_BASE_URL } from "../../../api/urlConfig";
 import ImageWindow from "../ImageWindow/ImageWindow";
 
 export default function ImagesContainer(props) {

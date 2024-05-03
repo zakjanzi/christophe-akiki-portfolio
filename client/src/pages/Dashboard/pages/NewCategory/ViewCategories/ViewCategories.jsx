@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState } from "react";
 import { toastError } from "../../../../../utils/toast";
-import useDataSaver from "../../../../../hooks/useDataSaver";
+import useDataHandler from "../../../../../hooks/useDataHandler";
 import CreateCategoryForm from "../CreateCategoryForm/CreateCategoryForm";
 
 const ViewCategories = () => {
@@ -8,7 +8,7 @@ const ViewCategories = () => {
   const [editCategoryMode, setEditCategoryMode] = useState(false);
   const [categoryToEdit, setCategoryToEdit] = useState({});
 
-  const { doFetchCategories, doDeleteCategory } = useDataSaver();
+  const { doFetchCategories, doDeleteCategory } = useDataHandler();
 
   useLayoutEffect(() => {
     fetchCategories();
