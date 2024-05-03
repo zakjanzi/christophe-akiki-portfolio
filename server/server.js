@@ -11,7 +11,7 @@ const port = 4000;
 const whitelist = [
   "https://christophe-akiki-portfolio-u9hl.onrender.com",
   "https://christopheakiki.me",
-  // "http://localhost:3000",
+  "http://localhost:3000",
 ];
 
 app.use(
@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
 // Routes
-// app.use("/categories", require("./Routes/categoryRoutes.js"));
+app.use("/categories", require("./Routes/categoryRoutes.js"));
 app.use("/users", require("./Routes/userRoutes.js"));
 app.use("/images", require("./Routes/imagesRoutes.js"));
 app.use("/videos", require("./Routes/videoRoutes.js"));

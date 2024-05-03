@@ -3,7 +3,7 @@ import "./CreateCategoryForm.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toastError, toastSuccess } from "../../../../../utils/toast";
-import useDataSaver from "../../../../../hooks/useDataSaver";
+import useDataHandler from "../../../../../hooks/useDataHandler";
 
 export default function CreateCategoryForm(props) {
   const [formValues, setFormValues] = useState({
@@ -12,7 +12,8 @@ export default function CreateCategoryForm(props) {
   });
   const [loading, setLoading] = useState(false);
   const [albums, setAlbums] = useState([]);
-  const { doCreateCategory, doFetchAlbums, doUpdateCategory } = useDataSaver();
+  const { doCreateCategory, doFetchAlbums, doUpdateCategory } =
+    useDataHandler();
   const { editMode, category } = props;
 
   useLayoutEffect(() => {

@@ -4,10 +4,11 @@ const albumSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
       unique: true,
+      required: true,
+      index: true,
     },
-    image: {
+    thumbnail: {
       type: String,
       required: true,
     },

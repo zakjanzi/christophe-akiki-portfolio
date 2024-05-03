@@ -7,12 +7,18 @@ const {
   uploadImage,
   getImages,
   deleteImage,
+  selectImagesForAlbumCategory,
+  deleteForAlbumCategory,
 } = require("../Controllers/imagesController");
 
 router.post("/upload", protected, uploadMiddleware, uploadImage);
 
 router.get("/all", getImages);
 
+router.post("/select", selectImagesForAlbumCategory);
+
 router.post("/delete", protected, deleteImage);
+
+router.post("/album-category/delete", protected, deleteForAlbumCategory);
 
 module.exports = router;

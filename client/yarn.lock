@@ -7823,10 +7823,10 @@ react-side-effect@^2.1.0:
   resolved "https://registry.npmjs.org/react-side-effect/-/react-side-effect-2.1.2.tgz"
   integrity sha512-PVjOcvVOyIILrYoyGEpDN3vmYNLdy1CajSFNt4TDsVQC5KpTijDvWVoR+/7Rz2xT978D8/ZtFceXxzsPwZEDvw==
 
-react-toastify@^9.1.1:
-  version "9.1.1"
-  resolved "https://registry.npmjs.org/react-toastify/-/react-toastify-9.1.1.tgz"
-  integrity sha512-pkFCla1z3ve045qvjEmn2xOJOy4ZciwRXm1oMPULVkELi5aJdHCN/FHnuqXq8IwGDLB7PPk2/J6uP9D8ejuiRw==
+react-toastify@9.0.3:
+  version "9.0.3"
+  resolved "https://registry.npmjs.org/react-toastify/-/react-toastify-9.0.3.tgz"
+  integrity sha512-0QZJk0SqYBxouRBGCFU3ymvjlwimRRhVH7SzqGRiVrQ001KSoUNbGKx9Yq42aoPv18n45yJzEFG82zqv3HnASg==
   dependencies:
     clsx "^1.1.1"
 

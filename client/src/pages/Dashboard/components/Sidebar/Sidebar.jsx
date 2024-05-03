@@ -13,7 +13,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     /* eslint-disable no-undef */
-    for (let x = 1; x < 5; x++) {
+    for (let x = 1; x < 4; x++) {
       const mainMenuItem = document.querySelector(
         `aside.sidebar > ul > li:nth-child(${x})`
       );
@@ -88,7 +88,7 @@ const Sidebar = () => {
         </li>
 
         {/* Albums start */}
-        <li>
+        {/* <li>
           <i className="fa fa-book" />
           <span>Albums</span>
           <ul className="no-list sb_dropdown clearfix">
@@ -114,7 +114,7 @@ const Sidebar = () => {
               </Link>
             </li>
           </ul>
-        </li>
+        </li> */}
         {/* Albums End */}
 
         {/* Images start */}

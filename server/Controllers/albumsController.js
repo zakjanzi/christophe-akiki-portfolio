@@ -132,14 +132,10 @@ const updateAlbum = async (req, res) => {
 const getAlbumImages = async (req, res) => {
   const albumId = req.body.albumId;
 
-  console.log("albumId: ", albumId, req.body);
-
   try {
     const albumImages = await ImageModel.find({
       albumId,
     }).exec();
-
-    console.log(albumImages);
 
     return res.json({
       success: true,
