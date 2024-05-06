@@ -1,5 +1,6 @@
 const path = require("path");
 const fs = require("fs");
+var randomstring = require("randomstring");
 
 const uploadedImagesDir = __dirname + "/../public/images/";
 
@@ -10,7 +11,9 @@ const uploadMiddleware = (request, response, next) => {
   }
 
   const imageFiles = request.files.images
-    ? request.files.images
+    ? Array.isArray(request.files.images)
+      ? request.files.images
+      : [request.files.images] // Handles selection of one image
     : [request.files.image];
 
   request.filenames = [];
@@ -26,7 +29,7 @@ const uploadMiddleware = (request, response, next) => {
       path.extname(singleImageFile.name).toLowerCase()
     );
     if (mimetype && extname) {
-      const fileName = `CaGallery-${Date.now()}${path.extname(
+      const fileName = `CaGallery-${randomstring.generate()}${path.extname(
         singleImageFile.name
       )}`;
 
@@ -37,7 +40,7 @@ const uploadMiddleware = (request, response, next) => {
       try {
         // Use the mv() method to place the file somewhere on your server
         singleImageFile.mv(uploadPath, function (err) {
-          console.log("express file upload error: ", err);
+          // console.log("express file upload error: ", err);
           if (err)
             return response.json({
               success: false,

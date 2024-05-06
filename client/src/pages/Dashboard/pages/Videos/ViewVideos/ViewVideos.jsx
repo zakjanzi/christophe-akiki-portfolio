@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState } from "react";
 import { toastError } from "../../../../../utils/toast";
-import useDataSaver from "../../../../../hooks/useDataSaver";
+import useDataHandler from "../../../../../hooks/useDataHandler";
 import EditVideoForm from "../UploadForm/UploadForm";
 
 const ViewVideos = () => {
@@ -8,7 +8,7 @@ const ViewVideos = () => {
   const [videoToEdit, setVideoToEdit] = useState({});
   const [videos, setVideos] = useState([]);
 
-  const { doFetchAllVideos, doDeleteVideo } = useDataSaver();
+  const { doFetchAllVideos, doDeleteVideo } = useDataHandler();
 
   useLayoutEffect(() => {
     fetchVideos();

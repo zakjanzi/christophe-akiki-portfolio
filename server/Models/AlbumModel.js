@@ -2,10 +2,15 @@ const mongoose = require("mongoose");
 
 const albumSchema = new mongoose.Schema(
   {
-    name: {
+    title: {
+      type: String,
+      unique: true,
+      required: true,
+      index: true,
+    },
+    thumbnail: {
       type: String,
       required: true,
-      unique: true,
     },
   },
   {

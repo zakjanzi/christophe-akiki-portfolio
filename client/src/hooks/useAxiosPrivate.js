@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import axios from "axios";
-import { PROD_BASE_URL, DEV_BASE_URL, NODE_ENV } from "../api/urlConfig";
+import { DEV_BASE_URL, NODE_ENV } from "../api/urlConfig";
 import { useSelector } from "react-redux";
 
 const axiosPrivate = axios.create({
-  baseURL: NODE_ENV === "dev" ? DEV_BASE_URL : PROD_BASE_URL,
+  baseURL: NODE_ENV === "dev" ? DEV_BASE_URL : window.location.origin,
   headers: {
     "Content-Type": "application/json;charset=utf-8",
   },

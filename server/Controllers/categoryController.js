@@ -109,9 +109,26 @@ const updateCategory = async (req, res) => {
   }
 };
 
+const getForAlbum = async (req, res) => {
+  try {
+    const categories = await CategoryModel.find({
+      albumId: req.body.albumId,
+    }).exec();
+
+    return res.json({ success: true, categories });
+  } catch (err) {
+    return res.json({
+      success: false,
+      message: "An error occurred while fetching categories",
+    });
+    console.log(err.message);
+  }
+};
+
 module.exports = {
   create,
   all,
   deleteCategory,
   updateCategory,
+  getForAlbum,
 };

@@ -8,10 +8,15 @@ const connectToDB = require("./config/config.js");
 const { registerAdmin } = require("./Controllers/userController.js");
 const port = 4000;
 
+const whitelist = [
+  "https://christophe-akiki-portfolio-u9hl.onrender.com",
+  "https://christopheakiki.me",
+  "http://localhost:3000",
+];
+
 app.use(
   cors({
-    origin: "https://christophe-akiki-portfolio-u9hl.onrender.com",
-    // origin: "http://localhost:3000",
+    origin: whitelist,
     credentials: true,
   })
 );
@@ -24,11 +29,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
 // Routes
-app.use("/albums", require("./Routes/albumRoutes.js"));
-// app.use("/categories", require("./Routes/categoryRoutes.js"));
+app.use("/categories", require("./Routes/categoryRoutes.js"));
 app.use("/users", require("./Routes/userRoutes.js"));
 app.use("/images", require("./Routes/imagesRoutes.js"));
 app.use("/videos", require("./Routes/videoRoutes.js"));
+app.use("/albums", require("./Routes/albumRoutes.js"));
 
 app.use("/", express.static("build"), (req, res) => {
   res.sendFile(__dirname + "/build/index.html");

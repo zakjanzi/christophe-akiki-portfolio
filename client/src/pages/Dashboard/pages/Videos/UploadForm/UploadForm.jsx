@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import { useImages } from "../../../../../contextProviders/ImagesProvider";
 import { toastError, toastSuccess } from "../../../../../utils/toast";
-import useDataSaver from "../../../../../hooks/useDataSaver";
+import useDataHandler from "../../../../../hooks/useDataHandler";
 
 export default function UploadForm(props) {
   const [formValues, setFormValues] = useState({
@@ -15,7 +15,7 @@ export default function UploadForm(props) {
   });
   const [image, setImage] = useState();
   const [loading, setLoading] = useState(false);
-  const { doUploadVideo, doUpdateVideo } = useDataSaver();
+  const { doUploadVideo, doUpdateVideo } = useDataHandler();
   const { editMode, video } = props;
 
   useLayoutEffect(() => {

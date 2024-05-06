@@ -6,7 +6,11 @@ const categorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    album: {
+    albumId: {
+      type: mongoose.Types.ObjectId,
+      required: true,
+    },
+    thumbnail: {
       type: String,
       required: true,
     },
@@ -16,7 +20,7 @@ const categorySchema = new mongoose.Schema(
   }
 );
 
-categorySchema.index({ name: 1, album: 1 }, { unique: true });
+categorySchema.index({ name: 1, albumId: 1 }, { unique: true });
 
 const Category = mongoose.model("Category", categorySchema);
 

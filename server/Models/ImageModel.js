@@ -2,22 +2,16 @@ const mongoose = require("mongoose");
 
 const imageSchema = new mongoose.Schema(
   {
-    contentType: {
-      type: String,
+    categoryId: {
+      type: mongoose.Types.ObjectId,
       required: true,
     },
-
-    // category: {
-    //   type: String,
-    //   required: true,
-    // },
-
     originalName: {
       type: String,
       required: true,
     },
-    album: {
-      type: String,
+    albumId: {
+      type: mongoose.Types.ObjectId,
       required: true,
     },
   },

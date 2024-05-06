@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import "./ImagesContainer.css";
 import Masonry from "react-masonry-css";
-import { NODE_ENV, DEV_BASE_URL, PROD_BASE_URL } from "../../../api/urlConfig";
+import { NODE_ENV, DEV_BASE_URL } from "../../../api/urlConfig";
 import ImageWindow from "../ImageWindow/ImageWindow";
 
 export default function ImagesContainer(props) {
   const { allImages, loadingImages } = props;
   const [currentImage, setCurrentImage] = useState("");
   const [isNew, setIsNew] = useState(false);
-  const SERVER_URL = NODE_ENV === "prod" ? PROD_BASE_URL : DEV_BASE_URL;
+  const SERVER_URL =
+    NODE_ENV === "production" ? window.location.origin : DEV_BASE_URL;
 
   const openImage = (e) => {
     const image = allImages.find((img) => img._id === e.target.id);

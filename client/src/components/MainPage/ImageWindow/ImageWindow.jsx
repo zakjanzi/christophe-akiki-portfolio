@@ -4,15 +4,16 @@ import { useEffect, useState } from "react";
 import ConfirmDeleting from "./ConfirmDeleting/ConfirmDeleting";
 import { ToastContainer, toast } from "react-toastify";
 import { NODE_ENV, PROD_BASE_URL, DEV_BASE_URL } from "../../../api/urlConfig";
-import useDataSaver from "../../../hooks/useDataSaver";
+import useDataHandler from "../../../hooks/useDataHandler";
 import { toastError } from "../../../utils/toast";
 
 export default function ImageWindow(props) {
   const [openConfirmDeleting, setOpenConfirmDeleting] = useState(false);
   const [currentImage, setCurrentImage] = useState(null);
-  const SERVER_URL = NODE_ENV === "prod" ? PROD_BASE_URL : DEV_BASE_URL;
+  const SERVER_URL =
+    NODE_ENV === "production" ? window.location.origin : DEV_BASE_URL;
   const { isNew, setIsNew, image, resetImages } = props;
-  const { doDeleteImage } = useDataSaver();
+  const { doDeleteImage } = useDataHandler();
 
   useEffect(() => {
     if (isNew) setCurrentImage(image);
