@@ -271,20 +271,25 @@ const Home = () => {
           <section id="about">
             <h3 className="headline scroll-animated">About Me</h3>
             <p className="scroll-animated">
-              Born and raised in Lebanon, Christophe Akiki is a photographer,
-              videographer and editor. Holding a bachelor degree of Arts,
-              Christophe completed his studies in Cinema and Television at the
-              Holy Spirit University of Kaslik.
+            Christophe Akiki is a Lebanese photographer and videographer who embarked on his creative journey 
+            at the age of 18. Over the years, his talent and dedication have propelled him to work with an impressive array of 
+            clients, both in Lebanon and internationally. His portfolio includes collaborations with renowned brands 
+            and personalities spanning various industries, from sports, food, and beverages to corporate, fashion, nightlife, and politics.
+
             </p>
             <p className="scroll-animated">
-              He first got behind the camera at the age of eighteen when he
-              began to cover rally racing in the Arab League. From shooting to
-              editing, Christophe’s work has featured international athletes and
-              singers. His photographs have been consistently sought out by
-              global and local brands.
+            Specializing in photography, videography, and post-production, Christophe 
+            consistently delivers exceptional content tailored to meet the unique needs 
+            of his clients. His passion for storytelling through visuals and his 
+            commitment to excellence have earned him the trust and satisfaction of those he works with.
+            </p>
+
+            <p className="scroll-animated">
+            Explore Christophe Akiki's captivating work and discover why he stands out in 
+            the world of photography and videography.
             </p>
             {/* CLIENTS */}
-            <div className="row clients scroll-animated">
+            {/* <div className="row clients scroll-animated">
               <div className="col-md-3 col-xs-6">
                 <img
                   className="img-responsive"
@@ -306,7 +311,7 @@ const Home = () => {
                   alt="client"
                 />
               </div>
-            </div>
+            </div> */}
             {/* /CLIENTS */}
           </section>
           {/* /ABOUT */}
@@ -330,13 +335,13 @@ const Home = () => {
                 <div className="collapse" id="collapse-item-1">
                   {/* COLLAPSE CONTENT INNER */}
                   <div className="well">
-                    <p>
+                    {/* <p>
                       My photography focuses on authentically portraying the
                       adrenaline-fueled moments. Through my lens, I aim to
                       convey the raw emotion and exhilarating energy inherent in
                       these experiences, creating images that resonate on a
                       profound level.
-                    </p>
+                    </p> */}
                   </div>
                   {/* /COLLAPSE CONTENT INNER */}
                 </div>
@@ -358,7 +363,7 @@ const Home = () => {
                 <div className="collapse" id="collapse-item-2">
                   {/* COLLAPSE CONTENT INNER */}
                   <div className="well">
-                    <p>
+                    {/* <p>
                       My journey in videography has led me to specialize in
                       crafting TV commercials that tell compelling stories
                       rooted in the world of extreme sports. Each project is an
@@ -366,7 +371,7 @@ const Home = () => {
                       the action, translating it into visually stunning
                       narratives that captivate audiences and evoke genuine
                       emotion.
-                    </p>
+                    </p> */}
                   </div>
                   {/* /COLLAPSE CONTENT INNER */}
                 </div>
@@ -388,7 +393,7 @@ const Home = () => {
                 <div className="collapse" id="collapse-item-3">
                   {/* COLLAPSE CONTENT INNER */}
                   <div className="well">
-                    <p>
+                    {/* <p>
                       I bring a meticulous attention to detail and a deep
                       understanding of visual storytelling. Through video
                       editing, VFX, and color grading, I breathe life into raw
@@ -397,7 +402,7 @@ const Home = () => {
                       proficiency but about infusing each frame with the same
                       passion and authenticity that drives my work behind the
                       camera.
-                    </p>
+                    </p> */}
                   </div>
                   {/* /COLLAPSE CONTENT INNER */}
                 </div>
