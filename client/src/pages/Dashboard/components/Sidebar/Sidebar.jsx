@@ -13,7 +13,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     /* eslint-disable no-undef */
-    for (let x = 1; x < 4; x++) {
+    for (let x = 1; x < 3; x++) {
       const mainMenuItem = document.querySelector(
         `aside.sidebar > ul > li:nth-child(${x})`
       );
@@ -129,7 +129,7 @@ const Sidebar = () => {
               </Link>
             </li>
             <li>
-              <Link to="view-images" className="center position-relative">
+              <Link to="view-albums" className="center position-relative">
                 <i className="fa fa-eye" />{" "}
                 <span className="position-absolute top-0 ms-5">View All</span>
               </Link>

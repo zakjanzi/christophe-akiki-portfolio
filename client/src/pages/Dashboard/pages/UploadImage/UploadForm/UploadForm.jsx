@@ -518,26 +518,24 @@ export default function UploadForm(props) {
                         <>
                           <section
                             className="x-close-button-container"
-                            style={{
-                              display: !albumImageSelected() ? "none" : "",
-                            }}
+                            onClick={() => resetAlbumThumbnail()}
                           >
-                            <span
-                              className="x-close-button"
-                              onClick={() => resetAlbumThumbnail()}
-                            >
-                              x
-                            </span>
+                            <span className="x-close-button">x</span>
                           </section>
-                          <span>{formValues.albumThumbnail.name}</span>
+
+                          <span>{formValues.albumThumbnail?.name}</span>
                         </>
                       )}
 
                       <input
                         type="file"
-                        onChange={(event) =>
-                          setAlbumThumbnail(event.target.files)
-                        }
+                        onChange={(event) => {
+                          setAlbumThumbnail(
+                            event.target.files.length > 0
+                              ? event.target.files
+                              : [""]
+                          );
+                        }}
                         name="albumThumbnail"
                         accept="image/png, image/jpg, image/gif, image/jpeg"
                         className="file-input"
@@ -658,12 +656,7 @@ export default function UploadForm(props) {
                       )}
                       {categoryImageSelected() && (
                         <>
-                          <section
-                            className="x-close-button-container"
-                            style={{
-                              display: !categoryImageSelected() ? "none" : "",
-                            }}
-                          >
+                          <section className="x-close-button-container">
                             <span
                               className="x-close-button"
                               onClick={() => resetCategoryThumbnail()}
@@ -671,14 +664,18 @@ export default function UploadForm(props) {
                               x
                             </span>
                           </section>
-                          <span>{formValues.categoryThumbnail.name}</span>
+                          <span>{formValues.categoryThumbnail?.name}</span>
                         </>
                       )}
 
                       <input
                         type="file"
                         onChange={(event) =>
-                          setCategoryThumbnail(event.target.files)
+                          setCategoryThumbnail(
+                            event.target.files.length > 0
+                              ? event.target.files
+                              : [""]
+                          )
                         }
                         name="categoryThumbnail"
                         accept="image/png, image/jpg, image/gif, image/jpeg"

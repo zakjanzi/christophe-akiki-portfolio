@@ -502,6 +502,9 @@ button {
 
 /** 7. Content Area --> Service
 *******************************************************************/
+.service-item button {
+  cursor: auto !important;
+}
 
 #service .services-list {
   margin-bottom: 0;
@@ -535,7 +538,7 @@ button {
   border-radius: 0;
 }
 
-#service .services-list li button:after {
+/* #service .services-list li button:after {
   font: normal normal normal 14px/1 FontAwesome;
   font-size: 1.7rem;
 
@@ -549,7 +552,7 @@ button {
   transform: translateY(-50%);
 
   color: #fff;
-}
+} */
 
 #service .services-list li .well {
   min-height: 20px;
@@ -1173,4 +1176,11 @@ section#videos {
   .videos-headline {
     width: calc(100% - 40px);
   }
+}
+
+.loading-icon {
+  z-index: 5;
+  top: 0px;
+  left: 0px;
+  background-color: rgba(0, 0, 0, 0.6);
 }

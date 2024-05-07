@@ -1,22 +1,24 @@
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toastError } from "../../../../../utils/toast";
 import useDataHandler from "../../../../../hooks/useDataHandler";
-import CreateCategoryForm from "../CreateCategoryForm/CreateCategoryForm";
+import { useParams, Link } from "react-router-dom";
+import { getDomainUrl } from "../../../../../utils/functions";
+import LoadingIcon from "../../../../../assets/loading.gif";
+import "./styles/view-categories.css";
 
 const ViewCategories = () => {
   const [categories, setCategories] = useState([]);
-  const [editCategoryMode, setEditCategoryMode] = useState(false);
-  const [categoryToEdit, setCategoryToEdit] = useState({});
+  const [loadingSpinnerIndex, setLoadingSpinnerIndex] = useState(-1);
+  const { doFetchCategoriesForAlbum, doDeleteCategory } = useDataHandler();
+  const params = useParams();
 
-  const { doFetchCategories, doDeleteCategory } = useDataHandler();
-
-  useLayoutEffect(() => {
-    fetchCategories();
+  useEffect(() => {
+    fetchCategories(params.albumId);
   }, []);
 
-  const fetchCategories = async () => {
+  const fetchCategories = async (albumId) => {
     try {
-      const res = await doFetchCategories();
+      const res = await doFetchCategoriesForAlbum(albumId);
 
       if (res.data.success) {
         setCategories(res.data.categories);
@@ -44,66 +46,54 @@ const ViewCategories = () => {
     }
   };
 
-  const editCategory = (category) => {
-    setEditCategoryMode(true);
-    setCategoryToEdit(category);
-  };
-
-  const closeEditForm = async () => {
-    setEditCategoryMode(false);
-    await fetchCategories();
+  const showLoadingSpinner = (index) => {
+    setLoadingSpinnerIndex(index);
   };
 
   return (
     <>
-      {!editCategoryMode && (
-        <h4 className="ms-5 mt-3 text-dark">View Categories</h4>
-      )}
+      <div id="work" className="w-100 py-3 px-5">
+        <h2 className="text-dark">Categories</h2>
+        <section id="content">
+          {categories.map((category, index) => {
+            return (
+              <Link
+                to={`/dashboard/view-images/${category.albumId}/${category._id}`}
+                key={category._id}
+              >
+                <div
+                  className="single-category d-flex flex-column position-relative"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    showLoadingSpinner(index);
+                  }}
+                >
+                  <div className="category-content w-100 h-100 position-relative d-flex flex-row justify-content-center align-items-center">
+                    <img
+                      src={`${getDomainUrl()}/images/${category.thumbnail}`}
+                      className="w-100 h-100 position-absolute top-0 left-0"
+                      alt={category.name}
+                    />
+                    <span className="position-relative">{category.name}</span>
+                  </div>
 
-      {/* This form is being used in edit mode here */}
-      {editCategoryMode && (
-        <CreateCategoryForm
-          editMode={true}
-          category={categoryToEdit}
-          closeEditForm={() => closeEditForm()}
-        />
-      )}
-
-      {!editCategoryMode && categories.length > 0 && (
-        <table className="table table-striped mx-5 mt-3">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Album</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {categories.map((category, index) => (
-              <tr>
-                <th scope="row">{index + 1}</th>
-                <td>{category.name}</td>
-                <td>{category.album}</td>
-                <td>
-                  <button
-                    className="btn btn-info"
-                    onClick={() => editCategory(category)}
+                  {/* LOADING ICON */}
+                  <div
+                    className={`loading-icon w-100 h-100 d-flex justify-content-center align-items-center position-absolute ${
+                      loadingSpinnerIndex === index
+                        ? "opacity-100"
+                        : "opacity-0"
+                    }`}
                   >
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-danger ms-3"
-                    onClick={() => deleteCategory(category._id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+                    <img src={LoadingIcon} alt="loading spinner" />
+                  </div>
+                  {/* LOADING ICON */}
+                </div>
+              </Link>
+            );
+          })}
+        </section>
+      </div>
     </>
   );
 };

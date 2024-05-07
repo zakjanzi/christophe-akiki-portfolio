@@ -60,57 +60,60 @@ const AllImagesList = () => {
   };
 
   return (
-    <section className="w-100 h-100 px-4 py-3 d-flex flex-row flex-wrap gap-5 all-images-container">
-      {allImages.length > 0 &&
-        allImages.map((image) => {
-          return (
-            <div
-              className="single-image"
-              key={image._id}
-              style={{
-                backgroundImage: `url(${getDomainUrl()}/images/${
-                  image.originalName
-                })`,
-              }}
-              onMouseOver={(e) =>
-                e.currentTarget.children[1].classList.remove("d-none")
-              }
-              onMouseOut={(e) =>
-                e.currentTarget.children[1].classList.add("d-none")
-              }
-            >
+    <>
+      <h2 className="text-dark px-4 py-3 ms-5">View Images</h2>
+      <section className="w-100 h-100 px-4 py-3 ms-5 d-flex flex-row flex-wrap gap-5 all-images-container">
+        {allImages.length > 0 &&
+          allImages.map((image) => {
+            return (
               <div
-                className="image-overlay"
-                onMouseOver={(e) => e.currentTarget.classList.add("show")}
-                onMouseOut={(e) => e.currentTarget.classList.remove("show")}
-              ></div>
-              <strong
-                className="overlay-text btn btn-danger d-none flex-column justify-content-center align-items-center"
-                onClick={() => handleDelete(image._id)}
+                className="single-image"
+                key={image._id}
+                style={{
+                  backgroundImage: `url(${getDomainUrl()}/images/${
+                    image.originalName
+                  })`,
+                }}
+                onMouseOver={(e) =>
+                  e.currentTarget.children[1].classList.remove("d-none")
+                }
+                onMouseOut={(e) =>
+                  e.currentTarget.children[1].classList.add("d-none")
+                }
               >
-                Delete
-              </strong>
-            </div>
-          );
-        })}
+                <div
+                  className="image-overlay"
+                  onMouseOver={(e) => e.currentTarget.classList.add("show")}
+                  onMouseOut={(e) => e.currentTarget.classList.remove("show")}
+                ></div>
+                <strong
+                  className="overlay-text btn btn-danger d-none flex-column justify-content-center align-items-center"
+                  onClick={() => handleDelete(image._id)}
+                >
+                  Delete
+                </strong>
+              </div>
+            );
+          })}
 
-      {loadingImages === true && (
-        <div className="load">
-          <div className="one"></div>
-          <div className="two"></div>
-          <div className="three"></div>
-        </div>
-      )}
+        {loadingImages === true && (
+          <div className="load">
+            <div className="one"></div>
+            <div className="two"></div>
+            <div className="three"></div>
+          </div>
+        )}
 
-      {!loadingImages && allImages.length === 0 && (
-        <p className="d-flex justify-content-center w-100">
-          <strong className="text-grey fs-2">
-            No images found for this Category
-          </strong>
-        </p>
-      )}
-      <ToastContainer />
-    </section>
+        {!loadingImages && allImages.length === 0 && (
+          <p className="d-flex justify-content-center w-100">
+            <strong className="text-grey fs-2">
+              No images found for this Category
+            </strong>
+          </p>
+        )}
+        <ToastContainer />
+      </section>
+    </>
   );
 };
 

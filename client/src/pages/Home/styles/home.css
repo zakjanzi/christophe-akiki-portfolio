@@ -31,6 +31,7 @@
 
 .single-category:hover {
   cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .single-category img {
@@ -43,7 +44,7 @@
   font-size: 1.4rem;
   text-align: center;
   width: 100%;
-  display: grid;
+  z-index: 5;
 }
 
 .featherlight {
@@ -60,6 +61,18 @@ html.with-featherlight {
 
 .image-gallery-slide-wrapper {
   max-width: 100vw;
+}
+
+.category-content {
+  z-index: 3;
+}
+
+.category-content-overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 4;
 }
 
 @media screen and (max-width: 480px) {

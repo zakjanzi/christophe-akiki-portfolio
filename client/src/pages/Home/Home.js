@@ -7,6 +7,7 @@ import "../../../node_modules/react-image-gallery/styles/css/image-gallery.css";
 import { NODE_ENV } from "../../api/urlConfig";
 import VideoCard from "./components/Videos/Videos";
 import { useLocation, useSearchParams } from "react-router-dom";
+import LoadingIcon from "../../assets/loading.gif";
 
 const ALBUMS = {
   AUTOMOTIVE: "Automotive",
@@ -32,6 +33,7 @@ const Home = () => {
   const { pathname } = useLocation();
   const bodyContainerRef = useRef();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [loadingSpinnerIndex, setLoadingSpinnerIndex] = useState(-1);
 
   // Reload page when coming from dashboard
   useLayoutEffect(() => {
@@ -122,6 +124,9 @@ const Home = () => {
           };
         });
         setGalleryPhotos(images);
+
+        // Hides the spinner icon
+        setLoadingSpinnerIndex(-1);
       }
     } catch (error) {
       console.log(error);
@@ -169,6 +174,14 @@ const Home = () => {
     }
   };
 
+  const showLoadingSpinner = (index) => {
+    setLoadingSpinnerIndex(index);
+  };
+
+  const resetCategoriesForAlbum = () => {
+    setCategoriesForAlbum([]);
+  };
+
   return (
     <div ref={bodyContainerRef} className="body-container w-100 h-100">
       {/* PHOTO GALLERY */}
@@ -195,23 +208,49 @@ const Home = () => {
       {categoriesForAlbum.length > 0 && (
         <div
           className="categories-modal"
-          onClick={() => setCategoriesForAlbum([])}
+          onClick={() => resetCategoriesForAlbum()}
         >
-          <div className="categories-container">
-            {categoriesForAlbum.map((category) => {
+          <div
+            className="categories-container"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {categoriesForAlbum.map((category, index) => {
               return (
-                <div
-                  key={category}
-                  className="single-category d-flex flex-column"
-                  onClick={() => showGallery(category.albumId, category._id)}
-                >
-                  <img
-                    src={`${getDomainUrl()}/images/${category.thumbnail}`}
-                    className="w-100 h-100"
-                    alt={category.name}
-                  />
-                  <span>{category.name}</span>
-                </div>
+                <>
+                  <div
+                    key={category}
+                    className="single-category d-flex flex-column position-relative"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      showLoadingSpinner(index);
+                      showGallery(category.albumId, category._id);
+                    }}
+                  >
+                    <div className="category-content w-100 h-100 position-relative d-flex justify-content-center align-items-center">
+                      <img
+                        src={`${getDomainUrl()}/images/${category.thumbnail}`}
+                        className="w-100 h-100 position-absolute"
+                        alt={category.name}
+                      />
+                      <span className="position-relative text-white">
+                        {category.name}
+                      </span>
+                      <div className="category-content-overlay"></div>
+                    </div>
+
+                    {/* LOADING ICON */}
+                    <div
+                      className={`loading-icon w-100 h-100 d-flex justify-content-center align-items-center position-absolute ${
+                        loadingSpinnerIndex === index
+                          ? "opacity-100"
+                          : "opacity-0"
+                      }`}
+                    >
+                      <img src={LoadingIcon} alt="loading spinner" />
+                    </div>
+                    {/* LOADING ICON */}
+                  </div>
+                </>
               );
             })}
           </div>
@@ -270,20 +309,27 @@ const Home = () => {
           <section id="about">
             <h3 className="headline scroll-animated">About Me</h3>
             <p className="scroll-animated">
-              Born and raised in Lebanon, Christophe Akiki is a photographer,
-              videographer and editor. Holding a bachelor degree of Arts,
-              Christophe completed his studies in Cinema and Television at the
-              Holy Spirit University of Kaslik.
+              Christophe Akiki is a Lebanese photographer and videographer who
+              embarked on his creative journey at the age of 18. Over the years,
+              his talent and dedication have propelled him to work with an
+              impressive array of clients, both in Lebanon and internationally.
+              His portfolio includes collaborations with renowned brands and
+              personalities spanning various industries, from sports, food, and
+              beverages to corporate, fashion, nightlife, and politics.
             </p>
             <p className="scroll-animated">
-              He first got behind the camera at the age of eighteen when he
-              began to cover rally racing in the Arab League. From shooting to
-              editing, Christophe’s work has featured international athletes and
-              singers. His photographs have been consistently sought out by
-              global and local brands.
+              Specializing in photography, videography, and post-production,
+              Christophe consistently delivers exceptional content tailored to
+              meet the unique needs of his clients. His passion for storytelling
+              through visuals and his commitment to excellence have earned him
+              the trust and satisfaction of those he works with.
+            </p>
+            <p className="scroll-animated">
+              Explore Christophe Akiki's captivating work and discover why he
+              stands out in the world of photography and videography.
             </p>
             {/* CLIENTS */}
-            <div className="row clients scroll-animated">
+            {/* <div className="row clients scroll-animated">
               <div className="col-md-3 col-xs-6">
                 <img
                   className="img-responsive"
@@ -305,7 +351,7 @@ const Home = () => {
                   alt="client"
                 />
               </div>
-            </div>
+            </div> */}
             {/* /CLIENTS */}
           </section>
           {/* /ABOUT */}
@@ -319,27 +365,12 @@ const Home = () => {
                 <button
                   className="btn btn-primary collapsed"
                   type="button"
-                  data-toggle="collapse"
-                  data-target="#collapse-item-1"
+                  // data-toggle="collapse"
+                  // data-target="#collapse-item-1"
                   aria-expanded="false"
                 >
                   Photography
                 </button>
-                {/* COLLAPSE CONTENT */}
-                <div className="collapse" id="collapse-item-1">
-                  {/* COLLAPSE CONTENT INNER */}
-                  <div className="well">
-                    <p>
-                      My photography focuses on authentically portraying the
-                      adrenaline-fueled moments. Through my lens, I aim to
-                      convey the raw emotion and exhilarating energy inherent in
-                      these experiences, creating images that resonate on a
-                      profound level.
-                    </p>
-                  </div>
-                  {/* /COLLAPSE CONTENT INNER */}
-                </div>
-                {/* /COLLAPSE CONTENT */}
               </li>
               {/* /SERVICE ITEM */}
               {/* SERVICE ITEM */}
@@ -347,29 +378,12 @@ const Home = () => {
                 <button
                   className="btn btn-primary collapsed"
                   type="button"
-                  data-toggle="collapse"
-                  data-target="#collapse-item-2"
+                  // data-toggle="collapse"
+                  // data-target="#collapse-item-2"
                   aria-expanded="false"
                 >
                   Videography
                 </button>
-                {/* COLLAPSE CONTENT */}
-                <div className="collapse" id="collapse-item-2">
-                  {/* COLLAPSE CONTENT INNER */}
-                  <div className="well">
-                    <p>
-                      My journey in videography has led me to specialize in
-                      crafting TV commercials that tell compelling stories
-                      rooted in the world of extreme sports. Each project is an
-                      opportunity for me to immerse myself in the excitement of
-                      the action, translating it into visually stunning
-                      narratives that captivate audiences and evoke genuine
-                      emotion.
-                    </p>
-                  </div>
-                  {/* /COLLAPSE CONTENT INNER */}
-                </div>
-                {/* /COLLAPSE CONTENT */}
               </li>
               {/* /SERVICE ITEM */}
               {/* SERVICE ITEM */}
@@ -377,30 +391,12 @@ const Home = () => {
                 <button
                   className="btn btn-primary collapsed"
                   type="button"
-                  data-toggle="collapse"
-                  data-target="#collapse-item-3"
+                  // data-toggle="collapse"
+                  // data-target="#collapse-item-3"
                   aria-expanded="false"
                 >
                   Post Production
                 </button>
-                {/* COLLAPSE CONTENT */}
-                <div className="collapse" id="collapse-item-3">
-                  {/* COLLAPSE CONTENT INNER */}
-                  <div className="well">
-                    <p>
-                      I bring a meticulous attention to detail and a deep
-                      understanding of visual storytelling. Through video
-                      editing, VFX, and color grading, I breathe life into raw
-                      footage, transforming it into cohesive and impactful
-                      content. This process is not just about technical
-                      proficiency but about infusing each frame with the same
-                      passion and authenticity that drives my work behind the
-                      camera.
-                    </p>
-                  </div>
-                  {/* /COLLAPSE CONTENT INNER */}
-                </div>
-                {/* /COLLAPSE CONTENT */}
               </li>
               {/* /SERVICE ITEM */}
             </ul>
@@ -437,9 +433,11 @@ const Home = () => {
                         {/* INFO */}
                         <div className="info">
                           {/* CONTAINER MID */}
-                          <div className="container-mid">
+                          <div className="container-mid w-100 px-0">
                             {/* <h5>Petron</h5> */}
-                            <p>{album.title}</p>
+                            <p className="w-100 text-center ps-0">
+                              - {album.title}
+                            </p>
                           </div>
                           {/* /CONTAINER MID */}
                         </div>
@@ -453,6 +451,7 @@ const Home = () => {
                           }}
                         />
                       </div>
+
                       {/* /LIGHTBOX LINK */}
                     </div>
                   );
