@@ -35,6 +35,10 @@ app.use("/images", require("./Routes/imagesRoutes.js"));
 app.use("/videos", require("./Routes/videoRoutes.js"));
 app.use("/albums", require("./Routes/albumRoutes.js"));
 
+app.use("/", express.static("build"), (req, res) => {
+  res.sendFile(__dirname + "/build/index.html");
+});
+
 app.use((err, req, res, next) => {
   if (err) {
     res.json({ message: err?.message });
