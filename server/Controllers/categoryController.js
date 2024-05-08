@@ -1,3 +1,4 @@
+const { deletePhysicalImage } = require("../Middlewares/MulterMiddleware.js");
 const CategoryModel = require("../Models/CategoryModel.js");
 const ImageModel = require("../Models/ImageModel.js");
 const mongoose = require("mongoose");
@@ -51,10 +52,20 @@ const deleteCategory = async (req, res) => {
       req.body.categoryId
     ).exec();
 
-    let categories;
-
     if (deleted !== null) {
-      categories = await CategoryModel.find().exec();
+      // Delete all images under this category
+      const images = await ImageModel.find({
+        albumId: deleted.albumId,
+        categoryId: deleted._id,
+      }).exec();
+
+      for (let image in images) {
+        deletePhysicalImage(image.originalName);
+      }
+
+      const categories = await CategoryModel.find({
+        albumId: deleted.albumId,
+      }).exec();
 
       return res.json({ success: true, categories });
     } else {
@@ -63,43 +74,35 @@ const deleteCategory = async (req, res) => {
   } catch (err) {
     return res.json({
       success: false,
-      message: "An error occurred while fetching categories",
+      message: "An error occurred while deleting categories",
     });
-    console.log(err.message);
   }
 };
 
 const updateCategory = async (req, res) => {
-  const { id, name, album } = req.body;
+  const { categoryId, newCategoryName } = req.body;
 
   try {
-    const session = await mongoose.startSession();
-
-    const oldCategoryRecord = await CategoryModel.findById(id).exec();
-
     const catUpdateResult = await CategoryModel.findByIdAndUpdate(
-      id,
+      categoryId,
       {
-        name,
-        album,
+        name: newCategoryName,
       },
-      { session }
+      { new: true }
     ).exec();
 
-    // Update all images associated with that category
-    const imageUpdateResult = await ImageModel.updateMany(
-      { category: oldCategoryRecord.name },
-      { $set: { category: name, album } },
-      { session }
-    ).exec();
-
-    return res.json({
-      success: true,
-      message:
-        catUpdateResult && imageUpdateResult
-          ? "Category updated successfully"
-          : "Operation failed",
-    });
+    if (catUpdateResult) {
+      return res.json({
+        success: true,
+        message: "Category updated successfully",
+        updatedCategory: catUpdateResult,
+      });
+    } else {
+      return res.json({
+        success: false,
+        message: "Operation failed",
+      });
+    }
   } catch (err) {
     console.log(err.message);
     return res.json({

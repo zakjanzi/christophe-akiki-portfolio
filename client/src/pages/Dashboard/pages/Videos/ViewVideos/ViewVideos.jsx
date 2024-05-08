@@ -6,7 +6,7 @@ import EditVideoForm from "../UploadForm/UploadForm";
 const ViewVideos = () => {
   const [editVideoMode, setEditVideoMode] = useState(false);
   const [videoToEdit, setVideoToEdit] = useState({});
-  const [videos, setVideos] = useState([]);
+  const [videos, setVideos] = useState(null);
 
   const { doFetchAllVideos, doDeleteVideo } = useDataHandler();
 
@@ -55,8 +55,8 @@ const ViewVideos = () => {
   };
 
   return (
-    <>
-      {!editVideoMode && <h4 className="ms-5 mt-3 text-dark">View Videos</h4>}
+    <div className="w-100 px-5">
+      {!editVideoMode && <h4 className=" mt-3 text-dark">View Videos</h4>}
 
       {/* This form is being used in edit mode here */}
       {editVideoMode && (
@@ -67,7 +67,14 @@ const ViewVideos = () => {
         />
       )}
 
-      {!editVideoMode && videos.length > 0 && (
+      {/* If no video is found, display the message below */}
+      {videos !== null && videos.length === 0 && (
+        <div className="alert alert-danger w-100 mt-4 text-center fw-bold fs-2">
+          No videos found.
+        </div>
+      )}
+
+      {!editVideoMode && videos !== null && videos.length > 0 && (
         <table className="table table-striped mx-5 mt-3">
           <thead>
             <tr>
@@ -79,7 +86,7 @@ const ViewVideos = () => {
           </thead>
           <tbody>
             {videos.map((video, index) => (
-              <tr>
+              <tr key={video._id}>
                 <th scope="row">{index + 1}</th>
                 <td>{video.title}</td>
                 <td>{video.description}</td>
@@ -102,7 +109,7 @@ const ViewVideos = () => {
           </tbody>
         </table>
       )}
-    </>
+    </div>
   );
 };
 

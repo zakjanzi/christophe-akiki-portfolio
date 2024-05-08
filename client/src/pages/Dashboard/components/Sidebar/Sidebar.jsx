@@ -13,7 +13,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     /* eslint-disable no-undef */
-    for (let x = 1; x < 3; x++) {
+    for (let x = 1; x < 4; x++) {
       const mainMenuItem = document.querySelector(
         `aside.sidebar > ul > li:nth-child(${x})`
       );
