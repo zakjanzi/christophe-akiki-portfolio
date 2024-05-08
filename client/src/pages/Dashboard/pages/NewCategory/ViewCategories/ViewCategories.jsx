@@ -176,24 +176,31 @@ const ViewCategories = () => {
             className="rename-category-modal"
             onClick={() => resetCategoryRenameId()}
           >
-            <div className="rename-category-container">
+            <div
+              className="rename-category-container"
+              onClick={(e) => e.stopPropagation()}
+            >
               <input
                 type="text"
                 value={formValues.newCategoryName}
                 onChange={renameCategoryValue}
+                onClick={(e) => e.stopPropagation()}
                 className="text-grey fw-normal"
               />
               {!apiCallActive && (
                 <button
                   type="button"
                   className="btn btn-success"
-                  onClick={updateCategory}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    updateCategory();
+                  }}
                 >
                   Update category
                 </button>
               )}
               {apiCallActive ? (
-                <div className="load">
+                <div className="load" onClick={(e) => e.stopPropagation()}>
                   <div className="one"></div>
                   <div className="two"></div>
                   <div className="three"></div>
