@@ -81,7 +81,7 @@ const updateVideo = async (req, res) => {
     };
 
     if (req.files?.image) {
-      imageOriginalName = req.files.filename;
+      imageOriginalName = req.filenames[0];
 
       updatePayload = {
         ...updatePayload,
