@@ -16,7 +16,7 @@ router.post("/albumImages", getAlbumImages);
 
 router.post("/create", protected, uploadMiddleware, createAlbum);
 
-router.post("/update", protected, uploadMiddleware, updateAlbum);
+router.post("/update", protected, updateAlbum);
 
 router.delete("/delete", protected, deleteAlbum);
 

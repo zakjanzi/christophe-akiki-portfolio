@@ -2,6 +2,7 @@ const { deletePhysicalImage } = require("../Middlewares/MulterMiddleware.js");
 const CategoryModel = require("../Models/CategoryModel.js");
 const ImageModel = require("../Models/ImageModel.js");
 const mongoose = require("mongoose");
+const { imageSaver } = require("../utils/functions.js");
 
 const create = async (req, res) => {
   try {
@@ -48,26 +49,39 @@ const all = async (req, res) => {
 
 const deleteCategory = async (req, res) => {
   try {
-    const deleted = await CategoryModel.findByIdAndDelete(
+    const deletedCategory = await CategoryModel.findByIdAndDelete(
       req.body.categoryId
     ).exec();
 
-    if (deleted !== null) {
+    if (deletedCategory !== null) {
+      // Delete category thumbnail
+      deletePhysicalImage(deletedCategory.thumbnail);
+
       // Delete all images under this category
       const images = await ImageModel.find({
-        albumId: deleted.albumId,
-        categoryId: deleted._id,
+        albumId: deletedCategory.albumId,
+        categoryId: deletedCategory._id,
       }).exec();
 
       for (let image in images) {
         deletePhysicalImage(image.originalName);
       }
 
-      const categories = await CategoryModel.find({
-        albumId: deleted.albumId,
+      // Delete the image documents from the database
+      await ImageModel.deleteMany({
+        albumId: deletedCategory.albumId,
+        categoryId: deletedCategory._id,
       }).exec();
 
-      return res.json({ success: true, categories });
+      const categories = await CategoryModel.find({
+        albumId: deletedCategory.albumId,
+      }).exec();
+
+      return res.json({
+        success: true,
+        message: "Category successfully deleted",
+        categories,
+      });
     } else {
       return res.json({ success: false, message: "Operation Failed" });
     }
@@ -80,14 +94,46 @@ const deleteCategory = async (req, res) => {
 };
 
 const updateCategory = async (req, res) => {
+  let categoryThumbnail;
+
+  if (req.files) {
+    categoryThumbnail = req.files.categoryThumbnail;
+  }
+
   const { categoryId, newCategoryName } = req.body;
+
+  if (
+    (!newCategoryName && !categoryThumbnail) ||
+    (!newCategoryName && categoryThumbnail)
+  ) {
+    return res.json({
+      success: false,
+      message: "Operation failed",
+    });
+  }
+
+  let updateObject = {
+    name: newCategoryName,
+  };
+
+  if (categoryThumbnail) {
+    const thumbnail = imageSaver(categoryThumbnail);
+
+    // Remove old category thumbnail
+    const oldCategoryDoc = await CategoryModel.findById(categoryId).exec();
+
+    deletePhysicalImage(oldCategoryDoc.thumbnail);
+
+    updateObject = {
+      ...updateObject,
+      thumbnail: thumbnail.newFileName,
+    };
+  }
 
   try {
     const catUpdateResult = await CategoryModel.findByIdAndUpdate(
       categoryId,
-      {
-        name: newCategoryName,
-      },
+      updateObject,
       { new: true }
     ).exec();
 

@@ -16,7 +16,7 @@ router.post("/forAlbum", getForAlbum);
 
 router.get("/all", all);
 
-router.patch("/update", protected, updateCategory);
+router.post("/update", protected, updateCategory);
 
 router.delete("/delete", protected, deleteCategory);
 

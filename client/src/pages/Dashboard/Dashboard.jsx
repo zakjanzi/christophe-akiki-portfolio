@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import ImageWindow from "../../components/MainPage/ImageWindow/ImageWindow";
-// import Intro from "../../components/MainPage/Intro/Intro";
-// import ImagesContainer from "../../components/MainPage/ImagesContainer/ImagesContainer";
-// import Filter from "../../components/MainPage/Filter/Filter";
-
+import { ToastContainer } from "react-toastify";
 import Sidebar from "./components/Sidebar/Sidebar";
 import { Outlet } from "react-router-dom";
 import "./styles/dashboard.css";
@@ -48,6 +44,8 @@ export default function Dashboard() {
       <section className="page-content">
         <Outlet />
       </section>
+
+      <ToastContainer />
     </>
   );
 }

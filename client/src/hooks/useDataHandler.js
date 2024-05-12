@@ -42,7 +42,12 @@ export default function useDataHandler() {
   };
 
   const doUpdateCategory = (payload) => {
-    return axiosPrivate.patch(UPDATE_CATEGORY_URL, payload);
+    console.log("payload: ", payload);
+    return axiosPrivate.post(UPDATE_CATEGORY_URL, payload, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   };
 
   const doUploadImage = (payload) => {

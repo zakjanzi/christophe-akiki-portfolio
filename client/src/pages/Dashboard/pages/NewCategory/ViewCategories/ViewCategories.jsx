@@ -5,16 +5,19 @@ import { useParams, Link } from "react-router-dom";
 import { getDomainUrl } from "../../../../../utils/functions";
 import LoadingIcon from "../../../../../assets/loading.gif";
 import { ToastContainer } from "react-toastify";
+import { BsFillCameraFill } from "react-icons/bs";
 import "./styles/view-categories.css";
 
 const ViewCategories = () => {
   const [categories, setCategories] = useState(null);
   const [loadingSpinnerIndex, setLoadingSpinnerIndex] = useState(-1);
-  const [categoryRenameId, setCategoryRenameId] = useState("");
+  const [categoryEditId, setCategoryEditId] = useState("");
   const [formValues, setFormValues] = useState({
     newCategoryName: "",
+    categoryThumbnail: "",
   });
   const [apiCallActive, setApiCallActive] = useState(false);
+
   const { doFetchCategoriesForAlbum, doDeleteCategory, doUpdateCategory } =
     useDataHandler();
   const params = useParams();
@@ -44,6 +47,7 @@ const ViewCategories = () => {
 
       if (res.data.success) {
         setCategories(res.data.categories);
+        toastSuccess(res.data.message);
       } else {
         toastError(res.data.message);
       }
@@ -53,8 +57,8 @@ const ViewCategories = () => {
     }
   };
 
-  const showRenameCategoryForm = (categoryId) => {
-    setCategoryRenameId(categoryId);
+  const showEditCategoryForm = (categoryId) => {
+    setCategoryEditId(categoryId);
   };
 
   const showLoadingSpinner = (index) => {
@@ -63,6 +67,7 @@ const ViewCategories = () => {
 
   const renameCategoryValue = (e) => {
     setFormValues((prev) => ({
+      ...prev,
       newCategoryName: e.target.value,
     }));
   };
@@ -71,13 +76,20 @@ const ViewCategories = () => {
     try {
       setApiCallActive(true);
 
-      const res = await doUpdateCategory({
-        categoryId: categoryRenameId,
-        newCategoryName: formValues.newCategoryName,
-      });
+      const formData = new FormData();
+
+      formData.append("categoryId", categoryEditId);
+
+      formData.append("newCategoryName", formValues.newCategoryName);
+
+      if ("" !== formValues.categoryThumbnail) {
+        formData.append("categoryThumbnail", formValues.categoryThumbnail);
+      }
+
+      const res = await doUpdateCategory(formData);
 
       setApiCallActive(false);
-      console.log(res.data);
+      // console.log(res.data);
 
       if (res.data.success) {
         toastSuccess(res.data.message);
@@ -91,15 +103,39 @@ const ViewCategories = () => {
 
         setCategories(updatedList);
 
-        setCategoryRenameId("");
+        setCategoryEditId("");
+
+        resetEditForm();
       }
     } catch (error) {
       toastError(error.response?.data?.message);
     }
   };
 
-  const resetCategoryRenameId = () => {
-    setCategoryRenameId("");
+  const resetEditForm = () => {
+    setFormValues({
+      newCategoryName: "",
+      categoryThumbnail: "",
+    });
+  };
+
+  const resetCategoryEditId = () => {
+    setCategoryEditId("");
+  };
+
+  const resetCategoryThumbnail = () =>
+    setFormValues((prev) => ({ ...prev, categoryThumbnail: "" }));
+
+  const setCategoryThumbnail = (images) => {
+    setFormValues((prev) => ({ ...prev, categoryThumbnail: images[0] }));
+  };
+
+  const initCategoryNameInput = (name) => {
+    setFormValues((prev) => ({ ...prev, newCategoryName: name }));
+  };
+
+  const categoryImageSelected = () => {
+    return "" !== formValues.categoryThumbnail;
   };
 
   return (
@@ -155,9 +191,12 @@ const ViewCategories = () => {
                     <button
                       type="button"
                       className="btn btn-info"
-                      onClick={() => showRenameCategoryForm(category._id)}
+                      onClick={() => {
+                        showEditCategoryForm(category._id);
+                        initCategoryNameInput(category.name);
+                      }}
                     >
-                      Rename
+                      Edit
                     </button>
                     <button
                       type="button"
@@ -171,22 +210,70 @@ const ViewCategories = () => {
               );
             })}
         </section>
-        {categoryRenameId && (
+
+        {/* Modal for Editing Category */}
+        {categoryEditId && (
           <div
-            className="rename-category-modal"
-            onClick={() => resetCategoryRenameId()}
+            className="edit-category-modal"
+            onClick={() => resetCategoryEditId()}
           >
             <div
-              className="rename-category-container"
+              className="edit-category-container flex-column"
               onClick={(e) => e.stopPropagation()}
             >
-              <input
-                type="text"
-                value={formValues.newCategoryName}
-                onChange={renameCategoryValue}
-                onClick={(e) => e.stopPropagation()}
-                className="text-grey fw-normal"
-              />
+              <strong className="text-grey">
+                Change Category Thumbnail image
+              </strong>
+              <label
+                htmlFor="category-thumbnail"
+                className="file-label mt-2"
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {!categoryImageSelected() && (
+                  <BsFillCameraFill className="camera-icon " />
+                )}
+                {categoryImageSelected() && (
+                  <>
+                    <section className="x-close-button-container">
+                      <span
+                        className="x-close-button"
+                        onClick={() => resetCategoryThumbnail()}
+                      >
+                        x
+                      </span>
+                    </section>
+                    <span>{formValues.categoryThumbnail?.name}</span>
+                  </>
+                )}
+
+                <input
+                  type="file"
+                  onChange={(event) =>
+                    setCategoryThumbnail(
+                      event.target.files.length > 0 ? event.target.files : [""]
+                    )
+                  }
+                  name="categoryThumbnail"
+                  accept="image/png, image/jpg, image/gif, image/jpeg"
+                  className="file-input"
+                  id="category-thumbnail"
+                />
+              </label>
+              <label htmlFor="new-category-name" className="text-grey">
+                Category Name
+                <input
+                  type="text"
+                  id="new-category-name"
+                  value={formValues.newCategoryName}
+                  onChange={renameCategoryValue}
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-grey fw-normal form-control mt-2"
+                />
+              </label>
+
               {!apiCallActive && (
                 <button
                   type="button"
