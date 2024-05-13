@@ -490,7 +490,7 @@ const Home = () => {
             {/* CONTACT FORM */}
             <form
               id="contact-form"
-              action="assets/php/contact.php"
+              action="client/public/assets/php/contact.php"
               method="post"
             >
               <input
