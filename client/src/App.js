@@ -53,7 +53,8 @@ export default function App() {
           }
         >
           {/* <Route path="add-category" element={<NewCategory />} /> */}
-          <Route path="view-categories/:albumId" element={<ViewCategories />} />
+          {/* categories renamed to albums in the url (view-categories => view-albums) */}
+          <Route path="view-albums/:albumId" element={<ViewCategories />} />
           <Route path="upload-image" element={<UploadImage />} />
           {/* <Route path="view-images" element={<ViewImages />} /> */}
           <Route
@@ -63,7 +64,9 @@ export default function App() {
           <Route path="upload-video" element={<UploadVideo />} />
           <Route path="view-videos" element={<ViewVideos />} />
           {/* <Route path="create-album" element={<Album />} /> */}
-          <Route path="view-albums" element={<ViewAlbums />} />
+
+          {/* albums renamed to categories in the url (view-albums => view-categories) */}
+          <Route path="view-categories" element={<ViewAlbums />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} shouldRevalidate={true} />
         {/* <Route path="/saved" element={<SavedPosts />} /> */}

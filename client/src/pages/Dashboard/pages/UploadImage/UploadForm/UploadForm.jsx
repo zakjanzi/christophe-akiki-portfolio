@@ -17,6 +17,13 @@ const CATEGORY_SELECT_OPTIONS = {
   CREATE_CATEGORY: "Create Category",
 };
 
+const TEXT_REPLACEMENTS = {
+  ALBUMS_TO_CATEGORIES_PASCAL: "Categories",
+  CATEGORIES_TO_ALBUMS_PASCAL: "Albums",
+  ALBUM_TO_CATEGORY_PASCAL: "Category",
+  CATEGORY_TO_ALBUM_PASCAL: "Album",
+};
+
 export default function UploadForm(props) {
   const [categoriesForAlbum, setCategoriesForAlbum] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -78,7 +85,9 @@ export default function UploadForm(props) {
 
     if (existingAlbumSelected) {
       if (!formValues.albumId) {
-        toastError("Please select an album from the dropdown");
+        toastError(
+          `Please select a ${TEXT_REPLACEMENTS.ALBUM_TO_CATEGORY_PASCAL.toLowerCase()} from the dropdown`
+        );
         return;
       }
     }
@@ -86,61 +95,73 @@ export default function UploadForm(props) {
     if (!existingAlbumSelected) {
       if (!canCreateAlbumName) {
         toastError(
-          "The provided Album exists. Choose from Select Album dropdown."
+          `The provided ${TEXT_REPLACEMENTS.ALBUM_TO_CATEGORY_PASCAL.toLowerCase()} exists. Choose from Select ${TEXT_REPLACEMENTS.ALBUM_TO_CATEGORY_PASCAL.toLowerCase()} dropdown.`
         );
         return;
       }
 
       if (!formValues.albumName && !formValues.albumThumbnail) {
         toastError(
-          "Please enter an album name and select a thumbnail for the new album"
+          `Please enter a ${TEXT_REPLACEMENTS.ALBUM_TO_CATEGORY_PASCAL.toLowerCase()} name and select a thumbnail for the new ${TEXT_REPLACEMENTS.ALBUM_TO_CATEGORY_PASCAL.toLowerCase()}`
         );
         return;
       }
 
       if (!formValues.albumName) {
-        toastError("Please enter a name for the new Album");
+        toastError(
+          `Please enter a name for the new ${TEXT_REPLACEMENTS.ALBUM_TO_CATEGORY_PASCAL.toLowerCase()}`
+        );
         return;
       }
 
       if (!formValues.albumThumbnail) {
-        toastError("Please select an image for the thumbnail of the new album");
+        toastError(
+          `Please select an image for the thumbnail of the new ${TEXT_REPLACEMENTS.ALBUM_TO_CATEGORY_PASCAL.toLowerCase()}`
+        );
         return;
       }
     }
 
-    // This validation step executes if user wants to choose from an existing category
+    // This validation step executes if user wants to choose from an existing category (Category is now Album in this section)
     if (existingCategorySelected) {
       if (!formValues.categoryId) {
-        toastError("Please select a category from the dropdown");
+        toastError(
+          `Please select an ${TEXT_REPLACEMENTS.CATEGORY_TO_ALBUM_PASCAL.toLowerCase()} from the dropdown`
+        );
         return;
       }
     }
 
-    // This validation step executes if user wants to create a new category for the album
+    // This validation step executes if user wants to create a new category for the album (now: a new album for the category)
     if (!existingCategorySelected) {
       if (!canCreateCategoryName) {
         toastError(
-          "The provided Category exists. Choose from Select Category dropdown."
+          `The provided ${TEXT_REPLACEMENTS.CATEGORY_TO_ALBUM_PASCAL.toLowerCase()} exists. Choose from Select ${
+            TEXT_REPLACEMENTS.CATEGORY_TO_ALBUM_PASCAL
+          } dropdown.`
         );
         return;
       }
 
       if (!formValues.categoryName && !formValues.categoryThumbnail) {
         toastError(
-          "Please enter a category name and select a thumbnail for the new Category"
+          `Please enter a ${TEXT_REPLACEMENTS.CATEGORY_TO_ALBUM_PASCAL.toLowerCase()} name and select a thumbnail for the new ${
+            TEXT_REPLACEMENTS.CATEGORY_TO_ALBUM_PASCAL
+          }`
         );
         return;
       }
 
       if (!formValues.categoryName) {
-        toastError("Please enter a name for the new Category");
+        toastError(
+          `Please enter a name for the new ${TEXT_REPLACEMENTS.CATEGORY_TO_ALBUM_PASCAL}`
+        );
         return;
       }
 
       if (!formValues.categoryThumbnail) {
         toastError(
-          "Please select an image for the thumbnail of the new category"
+          `Please select an image for the thumbnail of the new ${TEXT_REPLACEMENTS.CATEGORY_TO_ALBUM_PASCAL}`
         );
         return;
       }
@@ -208,7 +229,7 @@ export default function UploadForm(props) {
 
   const highlightTitle = (title) => {
     switch (title) {
-      case ALBUM_SELECT_OPTIONS.CREATE_ALBUM:
+      case CATEGORY_SELECT_OPTIONS.CREATE_CATEGORY:
         setExistingAlbumSelected((prev) => false);
 
         // For new albums, a new category must be created
@@ -222,7 +243,7 @@ export default function UploadForm(props) {
         // to be created is acknowledged
         setFormValues((prev) => ({ ...prev, albumId: "" }));
         break;
-      case ALBUM_SELECT_OPTIONS.SELECT_ALBUM:
+      case CATEGORY_SELECT_OPTIONS.SELECT_CATEGORY:
         setExistingAlbumSelected((prev) => true);
 
         // An existing album has at least one category.
@@ -254,7 +275,7 @@ export default function UploadForm(props) {
 
   const highlightCategorySection = (title) => {
     switch (title) {
-      case CATEGORY_SELECT_OPTIONS.CREATE_CATEGORY:
+      case ALBUM_SELECT_OPTIONS.CREATE_ALBUM:
         setExistingCategorySelected((prev) => false);
 
         setCanCreateCategoryName((_) => true);
@@ -265,7 +286,7 @@ export default function UploadForm(props) {
           categoryThumbnail: "",
         }));
         break;
-      case CATEGORY_SELECT_OPTIONS.SELECT_CATEGORY:
+      case ALBUM_SELECT_OPTIONS.SELECT_ALBUM:
         setExistingCategorySelected((prev) => true);
 
         // Reset the value of categoryId because the user is not
@@ -426,10 +447,11 @@ export default function UploadForm(props) {
                     existingAlbumSelected ? "highlight" : "unhighlight"
                   }`}
                   onClick={
-                    () => highlightTitle(ALBUM_SELECT_OPTIONS.SELECT_ALBUM) // also performs other operations
+                    () =>
+                      highlightTitle(CATEGORY_SELECT_OPTIONS.SELECT_CATEGORY) // also performs other operations
                   }
                 >
-                  <p>{ALBUM_SELECT_OPTIONS.SELECT_ALBUM}</p>
+                  <p>{CATEGORY_SELECT_OPTIONS.SELECT_CATEGORY}</p>
                 </section>
                 <section
                   role="button"
@@ -438,10 +460,11 @@ export default function UploadForm(props) {
                     !existingAlbumSelected ? "highlight" : "unhighlight"
                   }`}
                   onClick={
-                    () => highlightTitle(ALBUM_SELECT_OPTIONS.CREATE_ALBUM) // also performs other operations
+                    () =>
+                      highlightTitle(CATEGORY_SELECT_OPTIONS.CREATE_CATEGORY) // also performs other operations
                   }
                 >
-                  <p>{ALBUM_SELECT_OPTIONS.CREATE_ALBUM}</p>
+                  <p>{CATEGORY_SELECT_OPTIONS.CREATE_CATEGORY}</p>
                 </section>
               </div>
 
@@ -461,7 +484,7 @@ export default function UploadForm(props) {
                       name="albumId"
                       value={formValues.albumId}
                     >
-                      <option value="">---Select an Album---</option>
+                      <option value="">---Select a category---</option>
                       {albums.length > 0 &&
                         albums.map((singleAlbum) => (
                           <option
@@ -480,7 +503,7 @@ export default function UploadForm(props) {
                     <input
                       type="text"
                       name="albumName"
-                      placeholder="Enter the name for the new Album"
+                      placeholder={`Enter the name for the new ${TEXT_REPLACEMENTS.ALBUM_TO_CATEGORY_PASCAL}`}
                       onChange={(event) => {
                         handleChange(event);
                         validateAlbumAvailability(event.target.value);
@@ -492,14 +515,17 @@ export default function UploadForm(props) {
                     {/* Display Album Name Availability */}
                     {!canCreateAlbumName && (
                       <p className="alert alert-danger">
-                        Album exists. Please select from existing album or
-                        provide another name.
+                        {TEXT_REPLACEMENTS.ALBUM_TO_CATEGORY_PASCAL} exists.
+                        Please select from existing{" "}
+                        {TEXT_REPLACEMENTS.ALBUM_TO_CATEGORY_PASCAL.toLowerCase()}{" "}
+                        or provide another name.
                       </p>
                     )}
 
                     {/* New Album thumbnail */}
                     <strong className="text-grey">
-                      Choose Album Thumbnail image
+                      Choose {TEXT_REPLACEMENTS.ALBUM_TO_CATEGORY_PASCAL}{" "}
+                      Thumbnail image
                     </strong>
                     <label
                       htmlFor="album-thumbnail"
@@ -547,8 +573,10 @@ export default function UploadForm(props) {
               </div>
             </section>
             {/* End select Album to upload to, or create a new Album */}
+            {/* Note: This Album section at the top is being referred to as Category section now  */}
 
             {/* Select Album Category to upload to, or create a new Album Category */}
+            {/* Note: This Category section is now referred to as Album section */}
             <section className="category-section-wrapper position-relative">
               {/* This is an overlay preventing the user from interacting with the categories section until the album value is valid */}
               {!categoriesSectionEnabled && (
@@ -562,14 +590,12 @@ export default function UploadForm(props) {
                     existingCategorySelected ? "highlight" : "unhighlight"
                   }`}
                   onClick={() => {
-                    highlightCategorySection(
-                      CATEGORY_SELECT_OPTIONS.SELECT_CATEGORY
-                    );
+                    highlightCategorySection(ALBUM_SELECT_OPTIONS.SELECT_ALBUM);
 
                     resetCreateCategoryInput();
                   }}
                 >
-                  <p>{CATEGORY_SELECT_OPTIONS.SELECT_CATEGORY}</p>
+                  <p>{ALBUM_SELECT_OPTIONS.SELECT_ALBUM}</p>
                 </section>
                 <section
                   role="button"
@@ -578,12 +604,10 @@ export default function UploadForm(props) {
                     !existingCategorySelected ? "highlight" : "unhighlight"
                   }`}
                   onClick={() =>
-                    highlightCategorySection(
-                      CATEGORY_SELECT_OPTIONS.CREATE_CATEGORY
-                    )
+                    highlightCategorySection(ALBUM_SELECT_OPTIONS.CREATE_ALBUM)
                   }
                 >
-                  <p>{CATEGORY_SELECT_OPTIONS.CREATE_CATEGORY}</p>
+                  <p>{ALBUM_SELECT_OPTIONS.CREATE_ALBUM}</p>
                 </section>
               </div>
 
@@ -599,7 +623,10 @@ export default function UploadForm(props) {
                       name="categoryId"
                       value={formValues.categoryId}
                     >
-                      <option value="">---Select a Category---</option>
+                      <option value="">
+                        ---Select an{" "}
+                        {TEXT_REPLACEMENTS.CATEGORY_TO_ALBUM_PASCAL}---
+                      </option>
                       {categoriesForAlbum.length > 0 &&
                         categoriesForAlbum.map((singleAlbumCategory) => (
                           <option
@@ -618,7 +645,7 @@ export default function UploadForm(props) {
                     <input
                       type="text"
                       name="categoryName"
-                      placeholder="Enter the name for the new Category"
+                      placeholder={`Enter the name for the new ${TEXT_REPLACEMENTS.CATEGORY_TO_ALBUM_PASCAL}`}
                       value={formValues.categoryName}
                       onChange={(event) => {
                         handleChange(event);
@@ -628,16 +655,21 @@ export default function UploadForm(props) {
                     />
 
                     {/* Display Category Name Availability */}
+                    {/* Note: Category is being referred to as Album here */}
                     {!canCreateCategoryName && (
                       <p className="alert alert-danger">
-                        Category exists. Please select from existing category or
-                        provide another name.
+                        {TEXT_REPLACEMENTS.CATEGORY_TO_ALBUM_PASCAL} exists.
+                        Please select from existing{" "}
+                        {TEXT_REPLACEMENTS.CATEGORY_TO_ALBUM_PASCAL} or provide
+                        another name.
                       </p>
                     )}
 
                     {/* New Category thumbnail */}
+                    {/* Category is being referred to as Album wherever it can be viewed in the browser (i.e in plain text) */}
                     <strong className="text-grey">
-                      Choose Category Thumbnail image
+                      Choose {TEXT_REPLACEMENTS.CATEGORY_TO_ALBUM_PASCAL}{" "}
+                      Thumbnail image
                     </strong>
                     <label
                       htmlFor="category-thumbnail"

@@ -129,7 +129,8 @@ const Sidebar = () => {
               </Link>
             </li>
             <li>
-              <Link to="view-albums" className="center position-relative">
+              {/* Link rename (view-albums => view-categories) */}
+              <Link to="view-categories" className="center position-relative">
                 <i className="fa fa-eye" />{" "}
                 <span className="position-absolute top-0 ms-5">View All</span>
               </Link>

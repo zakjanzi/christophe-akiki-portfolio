@@ -2,12 +2,12 @@
 import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import useDataHandler from "../../hooks/useDataHandler";
 import ImageGallery from "react-image-gallery";
-import "./styles/home.css";
 import "../../../node_modules/react-image-gallery/styles/css/image-gallery.css";
 import { NODE_ENV } from "../../api/urlConfig";
 import VideoCard from "./components/Videos/Videos";
 import { useLocation, useSearchParams } from "react-router-dom";
 import LoadingIcon from "../../assets/loading.gif";
+import "./styles/home.css";
 
 const ALBUMS = {
   AUTOMOTIVE: "Automotive",

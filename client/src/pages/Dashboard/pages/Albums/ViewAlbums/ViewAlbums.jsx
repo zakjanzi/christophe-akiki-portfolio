@@ -130,9 +130,12 @@ const ViewAlbums = () => {
     }
   };
 
+  /**
+   * Albums is renamed to categories, in plain text and any visible area on the browser
+   */
   return (
     <div id="work" className="view-albums w-100 py-3 px-5">
-      <h2 className="text-dark">Albums</h2>
+      <h2 className="text-dark">Categories</h2>
       <section id="content w-100">
         {/* If Loading, display the info below */}
         {albums && albums.length === 0 && <Loading />}
@@ -145,7 +148,7 @@ const ViewAlbums = () => {
               return (
                 <div className="d-flex flex-column mb-3" key={album._id}>
                   <Link
-                    to={`/dashboard/view-categories/${album._id}`}
+                    to={`/dashboard/view-albums/${album._id}`}
                     key={album._id}
                     className="item album-item"
                   >
@@ -215,7 +218,7 @@ const ViewAlbums = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <strong className="text-grey">
-                Change Album Thumbnail image
+                Change Category Thumbnail Image
               </strong>
               <label
                 htmlFor="album-thumbnail"
@@ -256,7 +259,8 @@ const ViewAlbums = () => {
                 />
               </label>
               <label htmlFor="new-album-name" className="text-grey">
-                Album Name
+                Category Name
+                {/* Text above, formerly (Album Name), changed to (Category name) */}
                 <input
                   type="text"
                   id="new-album-name"
@@ -276,7 +280,8 @@ const ViewAlbums = () => {
                     updateAlbum();
                   }}
                 >
-                  Update album
+                  Update Category
+                  {/* Text above, formerly (Update Album), changed to (Update Category) */}
                 </button>
               )}
               {apiCallActive ? <Loading /> : ""}

@@ -4,6 +4,14 @@ const ImageModel = require("../Models/ImageModel.js");
 const mongoose = require("mongoose");
 const { imageSaver } = require("../utils/functions.js");
 
+/**
+ * Category is being referred to as Album
+ */
+const NAME_REPLACEMENTS = {
+  CATEGORY_TO_ALBUM: "Album",
+  CATEGORIES_TO_ALBUMS: "Albums",
+};
+
 const create = async (req, res) => {
   try {
     const { name, album } = req.body;
@@ -63,9 +71,9 @@ const deleteCategory = async (req, res) => {
         categoryId: deletedCategory._id,
       }).exec();
 
-      for (let image in images) {
+      images.forEach((image) => {
         deletePhysicalImage(image.originalName);
-      }
+      });
 
       // Delete the image documents from the database
       await ImageModel.deleteMany({
@@ -73,13 +81,14 @@ const deleteCategory = async (req, res) => {
         categoryId: deletedCategory._id,
       }).exec();
 
+      // Fetch the remaining categories
       const categories = await CategoryModel.find({
         albumId: deletedCategory.albumId,
       }).exec();
 
       return res.json({
         success: true,
-        message: "Category successfully deleted",
+        message: `${NAME_REPLACEMENTS.CATEGORY_TO_ALBUM} successfully deleted`,
         categories,
       });
     } else {
@@ -88,7 +97,7 @@ const deleteCategory = async (req, res) => {
   } catch (err) {
     return res.json({
       success: false,
-      message: "An error occurred while deleting categories",
+      message: `An error occurred while deleting ${NAME_REPLACEMENTS.CATEGORIES_TO_ALBUMS}`,
     });
   }
 };
@@ -140,7 +149,7 @@ const updateCategory = async (req, res) => {
     if (catUpdateResult) {
       return res.json({
         success: true,
-        message: "Category updated successfully",
+        message: `${NAME_REPLACEMENTS.CATEGORY_TO_ALBUM} updated successfully`,
         updatedCategory: catUpdateResult,
       });
     } else {
@@ -153,7 +162,7 @@ const updateCategory = async (req, res) => {
     console.log(err.message);
     return res.json({
       success: false,
-      message: "An error occurred while updating categories",
+      message: `An error occurred while updating ${NAME_REPLACEMENTS.CATEGORY_TO_ALBUM}`,
     });
   }
 };
@@ -166,11 +175,12 @@ const getForAlbum = async (req, res) => {
 
     return res.json({ success: true, categories });
   } catch (err) {
+    console.log(err.message);
+
     return res.json({
       success: false,
       message: "An error occurred while fetching categories",
     });
-    console.log(err.message);
   }
 };
 

@@ -138,14 +138,18 @@ const ViewCategories = () => {
     return "" !== formValues.categoryThumbnail;
   };
 
+  /**
+   * Categories plain text switched
+   */
   return (
     <>
       <div id="work" className="w-100 py-3 px-5">
-        <h2 className="text-dark">Categories</h2>
+        {/* Categories renamed to Albums */}
+        <h2 className="text-dark">Albums</h2>
         <section id="content">
           {categories !== null && categories.length === 0 && (
             <div className="alert alert-danger w-100 mt-4 text-center fw-bold fs-2">
-              No categories found for this album
+              No albums found for this category
             </div>
           )}
 
@@ -222,7 +226,7 @@ const ViewCategories = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <strong className="text-grey">
-                Change Category Thumbnail image
+                Change Album Thumbnail image
               </strong>
               <label
                 htmlFor="category-thumbnail"
@@ -262,8 +266,9 @@ const ViewCategories = () => {
                   id="category-thumbnail"
                 />
               </label>
+              {/* Album Name changed FROM Category name */}
               <label htmlFor="new-category-name" className="text-grey">
-                Category Name
+                Album Name
                 <input
                   type="text"
                   id="new-category-name"
@@ -283,7 +288,8 @@ const ViewCategories = () => {
                     updateCategory();
                   }}
                 >
-                  Update category
+                  Update album
+                  {/* Text above, formerly (Update category) */}
                 </button>
               )}
               {apiCallActive ? (

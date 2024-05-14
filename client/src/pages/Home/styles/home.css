@@ -61,6 +61,7 @@ html.with-featherlight {
 
 .image-gallery-slide-wrapper {
   max-width: 100vw;
+  height: calc(100vh - 120px);
 }
 
 .category-content {
@@ -73,6 +74,22 @@ html.with-featherlight {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 4;
+}
+
+.image-gallery-slide .image-gallery-image {
+  max-height: calc(100vh - 120px) !important;
+}
+
+.image-gallery-thumbnail {
+  height: 110px !important;
+}
+
+.image-gallery-thumbnail .image-gallery-thumbnail-inner {
+  height: 100% !important;
+}
+
+.image-gallery-thumbnail .image-gallery-thumbnail-image {
+  height: 100%;
 }
 
 @media screen and (max-width: 480px) {

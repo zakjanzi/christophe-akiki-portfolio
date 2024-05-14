@@ -5,7 +5,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const fileupload = require("express-fileupload");
 const connectToDB = require("./config/config.js");
-const { registerAdmin } = require("./Controllers/userController.js");
+const { sendMail } = require("./utils/mail.js");
+// const { registerAdmin } = require("./Controllers/userController.js");
 const port = 4000;
 
 const whitelist = [
@@ -50,9 +51,17 @@ app.use((err, req, res, next) => {
 connectToDB();
 // registerAdmin();
 
-const server = app.listen(process.env.PORT || port, () =>
-  console.log(`App listening on port ${process.env.PORT || port}!`)
-);
+const server = app.listen(process.env.PORT || port, async () => {
+  console.log(`App listening on port ${process.env.PORT || port}!`);
+  const response = await sendMail({
+    from: "christopheakiki.website@gmail.com",
+    to: "kazeemkadiri@outlook.com",
+    subject: "Testing mail functionality",
+    text: "Hello. Are you doing fine?",
+  });
+
+  console.log(response);
+});
 
 server.keepAliveTimeout = 120 * 1000;
 server.headersTimeout = 120 * 1000;
