@@ -35,6 +35,7 @@ app.use("/users", require("./Routes/userRoutes.js"));
 app.use("/images", require("./Routes/imagesRoutes.js"));
 app.use("/videos", require("./Routes/videoRoutes.js"));
 app.use("/albums", require("./Routes/albumRoutes.js"));
+app.use("/mail", require("./Routes/mailRoutes.js"));
 
 app.use("/", express.static("build"), (req, res) => {
   res.sendFile(__dirname + "/build/index.html");
@@ -53,14 +54,6 @@ connectToDB();
 
 const server = app.listen(process.env.PORT || port, async () => {
   console.log(`App listening on port ${process.env.PORT || port}!`);
-  const response = await sendMail({
-    from: "christopheakiki.website@gmail.com",
-    to: "kazeemkadiri@outlook.com",
-    subject: "Testing mail functionality",
-    text: "Hello. Are you doing fine?",
-  });
-
-  console.log(response);
 });
 
 server.keepAliveTimeout = 120 * 1000;

@@ -27,7 +27,6 @@ const sendMail = async (mailContent) => {
     text: mailContent.text,
   });
 
-  console.log(info);
   return info;
 };
 

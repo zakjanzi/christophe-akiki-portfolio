@@ -243,7 +243,7 @@ button {
   margin: 0px;
   /* overflow-y: scroll;
   overscroll-behavior: contain; */
-  background-image: url("../img/background-desktop.png");
+  background-image: url("../img/background-desktop.jpg");
   background-size: cover;
 }
 
@@ -981,8 +981,9 @@ button {
   transform: translate(100%, -50%);
 }
 
-#contact #contact-form .success-message {
-  font-size: 2rem;
+#contact #contact-form .success-message,
+#contact #contact-form .failure-message {
+  font-size: 1.8rem;
   line-height: 0;
 
   position: relative;
@@ -1005,6 +1006,25 @@ button {
   background: none;
 }
 
+/* Added styles */
+#contact #contact-form .success-message,
+#contact #contact-form .failure-message {
+  line-height: 1.2;
+  height: auto;
+  margin-top: 1rem;
+  padding: 0.5em 0em 0.5em 0.5em;
+  pointer-events: all;
+  opacity: 1;
+  border: none;
+  background-color: limegreen;
+  border-radius: 4px;
+  color: white;
+}
+
+#contact #contact-form .failure-message {
+  background-color: red;
+}
+
 #contact #contact-form.success .success-message {
   line-height: 6em;
 
@@ -1015,7 +1035,8 @@ button {
   opacity: 1;
 }
 
-#contact #contact-form .success-message i {
+#contact #contact-form .success-message i,
+#contact #contact-form .failure-message i {
   font-size: 2.4rem;
 
   margin-right: 0.7em;

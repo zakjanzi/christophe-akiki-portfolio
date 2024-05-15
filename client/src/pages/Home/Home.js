@@ -5,7 +5,7 @@ import ImageGallery from "react-image-gallery";
 import "../../../node_modules/react-image-gallery/styles/css/image-gallery.css";
 import { NODE_ENV } from "../../api/urlConfig";
 import VideoCard from "./components/Videos/Videos";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import LoadingIcon from "../../assets/loading.gif";
 import "./styles/home.css";
 
@@ -29,11 +29,34 @@ const Home = () => {
     doFetchImagesForAlbum,
     doFetchCategoriesForAlbum,
     doFetchAlbumCategoryImages,
+    doSendMail,
   } = useDataHandler();
-  const { pathname } = useLocation();
   const bodyContainerRef = useRef();
   const [searchParams, setSearchParams] = useSearchParams();
   const [loadingSpinnerIndex, setLoadingSpinnerIndex] = useState(-1);
+  const [formValues, setFormValues] = useState({
+    name: "",
+    email: "",
+    message: "",
+  }); // The values here are for the mailing form at the end of the page
+  const [mailSent, setMailSent] = useState(null);
+  const [sendingMail, setSendingMail] = useState(false);
+  const [contactFormErrors, setContactFormErrors] = useState(false);
+
+  const resetFormErrors = () => setContactFormErrors(false);
+
+  const onContactFormInputChange = (e) => {
+    resetFormErrors();
+
+    const { name, value } = e.target;
+
+    setFormValues((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
 
   // Reload page when coming from dashboard
   useLayoutEffect(() => {
@@ -180,6 +203,58 @@ const Home = () => {
 
   const resetCategoriesForAlbum = () => {
     setCategoriesForAlbum([]);
+  };
+
+  const validateContactForm = () => {
+    const errors = ["*Please provide: "];
+    const { name, email, message } = formValues;
+
+    if (name === "") {
+      errors.push("- Your name.");
+    }
+
+    if (email === "") {
+      errors.push("- Your email address.");
+    }
+
+    if (message === "") {
+      errors.push("- Your message.");
+    }
+
+    if (errors.length > 1) {
+      setContactFormErrors(errors.join("<br />"));
+    }
+
+    return errors;
+  };
+
+  const sendMail = async () => {
+    const errors = validateContactForm();
+
+    if (errors.length > 1) {
+      return;
+    }
+
+    try {
+      setSendingMail(true);
+
+      const response = await doSendMail(formValues);
+
+      setSendingMail(false);
+
+      if (response.data.success) {
+        setMailSent(true);
+
+        setTimeout(() => {
+          setMailSent(null);
+        }, 5000);
+      }
+    } catch (error) {
+      setMailSent(false);
+      setTimeout(() => {
+        setMailSent(null);
+      }, 5000);
+    }
   };
 
   return (
@@ -490,8 +565,11 @@ const Home = () => {
             {/* CONTACT FORM */}
             <form
               id="contact-form"
-              action="assets/php/contact.php"
-              method="post"
+              autoComplete="off"
+              onSubmit={(e) => {
+                e.preventDefault();
+                sendMail();
+              }}
             >
               <input
                 id="contact-form-name"
@@ -499,13 +577,19 @@ const Home = () => {
                 name="name"
                 className="form-control scroll-animated"
                 placeholder="* Your Name"
+                value={formValues.name}
+                onChange={onContactFormInputChange}
+                required
               />
               <input
                 id="contact-form-email"
-                type="text"
+                type="email"
                 name="email"
                 className="form-control scroll-animated"
                 placeholder="* Your Email"
+                value={formValues.email}
+                onChange={onContactFormInputChange}
+                required
               />
               {/* PHANTOM ELEMENT ( HONEYPOT CAPTCHA FOR SECURITY ) */}
               <div className="fhp-input">
@@ -522,19 +606,52 @@ const Home = () => {
                 name="message"
                 className="form-control scroll-animated"
                 placeholder="* Your Message"
-                defaultValue={""}
+                value={formValues.message}
+                onChange={onContactFormInputChange}
+                required
               />
-              <button type="submit" className="form-control scroll-animated">
-                Send Message
-                <div className="circle">
-                  <i className="fa fa-angle-right" aria-hidden="true" />
-                  <i className="fa fa-angle-right" aria-hidden="true" />
+              {!sendingMail ? (
+                <button
+                  type="button"
+                  onClick={sendMail}
+                  className="form-control scroll-animated"
+                >
+                  Send Message
+                  <div className="circle">
+                    <i className="fa fa-angle-right" aria-hidden="true" />
+                    <i className="fa fa-angle-right" aria-hidden="true" />
+                  </div>
+                </button>
+              ) : (
+                <p className="form-control px-3 py-2 rounded d-flex flex-row">
+                  {/* <img src={LoadingIcon} alt="loading" className="me-2" /> */}
+                  <span>Please wait while your message is being sent.</span>
+                </p>
+              )}
+
+              {/* Form input errors are displayed here if any */}
+              {contactFormErrors.length > 1 && (
+                <p
+                  className="bg-danger text-white mt-4 px-4 py-2 rounded"
+                  dangerouslySetInnerHTML={{ __html: contactFormErrors }}
+                ></p>
+              )}
+
+              {/* Notification on the mail sent */}
+              {mailSent !== null && mailSent && (
+                <div className="success-message">
+                  <i className="fa fa-check" aria-hidden="true" />
+                  Message Sent Successfully!
                 </div>
-              </button>
-              <div className="success-message">
-                <i className="fa fa-check" aria-hidden="true" />
-                The Email was Sent Successfully!
-              </div>
+              )}
+
+              {/* Notification if mail sending failed */}
+              {mailSent !== null && !mailSent && (
+                <div className="failure-message">
+                  <i className="fa fa-exclamation-circle" aria-hidden="true" />
+                  Message sending failed.
+                </div>
+              )}
             </form>
             {/* /CONTACT FORM */}
           </section>
