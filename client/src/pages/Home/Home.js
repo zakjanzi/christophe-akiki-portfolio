@@ -438,12 +438,18 @@ const Home = () => {
               {/* SERVICE ITEM */}
               <li className="service-item scroll-animated">
                 <button
-                  className="btn btn-primary collapsed"
+                  className="btn btn-primary d-flex align-items-center"
                   type="button"
                   // data-toggle="collapse"
                   // data-target="#collapse-item-1"
                   aria-expanded="false"
                 >
+                  <span
+                    className="rounded-full text-white me-2"
+                    style={{ fontSize: "20px", fontWeight: 900 }}
+                  >
+                    &bull;
+                  </span>{" "}
                   Photography
                 </button>
               </li>
@@ -451,12 +457,18 @@ const Home = () => {
               {/* SERVICE ITEM */}
               <li className="service-item scroll-animated">
                 <button
-                  className="btn btn-primary collapsed"
+                  className="btn btn-primary d-flex align-items-center"
                   type="button"
                   // data-toggle="collapse"
                   // data-target="#collapse-item-2"
                   aria-expanded="false"
                 >
+                  <span
+                    className="rounded-full text-white me-2"
+                    style={{ fontSize: "20px", fontWeight: 900 }}
+                  >
+                    &bull;
+                  </span>{" "}
                   Videography
                 </button>
               </li>
@@ -464,12 +476,18 @@ const Home = () => {
               {/* SERVICE ITEM */}
               <li className="service-item scroll-animated">
                 <button
-                  className="btn btn-primary collapsed"
+                  className="btn btn-primary d-flex align-items-center"
                   type="button"
                   // data-toggle="collapse"
                   // data-target="#collapse-item-3"
                   aria-expanded="false"
                 >
+                  <span
+                    className="rounded-full text-white me-2"
+                    style={{ fontSize: "20px", fontWeight: 900 }}
+                  >
+                    &bull;
+                  </span>{" "}
                   Post Production
                 </button>
               </li>

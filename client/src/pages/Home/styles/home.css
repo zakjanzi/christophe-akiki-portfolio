@@ -86,16 +86,33 @@ html.with-featherlight {
 
 .image-gallery-thumbnail .image-gallery-thumbnail-inner {
   height: 100% !important;
+  overflow: hidden;
 }
 
 .image-gallery-thumbnail .image-gallery-thumbnail-image {
   height: 100%;
+  width: auto;
+}
+
+#service .services-list li button {
+  border-bottom: none !important;
+}
+
+.content-area .content-area-inner section h3.headline {
+  margin-bottom: 0.5em;
 }
 
 @media screen and (max-width: 480px) {
   .image-gallery {
     height: 100vh;
     display: flex;
+    align-items: center;
+  }
+
+  .image-gallery-slide-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
   }
 }
