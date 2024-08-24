@@ -3,6 +3,7 @@ const CategoryModel = require("../Models/CategoryModel.js");
 const ImageModel = require("../Models/ImageModel.js");
 const mongoose = require("mongoose");
 const { imageSaver } = require("../utils/functions.js");
+const { v4: uuidv4 } = require("uuid");
 
 /**
  * Category is being referred to as Album
@@ -184,10 +185,45 @@ const getForAlbum = async (req, res) => {
   }
 };
 
+const getAlbumImages = async (req, res) => {
+  const { albumLinkId } = req.body;
+
+  try {
+    // Get the main Id for the album
+    const albumFound = await CategoryModel.findOne({
+      link: albumLinkId,
+    }).exec();
+
+    if (!albumFound) {
+      return res.json({
+        success: false,
+        message: "Album does not exist",
+      });
+    }
+
+    const albumImages = await ImageModel.find({
+      categoryId: albumFound._id,
+    }).exec();
+
+    return res.json({
+      success: true,
+      images: albumImages,
+      data: albumImages,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      success: false,
+      message: "Could not load images for album",
+    });
+  }
+};
+
 module.exports = {
   create,
   all,
   deleteCategory,
   updateCategory,
   getForAlbum,
+  getAlbumImages,
 };

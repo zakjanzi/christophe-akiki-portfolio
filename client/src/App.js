@@ -16,6 +16,7 @@ import ViewVideos from "./pages/Dashboard/pages/Videos/ViewVideos/ViewVideos";
 import AllImagesList from "./pages/Dashboard/pages/AllImagesList/AllImagesList";
 // import Album from "./pages/Dashboard/pages/Albums/Albums";
 import ViewAlbums from "./pages/Dashboard/pages/Albums/ViewAlbums/ViewAlbums";
+import ViewAlbum from "./pages/ViewAlbum/ViewAlbum";
 
 export default function App() {
   const [adminRegistered, setAdminRegistered] = useState(false);
@@ -34,9 +35,10 @@ export default function App() {
   }, []);
 
   return (
-    <>
+    <main className="h-100">
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/view-album/:albumId" element={<ViewAlbum />} />
         <Route path="/admin/login" element={<Login />} />
         <Route
           path="/admin/signup"
@@ -72,6 +74,6 @@ export default function App() {
         {/* <Route path="/saved" element={<SavedPosts />} /> */}
       </Routes>
       <Outlet />
-    </>
+    </main>
   );
 }

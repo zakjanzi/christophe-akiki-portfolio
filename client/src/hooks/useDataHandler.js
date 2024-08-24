@@ -19,6 +19,7 @@ import {
   FETCH_ALL_CATEGORIES_URL,
   DELETE_IMAGE_FOR_ALBUM_CATEGORY,
   SEND_EMAIL,
+  FETCH_DIRECT_IMAGES_FOR_ALBUM,
 } from "../api/urlConfig";
 
 export default function useDataHandler() {
@@ -135,6 +136,10 @@ export default function useDataHandler() {
     return axiosPrivate.post(SEND_EMAIL, mailInfo);
   };
 
+  const doFetchAlbumImages = (albumLinkId) => {
+    return axiosPrivate.post(FETCH_DIRECT_IMAGES_FOR_ALBUM, { albumLinkId });
+  };
+
   return {
     doCreateCategory,
     doFetchAlbums,
@@ -155,5 +160,6 @@ export default function useDataHandler() {
     doFetchCategories,
     doDeleteImageForAlbumCategory,
     doSendMail,
+    doFetchAlbumImages,
   };
 }

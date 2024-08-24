@@ -11,6 +11,7 @@ const createAlbum = async (req, res) => {
     const album = new AlbumModel({
       title: req.body.title,
       image: imagesOriginalName[0],
+      link: uuidv4(),
     });
 
     const saved = await album.save();
@@ -181,6 +182,7 @@ const getAlbumImages = async (req, res) => {
     return res.json({
       success: true,
       images: albumImages,
+      data: albumImages,
     });
   } catch (error) {
     console.log(error);

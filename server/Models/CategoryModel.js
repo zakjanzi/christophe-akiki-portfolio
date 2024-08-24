@@ -20,7 +20,15 @@ const categorySchema = new mongoose.Schema(
   }
 );
 
-categorySchema.index({ name: 1, albumId: 1 }, { unique: true });
+categorySchema.add({
+  link: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+});
+
+categorySchema.index({ name: 1, albumId: 1, link: 1 }, { unique: true });
 
 const Category = mongoose.model("Category", categorySchema);
 

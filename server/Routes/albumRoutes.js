@@ -6,6 +6,7 @@ const {
   deleteAlbum,
   updateAlbum,
   getAlbumImages,
+  getAllImages,
 } = require("../Controllers/albumsController.js");
 const protected = require("../Middlewares/Auth.js");
 const { uploadMiddleware } = require("../Middlewares/MulterMiddleware.js");
@@ -19,5 +20,7 @@ router.post("/create", protected, uploadMiddleware, createAlbum);
 router.post("/update", protected, updateAlbum);
 
 router.delete("/delete", protected, deleteAlbum);
+
+router.post("/getAllImages", getAlbumImages);
 
 module.exports = router;

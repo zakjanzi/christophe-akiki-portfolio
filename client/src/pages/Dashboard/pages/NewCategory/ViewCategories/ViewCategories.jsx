@@ -6,6 +6,7 @@ import { getDomainUrl } from "../../../../../utils/functions";
 import LoadingIcon from "../../../../../assets/loading.gif";
 import { ToastContainer } from "react-toastify";
 import { BsFillCameraFill } from "react-icons/bs";
+import { FaCopy, FaSearch, FaShareAlt } from "react-icons/fa";
 import "./styles/view-categories.css";
 
 const ViewCategories = () => {
@@ -138,6 +139,23 @@ const ViewCategories = () => {
     return "" !== formValues.categoryThumbnail;
   };
 
+  const copyAlbumLink = (parentNode, link) => {
+    navigator.clipboard.writeText(link);
+    toastSuccess("Album link copied");
+
+    // Hide link box
+    hideLinkBox(parentNode);
+  };
+
+  const showLinkBox = (id) => {
+    document.querySelector(id).classList.remove("d-none");
+  };
+
+  const hideLinkBox = (parentContainer) => {
+    console.log(parentContainer);
+    document.querySelector(`.${parentContainer[0]}`).classList.add("d-none");
+  };
+
   /**
    * Categories plain text switched
    */
@@ -156,9 +174,50 @@ const ViewCategories = () => {
           {categories !== null &&
             categories.map((category, index) => {
               return (
-                <div className="d-flex flex-column mb-3" key={category._id}>
+                <div
+                  className="category-card d-flex flex-column mb-3 position-relative"
+                  key={category._id}
+                >
+                  {/* Share button icon */}
+                  <section
+                    className="share-album-container w-100 position-relative"
+                    onMouseOver={(e) => e.stopPropagation()}
+                    onMouseLeave={(e) => hideLinkBox(e.target.classList)}
+                  >
+                    <div
+                      className="share-album-btn position-absolute"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                      onMouseOver={(e) => {
+                        e.stopPropagation();
+                        showLinkBox(`#link-box-${index}`);
+                      }}
+                    >
+                      <FaShareAlt />
+                    </div>
+                    <p
+                      id={`link-box-${index}`}
+                      className="album-link-box position-absolute d-none"
+                    >
+                      <span>{`${window.location.origin}/view-album/${category.link}`}</span>{" "}
+                      <span
+                        className="ms-2"
+                        onClick={(e) =>
+                          copyAlbumLink(
+                            e.target.parentNode,
+                            `${window.location.origin}/view-album/${category.link}`
+                          )
+                        }
+                      >
+                        <FaCopy />
+                      </span>
+                    </p>
+                  </section>
+                  {/* End share button implementation */}
                   <Link
                     to={`/dashboard/view-images/${category.albumId}/${category._id}`}
+                    className="position-relative z-10"
                   >
                     <div
                       className="single-category d-flex flex-column position-relative"

@@ -18,6 +18,14 @@ const albumSchema = new mongoose.Schema(
   }
 );
 
+albumSchema.add({
+  link: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+});
+
 const Album = mongoose.model("Album", albumSchema);
 
 module.exports = Album;

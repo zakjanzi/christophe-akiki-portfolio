@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
 // Routes
-app.use("/categories", require("./Routes/categoryRoutes.js"));
+app.use("/categories", require("./Routes/categoryRoutes.js")); //Individual Albums
 app.use("/users", require("./Routes/userRoutes.js"));
 app.use("/images", require("./Routes/imagesRoutes.js"));
 app.use("/videos", require("./Routes/videoRoutes.js"));
