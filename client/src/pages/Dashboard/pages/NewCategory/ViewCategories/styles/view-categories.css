@@ -167,7 +167,7 @@
 }
 
 .share-album-container {
-  max-width: 100%;
+  width: 100%;
   z-index: 100;
 }
 
@@ -175,6 +175,7 @@
   background: rgba(0, 0, 0, 0.5);
   height: 30px;
   width: 30px;
+  position: absolute;
   right: 0px;
   color: #fff;
   border: 1px solid #fff;
@@ -187,7 +188,8 @@
 }
 
 .album-link-box {
-  background: #fff;
+  background: #0cc20c;
+  color: white;
   top: 0px;
   width: 100%;
   height: 4rem;
@@ -202,10 +204,8 @@
 }
 
 .album-link-box > span:nth-child(1) {
-  overflow-x: scroll;
-  color: darkgrey !important;
-  width: 85%;
-  height: 100%;
+  width: 3rem;
+  height: 80%;
   display: flex;
   align-items: center;
   -ms-overflow-style: none; /* IE and Edge */
@@ -219,13 +219,13 @@
 .album-link-box > span:nth-child(2) {
   border-left: 1px solid gray;
   padding: 4px 0px 4px 4px;
-  width: 15%;
+  width: calc(100% - 3rem);
   height: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  color: green;
+  font-size: 1.5rem;
   cursor: pointer;
 }
 

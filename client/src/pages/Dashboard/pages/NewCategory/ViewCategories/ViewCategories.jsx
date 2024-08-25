@@ -139,21 +139,18 @@ const ViewCategories = () => {
     return "" !== formValues.categoryThumbnail;
   };
 
-  const copyAlbumLink = (parentNode, link) => {
+  const copyAlbumLink = (link) => {
     navigator.clipboard.writeText(link);
     toastSuccess("Album link copied");
-
-    // Hide link box
-    hideLinkBox(parentNode);
   };
 
   const showLinkBox = (id) => {
     document.querySelector(id).classList.remove("d-none");
   };
 
-  const hideLinkBox = (parentContainer) => {
-    console.log(parentContainer);
-    document.querySelector(`.${parentContainer[0]}`).classList.add("d-none");
+  const hideLinkBox = (linkBox) => {
+    console.log("Linkbox: ", linkBox);
+    document.querySelector(linkBox).classList.add("d-none");
   };
 
   /**
@@ -181,38 +178,20 @@ const ViewCategories = () => {
                   {/* Share button icon */}
                   <section
                     className="share-album-container w-100 position-relative"
-                    onMouseOver={(e) => e.stopPropagation()}
-                    onMouseLeave={(e) => hideLinkBox(e.target.classList)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
                   >
                     <div
-                      className="share-album-btn position-absolute"
+                      className="share-album-btn"
                       onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                      onMouseOver={(e) => {
-                        e.stopPropagation();
-                        showLinkBox(`#link-box-${index}`);
+                        copyAlbumLink(
+                          `${window.location.origin}/view-album/${category.link}`
+                        );
                       }}
                     >
                       <FaShareAlt />
                     </div>
-                    <p
-                      id={`link-box-${index}`}
-                      className="album-link-box position-absolute d-none"
-                    >
-                      <span>{`${window.location.origin}/view-album/${category.link}`}</span>{" "}
-                      <span
-                        className="ms-2"
-                        onClick={(e) =>
-                          copyAlbumLink(
-                            e.target.parentNode,
-                            `${window.location.origin}/view-album/${category.link}`
-                          )
-                        }
-                      >
-                        <FaCopy />
-                      </span>
-                    </p>
                   </section>
                   {/* End share button implementation */}
                   <Link
