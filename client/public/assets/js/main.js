@@ -90,6 +90,17 @@ jQuery(document).ready(function ($) {
     });
   });
 
+  // Scroll to a hashed section passed via URL
+
+  $(document).ready(function () {
+    $("html, body").animate(
+      {
+        scrollTop: $(window.location.hash).offset().top,
+      },
+      300
+    );
+  });
+
   // DISABLE IMAGE SAVING ON RIGHT CLICK
   $("body").on("contextmenu", "img", function (e) {
     return false;

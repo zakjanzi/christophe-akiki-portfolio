@@ -13,7 +13,8 @@
 .categories-container {
   width: 60%;
   height: auto;
-  background: #202024;
+  background: #5c89ab;
+  border: 2px dashed #fff;
   padding: 2rem;
   border-radius: 6px;
   display: flex;
@@ -23,10 +24,10 @@
   max-height: 40rem;
 }
 
-.single-category {
+.categories-modal .single-category {
   height: auto;
-  width: 10rem;
-  margin-bottom: 2rem;
+  width: 15rem;
+  margin-bottom: 0rem;
 }
 
 .single-category:hover {
@@ -81,7 +82,7 @@ html.with-featherlight {
 }
 
 .image-gallery-thumbnail {
-  height: 110px !important;
+  /* height: 110px !important; */
 }
 
 .image-gallery-thumbnail .image-gallery-thumbnail-inner {
@@ -94,8 +95,18 @@ html.with-featherlight {
   width: auto;
 }
 
+.image-gallery-thumbnail {
+  height: 90px !important;
+  width: auto !important;
+  position: relative;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+}
+
 #service .services-list li button {
   border-bottom: none !important;
+  line-height: 3.5rem;
 }
 
 .content-area .content-area-inner section h3.headline {

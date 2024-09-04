@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import { useLayoutEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { toastError } from "../../utils/toast";
 import ImageGallery from "react-image-gallery";
 import useDataHandler from "../../hooks/useDataHandler";
@@ -11,6 +11,7 @@ export default function ViewAlbum() {
   const [canShowAlbum, setCanShowAlbum] = useState(false);
   const [albumImages, setAlbumImages] = useState(null);
   const { doFetchAlbumImages } = useDataHandler();
+  const navigate = useNavigate();
 
   useLayoutEffect(() => {
     try {
@@ -38,49 +39,46 @@ export default function ViewAlbum() {
     }
   }, []);
 
+  useEffect(() => {
+    if (albumImages !== null) {
+      setStylesForThumbnailImages();
+    }
+  }, [albumImages]);
+
   const getDomainUrl = () => {
     return process.env.NODE_ENV !== "production"
-      ? "http://localhost:4000"
+      ? // ? "http://localhost:4000"
+        "https://christopheakiki.me"
       : window.location.origin;
   };
 
-  const getAlbumTitle = () => {
-    return "";
-  };
-
-  const showAlbumGallery = () => {
-    setCanShowAlbum(true);
+  const setStylesForThumbnailImages = () => {
+    Array.from(document.querySelectorAll(".image-gallery-thumbnail")).forEach(
+      (thumbnail, index) => {
+        thumbnail.innerHTML = "";
+        thumbnail.style.backgroundImage = `url(${albumImages[index].thumbnail})`;
+      }
+    );
   };
 
   const hideGallery = () => {
     setCanShowAlbum(false);
-    // setAlbumImages([]);
+
+    navigateToHomePortfolioSection();
+  };
+
+  const navigateToHomePortfolioSection = () => {
+    window.location.replace("/#portfolio-images");
   };
 
   return (
     <main
       className="d-flex flex-row justify-content-center align-items-center w-100 h-100"
       style={{
-        background: canShowAlbum ? "black" : "white",
+        background: "black",
       }}
     >
-      {!canShowAlbum && (
-        <button
-          className="text-white px-5 py-4 d-flex align-items-center"
-          style={{
-            background: "darkblue",
-            fontWeight: "bold",
-            margin: "0 auto",
-            borderRadius: "1rem",
-          }}
-          onClick={showAlbumGallery}
-        >
-          <FaEye className="fs-2 me-4" /> View <b>{getAlbumTitle()}</b> &nbsp;
-          album
-        </button>
-      )}
-
-      {canShowAlbum && albumImages && (
+      {albumImages && (
         <>
           <div
             className="d-flex justify-content-end cursor-pointer z-2 mt-4 w-100 position-absolute top-0"

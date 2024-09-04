@@ -119,7 +119,8 @@ const Home = () => {
 
   const getDomainUrl = () => {
     return NODE_ENV === "dev"
-      ? "http://localhost:4000"
+      ? // ? "http://localhost:4000"
+        "https://christopheakiki.me"
       : window.location.origin;
   };
 
@@ -501,6 +502,7 @@ const Home = () => {
           {/* WORK */}
           <section id="work">
             <h3
+              id="portfolio-images"
               className="headline scroll-animated"
               style={{ marginBottom: "1.4em" }}
             >
