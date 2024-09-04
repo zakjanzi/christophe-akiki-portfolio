@@ -13,7 +13,6 @@
 
 .image-gallery-thumbnail {
   height: 90px !important;
-  width: auto !important;
   position: relative;
   background-size: auto 100%;
   background-repeat: no-repeat;
