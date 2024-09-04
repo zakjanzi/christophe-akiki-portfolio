@@ -259,7 +259,11 @@ const Home = () => {
   };
 
   return (
-    <div ref={bodyContainerRef} className="body-container w-100 h-100">
+    <div
+      ref={bodyContainerRef}
+      id="home-page"
+      className="body-container w-100 h-100"
+    >
       {/* PHOTO GALLERY */}
       {galleryPhotos.length > 0 && (
         <div className="modal show bg-dark">

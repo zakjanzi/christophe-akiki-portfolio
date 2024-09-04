@@ -53,12 +53,12 @@ export default function ViewAlbum() {
   };
 
   const setStylesForThumbnailImages = () => {
-    Array.from(document.querySelectorAll(".image-gallery-thumbnail")).forEach(
-      (thumbnail, index) => {
-        thumbnail.innerHTML = "";
-        thumbnail.style.backgroundImage = `url(${albumImages[index].thumbnail})`;
-      }
-    );
+    // Array.from(document.querySelectorAll(".image-gallery-thumbnail")).forEach(
+    //   (thumbnail, index) => {
+    //     thumbnail.innerHTML = "";
+    //     thumbnail.style.backgroundImage = `url(${albumImages[index].thumbnail})`;
+    //   }
+    // );
   };
 
   const hideGallery = () => {

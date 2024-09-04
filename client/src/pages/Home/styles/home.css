@@ -95,7 +95,7 @@ html.with-featherlight {
   width: auto;
 }
 
-.image-gallery-thumbnail {
+#home-page .image-gallery-thumbnail {
   height: 90px !important;
   width: auto !important;
   position: relative;
