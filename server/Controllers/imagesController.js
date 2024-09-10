@@ -5,7 +5,7 @@ const Album = require("../Models/AlbumModel.js");
 const Category = require("../Models/CategoryModel.js");
 const { imageSaver } = require("../utils/functions.js");
 const randomString = require("randomstring");
-const uuidv4 = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 
 const createNewAlbum = async (albumName, albumThumbnail) => {
   // Save the albumThumbnail
