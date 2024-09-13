@@ -6,7 +6,7 @@ import { getDomainUrl } from "../../../../../utils/functions";
 import LoadingIcon from "../../../../../assets/loading.gif";
 import { ToastContainer } from "react-toastify";
 import { BsFillCameraFill } from "react-icons/bs";
-import { FaCopy, FaSearch, FaShareAlt } from "react-icons/fa";
+import { FaShareAlt } from "react-icons/fa";
 import "./styles/view-categories.css";
 
 const ViewCategories = () => {

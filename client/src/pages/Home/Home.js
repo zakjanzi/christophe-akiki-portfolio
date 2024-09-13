@@ -7,6 +7,8 @@ import { NODE_ENV } from "../../api/urlConfig";
 import VideoCard from "./components/Videos/Videos";
 import { useSearchParams } from "react-router-dom";
 import LoadingIcon from "../../assets/loading.gif";
+import { toastSuccess } from "../../utils/toast";
+import { FaShareAlt } from "react-icons/fa";
 import "./styles/home.css";
 
 const ALBUMS = {
@@ -258,6 +260,11 @@ const Home = () => {
     }
   };
 
+  const copyAlbumLink = (link) => {
+    navigator.clipboard.writeText(link);
+    toastSuccess("Album link copied");
+  };
+
   return (
     <div
       ref={bodyContainerRef}
@@ -306,6 +313,25 @@ const Home = () => {
                       showGallery(category.albumId, category._id);
                     }}
                   >
+                    {/* Share button icon */}
+                    <section
+                      className="share-album-container w-100 position-relative"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                    >
+                      <div
+                        className="share-album-btn"
+                        onClick={(e) => {
+                          copyAlbumLink(
+                            `${window.location.origin}/view-album/${category.link}`
+                          );
+                        }}
+                      >
+                        <FaShareAlt />
+                      </div>
+                    </section>
+                    {/* End share button implementation */}
                     <div className="category-content w-100 h-100 position-relative d-flex justify-content-center align-items-center">
                       <img
                         src={`${getDomainUrl()}/images/${category.thumbnail}`}
