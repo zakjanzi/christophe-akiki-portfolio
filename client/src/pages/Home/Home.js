@@ -9,6 +9,7 @@ import { useSearchParams } from "react-router-dom";
 import LoadingIcon from "../../assets/loading.gif";
 import { toastSuccess } from "../../utils/toast";
 import { FaShareAlt } from "react-icons/fa";
+import { ToastContainer } from "react-toastify";
 import "./styles/home.css";
 
 const ALBUMS = {
@@ -749,6 +750,7 @@ const Home = () => {
         {/* /CONTENT AREA INNER */}
       </div>
       {/* /CONTENT AREA */}
+      <ToastContainer />
     </div>
   );
 };

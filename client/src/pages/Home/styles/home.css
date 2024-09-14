@@ -11,23 +11,26 @@
 }
 
 .categories-container {
-  width: 60%;
+  max-width: 100rem;
+  width: auto;
   height: auto;
   background: #5c89ab;
   border: 2px dashed #fff;
-  padding: 2rem;
+  padding: 2rem 2rem;
   border-radius: 6px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 2.5rem;
-  max-width: 54rem;
+  gap: 4rem;
+  /* max-width: 54rem; */
   max-height: 40rem;
+  overflow-y: scroll;
 }
 
 .categories-modal .single-category {
   height: auto;
   width: 15rem;
-  margin-bottom: 0rem;
+  margin-bottom: 1rem;
 }
 
 .single-category:hover {
@@ -111,6 +114,23 @@ html.with-featherlight {
 
 .content-area .content-area-inner section h3.headline {
   margin-bottom: 0.5em;
+}
+
+.share-album-btn {
+  background: rgba(0, 0, 0, 0.5);
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  right: 0px;
+  color: #fff;
+  border: 1px solid #fff;
+  border-top-right-radius: 5px;
+  padding: "5px";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 480px) {
